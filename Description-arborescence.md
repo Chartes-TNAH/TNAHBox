@@ -23,7 +23,7 @@ app/				Package application
 –––––– __pycache__/				fichiers cache python
 –– static/					fichiers statiques
 –––––– css/						fichiers css (bootstrap, font-awesome)
-–––––– fonts/					  fichiers de police de caractères
+–––––– fonts/					    fichiers de police de caractères
 –––––– img/						fichiers images
 –––––– js/						fichiers javascript (bootstrap, jquery, popper)
 –– templates/				templates constituant les différentes pages de l'application
