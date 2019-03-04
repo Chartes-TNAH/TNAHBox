@@ -9,6 +9,7 @@ app/				fichiers définissant l'application
 –– __init__.py			fichier initialisant le dossier en module
 –– app.py				création et configuration de l'application
 –– constantes.py		défintion des constantes utilisées dans l'application
+–– test_db.sqlite		base de données utilisée par la version test de l'application
 –– __pycache__/			fichiers cache python (pré-compilation pour exécution plus rapide des fichiers .py)
 –– modeles/					fichiers de modélisation de la base de donnée
 –––––– __init__.py				fichier initialisant le dossier en module
