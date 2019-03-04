@@ -15,6 +15,10 @@ class _TEST:
     SECRET_KEY = SECRET_KEY
     # On configure la base de données de test
     SQLALCHEMY_DATABASE_URI = 'sqlite:///test_db.sqlite'
+# sqlite:// représente le moteur utilisé, ici SQLite
+# puis / signifie ici qu'il s'agit d'un chemin relatif (un chemin absolu avec //)
+# puis le chemin qui dit qu'on veut aller chercher, en l'occurence db.sqlite
+    
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
