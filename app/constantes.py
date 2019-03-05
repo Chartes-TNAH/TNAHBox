@@ -5,6 +5,8 @@ from warnings import warn
 # CONSTANTE1 = 1
 # CONSTANTE2 = 2
 
+RESULTS_PER_PAGE = 5
+
 SECRET_KEY = "JE SUIS UN SECRET !"
 # variable nécessaire à la création d'applications Flask
 # utilisée comme clé cryptographique pour générer des tokens notamment
