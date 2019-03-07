@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import os
+# le module os permet de communiquer avec le système d'exploitation sous-jacent (Mac, Ubuntu, etc.)
 from .constantes import CONFIG
 
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))

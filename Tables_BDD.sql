@@ -1,0 +1,54 @@
+CREATE TABLE IF NOT EXISTS Person (
+name TEXT NOT NULL,
+firstname TEXT NOT NULL,
+status TEXT NULL,
+email TEXT NULL,
+username TEXT NULL,
+passwordHash TEXT NULL,
+linkedIn TEXT NULL,
+cv TEXT NULL,
+PRIMARY KEY (name, firstname)
+);
+
+CREATE TABLE IF NOT EXISTS Teaching (
+label TEXT PRIMARY KEY,
+persName,
+persFirstname,
+FOREIGN KEY (persName, persFirstname) REFERENCES Person(name, firstname)
+);
+
+CREATE TABLE IF NOT EXISTS Document (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+label TEXT NOT NULL,
+format TEXT NOT NULL,
+date TEXT NULL,
+downloadLink TEXT NULL,
+teachingID,
+FOREIGN KEY (teachingID) REFERENCES Teaching(id)
+); 
+
+CREATE TABLE IF NOT EXISTS Authorship (
+persName,
+persFirstname,
+docuID,
+PRIMARY KEY (persName, persFirstname, docuID),
+FOREIGN KEY (persName, persFirstname) REFERENCES Person(name, firstname)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (docuID) REFERENCES Document(id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Tag (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+label TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS HasTag (
+tagID,
+docuID,
+PRIMARY KEY (tagID, docuID),
+FOREIGN KEY (tagID) REFERENCES Tag(id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (docuID) REFERENCES Document(id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
