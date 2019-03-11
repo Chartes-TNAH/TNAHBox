@@ -1,38 +1,31 @@
 CREATE TABLE IF NOT EXISTS Person (
+id INTEGER PRIMARY KEY AUTOINCREMENT, 
 name TEXT NOT NULL,
 firstname TEXT NOT NULL,
 status TEXT NULL,
 email TEXT NULL,
-username TEXT NULL,
-passwordHash TEXT NULL,
+login TEXT NULL,
+password TEXT NULL,
 linkedIn TEXT NULL,
 cv TEXT NULL,
-PRIMARY KEY (name, firstname)
-);
-
-CREATE TABLE IF NOT EXISTS Teaching (
-label TEXT PRIMARY KEY,
-persName,
-persFirstname,
-FOREIGN KEY (persName, persFirstname) REFERENCES Person(name, firstname)
+git TEXT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Document (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 label TEXT NOT NULL,
-format TEXT NOT NULL,
+format TEXT NULL,
 date TEXT NULL,
+importDate TEXT NULL,
 downloadLink TEXT NULL,
-teachingID,
-FOREIGN KEY (teachingID) REFERENCES Teaching(id)
+teaching TEXT NULL
 ); 
 
 CREATE TABLE IF NOT EXISTS Authorship (
-persName,
-persFirstname,
+userID,
 docuID,
-PRIMARY KEY (persName, persFirstname, docuID),
-FOREIGN KEY (persName, persFirstname) REFERENCES Person(name, firstname)
+PRIMARY KEY (userID, docuID),
+FOREIGN KEY (userID) REFERENCES Person(id)
 ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (docuID) REFERENCES Document(id)
 ON DELETE CASCADE ON UPDATE CASCADE
