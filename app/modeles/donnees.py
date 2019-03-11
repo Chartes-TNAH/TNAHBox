@@ -3,7 +3,7 @@ import datetime
 
 from .. app import db
 
-# Convention : les classes portent un nom commençant par une majuscule
+# Convention : les classes portent un nom commençant par une majusculegit
 
 class Authorship(db.Model):
     __tablename__ = "authorship"
