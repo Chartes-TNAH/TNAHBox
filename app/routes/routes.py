@@ -1,4 +1,5 @@
 from flask import render_template, request, flash, redirect
+from sqlalchemy import and_, or_
 from flask_login import current_user, login_user, logout_user
 
 from ..app import app, db
@@ -67,6 +68,22 @@ def recherche():
             resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
             titre = "Tous les résultats"
 
+    if motclef:
+        # Si on a un mot clé, on requête toutes les tables de notre base de donnée pour vérifier s'il y a des correspondances
+        # Le résultat de cette requête est stocké dans la liste resultats = []
+        resultats = Document.query.filter(or_(
+                Document.label.like("%{}%".format(motclef)),
+                Document.format.like("%{}%".format(motclef)),
+                Document.date.like("%{}%".format(motclef)),
+                Document.importDate.like("%{}%".format(motclef)),
+                Document.teaching.like("%{}%".format(motclef)),
+            )
+        ).order_by(Document.label.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+        titre = "Voici les résultats de votre recherche pour : '" + motclef + "`"
+        # On affiche une phrase qui indiquera les résultats de la recherche en fonction du mot clé rentré par l'utilisateur
+        # Cette variable titre sera réutilisée dans la page resultats.html
+
+        #
 
     return render_template(
         "pages/recherche.html",
