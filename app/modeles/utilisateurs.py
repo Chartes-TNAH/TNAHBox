@@ -1,10 +1,10 @@
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
-
-from .. app import db, login
-
-# on crée un modèle pour les utilosateurs de notre BDD
-class User(UserMixin, db.Model):
+# from werkzeug.security import generate_password_hash, check_password_hash
+# from flask_login import UserMixin
+#
+# from .. app import db, login
+#
+# # on crée un modèle pour les utilosateurs de notre BDD
+# class User(UserMixin, db.Model):
     # user_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     # user_nom = db.Column(db.Text, nullable=False)
     # user_login = db.Column(db.String(45), nullable=False, unique=True)

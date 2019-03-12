@@ -9,7 +9,7 @@ from ..constantes import RESULTS_PER_PAGE
 from ..modeles.donnees import Document
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
-from ..modeles.utilisateurs import User
+# from ..modeles.utilisateurs import User
 # on importe la classe User du fichier utilisateurs.py contenu dans le dossier modeles
 
 
@@ -26,11 +26,9 @@ def recherche():
     # on récupère la valeur matiere dans les arguments correspondant au choix de l'utilisateur
 
     docuMatiere = Document.teaching
-
     matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
-    ### PROBLEME : comment récupérer uniquement la valeur des enregistrements de matieres dans la table Document
-    # for type in types:
-    #     type = str(type).replace("('", "").replace(",')", ""))
+    matieres = [mat[0] for mat in matieres.all()]
+    # pour chaque matiere de matieres
 
     if isinstance(page, str) and page.isdigit():
         # si la valeur de page est une chaine et ne contient que des nombres
@@ -46,22 +44,28 @@ def recherche():
     titre = "Recherche"
     # on donne une valeur par défaut au titre à afficher
 
-    if matiere != "all":
-        # si la valeur de matiere dans les arguments de l'URL de la page de recherche
-        # n'est pas "all", càd que la recherche concerne les documents toutes matières confondues
-        resultats = Document.query.filter(
-            db.and_(
-                Document.label.like("%{}%".format(motclef)),
-                Document.matiere == matiere))\
-            .paginate(page=page, per_page=RESULTS_PER_PAGE)
-        # je stocke dans resultats le résultat de la requête où le label du document contient le mot-clef
-        # et que ce même document correspond à la matière spécifiée
-        titre = "Résultat de la recherche :"
-    else:
-        resultats = Document.query.filter(
+    if motclef:
+        if str(matiere) != "all":
+            resultats = Document.query.filter(
+                db.and_(
+                    Document.label.like("%{}%".format(motclef)),
+                    Document.teaching == matiere)) \
+                .paginate(page=page, per_page=RESULTS_PER_PAGE)
+            titre = "Résultat pour la recherche `" + motclef + "` de matière " + str(matiere)
+        else:
+            resultats = Document.query.filter(
                 Document.label.like("%{}%".format(motclef))) \
-            .paginate(page=page, per_page=RESULTS_PER_PAGE)
-        titre = "Résultat de la recherche :"
+                .paginate(page=page, per_page=RESULTS_PER_PAGE)
+            titre = "Résultat pour la recherche `" + motclef + "`"
+    else:
+        if matiere != "all":
+            resultats = Document.query.filter(
+                    Document.teaching == matiere) \
+                .paginate(page=page, per_page=RESULTS_PER_PAGE)
+            titre = "Résultat pour la recherche des documents de matière " + str(matiere)
+        else:
+            resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
+            titre = "Tous les résultats"
 
 
     return render_template(
