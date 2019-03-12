@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS Person (
-id INTEGER PRIMARY KEY AUTOINCREMENT, 
-name TEXT NOT NULL,
-firstname TEXT NOT NULL,
-status TEXT NULL,
+person_id INTEGER PRIMARY KEY AUTOINCREMENT,
+person_name TEXT NOT NULL,
+person_firstName TEXT NOT NULL,
+person_status TEXT NULL,
 email TEXT NULL,
 login TEXT NULL,
 password TEXT NULL,
