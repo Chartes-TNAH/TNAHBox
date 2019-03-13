@@ -16,7 +16,7 @@ class Person(db.Model):
     person_linkedIn=db.Column(db.Text,unique=True)
     person_cv=db.Column(db.Text)
     person_git=db.Column(db.Text, unique=True)
-    person_promotion=(db.DateTime)
+    person_promotion=(db.Text)
     person_is_admin=db.Column(db.Boolean)
     authorships = db.relationship("Authorship", back_populates="person")
 
