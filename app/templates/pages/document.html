@@ -1,17 +1,17 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if docu %}| Document : {{Document.document_title}} {% endif %}
+    {%if docu %}| Document : {{docu.document_title}} {% endif %}
 {% endblock %}
 
 {% block corps %}
     {% if docu %}
-        <h1>{{Document.document_title}}</h1>
+        <h1>{{docu.document_title}}</h1>
         <dl>
-{#            <dt>Auteur</dt><dd>{{Authorship.place_longitude}}</dd>#}
-{#            <dt>Latitude</dt><dd>{{lieu.place_latitude}}</dd>#}
-{#            <dt>Description</dt><dd>{{lieu.place_description}}</dd>#}
-{#            <dt>Type</dt><dd>{{lieu.place_type}}</dd>#}
+{#            <dt>Auteur</dt><dd>{{docu.place_longitude}}</dd>#}
+{#            <dt>Latitude</dt><dd>{{docu.place_latitude}}</dd>#}
+{#            <dt>Description</dt><dd>{{docu.place_description}}</dd>#}
+{#            <dt>Type</dt><dd>{{docu.place_type}}</dd>#}
         </dl>
     {% else %}
         <p>La base de données est en cours de constitution</p>

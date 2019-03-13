@@ -18,10 +18,10 @@ def recherche():
     """
     motclef = request.args.get("keyword", None)
     # on stocke les mots clefs recherchés par l'utilisateur présents dans les arguments de l'URL
-    page = request.args.get("page", 1)
-    # on récupère la page courante dans les arguments, si non indiquée, la valeur par défaut est 1
     matiere = request.args.get("matiere", None)
     # on récupère la valeur matiere dans les arguments correspondant au choix de l'utilisateur
+    page = request.args.get("page", 1)
+    # on récupère la page courante dans les arguments, si non indiquée, la valeur par défaut est 1
 
     docuMatiere = Document.document_teaching
     matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
@@ -49,12 +49,12 @@ def recherche():
                     Document.document_title.like("%{}%".format(motclef)),
                     Document.document_teaching == matiere)) \
                 .paginate(page=page, per_page=RESULTS_PER_PAGE)
-            titre = "Résultat pour la recherche `" + motclef + "` de matière " + str(matiere)
+            titre = "Résultat pour la recherche « " + motclef + " » de matière " + str(matiere)
         else:
             resultats = Document.query.filter(
                 Document.document_title.like("%{}%".format(motclef))) \
                 .paginate(page=page, per_page=RESULTS_PER_PAGE)
-            titre = "Résultat pour la recherche `" + motclef + "`"
+            titre = "Résultat pour la recherche « " + motclef + " »"
     else:
         if matiere != "all":
             resultats = Document.query.filter(
@@ -79,7 +79,7 @@ def recherche():
     #     # On affiche une phrase qui indiquera les résultats de la recherche en fonction du mot clé rentré par l'utilisateur
     #     # Cette variable titre sera réutilisée dans la page resultats.html
     #
-    #     #
+    #
 
     return render_template(
         "pages/recherche.html",
@@ -91,14 +91,15 @@ def recherche():
     )
 
 @app.route("/document/<int:document_id>")
-def lieu(document_id):
+def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
+    au document dont l'id est donnée en paramètre
 
     :param document_id: Identifiant d'un document de la base de données
 
     """
 
-    unique_docu = Document.query.get(document_id)
+    requested_docu = Document.query.get(document_id)
 
-    return render_template("pages/document.html", docu=unique_docu)
+    return render_template("pages/document.html", docu=requested_docu)

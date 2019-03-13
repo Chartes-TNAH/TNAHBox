@@ -79,12 +79,13 @@
     <h1>{{titre}}</h1>
 
     {% if resultats %}
+    {# si on obtient des résultats #}
         <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
         <ul>
-            {% for document in resultats.items %}
-                {# pour chaque document dans la liste de resultats
+            {% for found_document in resultats.items %}
+                {# pour chaque document trouvé dans la liste de resultats
                 .items rend itérable la variable resultats, originellement objet de pagination #}
-                <li><a href="{{url_for('document', docu_id=Document.document_id)}}">{{Document.document_title}}</a></li>
+                <li><a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a></li>
                 {# création d'un lien donnant accès à page dudit document
                 docu_id permettant de spécifier le nombre à faire apparaitre dans l'URL pour ce document #}
             {% endfor %}
