@@ -79,7 +79,7 @@
                     {% if page %}
                         {% if page != resultats.page %}
                             <li class="page-item">
-                                <a class="page-link" href="{{ url_for("recherche", keyword=keyword, type=type, page=page) }}">{{page}}</a>
+                                <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, page=page) }}">{{page}}</a>
                                 {# pour que la pagination fonctionne selon les mêmes critères de recherche
                                 pour toutes les pages de résultats, il faut re-spécifier en paramètre de url_for()
                                 toutes les variables contenant les facettes de la recherche #}

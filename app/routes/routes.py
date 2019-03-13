@@ -92,3 +92,16 @@ def recherche():
         matiere=matiere,
         matieres=matieres
     )
+
+@app.route("/document/<int:document_id>")
+def lieu(document_id):
+    """
+    Route permettant l'affichage d'une notice affichant les métadonnées relatives
+
+    :param document_id: Identifiant d'un document de la base de données
+
+    """
+
+    unique_docu = Document.query.get(document_id)
+
+    return render_template("pages/document.html", docu=unique_docu)
