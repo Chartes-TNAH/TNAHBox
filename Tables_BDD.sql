@@ -2,46 +2,49 @@ CREATE TABLE IF NOT EXISTS Person (
 person_id INTEGER PRIMARY KEY AUTOINCREMENT,
 person_name TEXT NOT NULL,
 person_firstName TEXT NOT NULL,
-person_status TEXT NULL,
-email TEXT NULL,
-login TEXT NULL,
-password TEXT NULL,
-linkedIn TEXT NULL,
-cv TEXT NULL,
-git TEXT NULL
+person_is_teacher INTEGER NULL,
+person_promotion TEXT NULL,
+person_email TEXT NULL,
+person_login TEXT NULL,
+person_password TEXT NULL,
+person_linkedIn TEXT NULL,
+person_cv TEXT NULL,
+person_git TEXT NULL,
+person_is_admin INTEGER NULL
 );
 
 CREATE TABLE IF NOT EXISTS Document (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-label TEXT NOT NULL,
-format TEXT NULL,
-date TEXT NULL,
-importDate TEXT NULL,
-downloadLink TEXT NULL,
-teaching TEXT NULL
+document_id INTEGER PRIMARY KEY AUTOINCREMENT,
+document_label TEXT NOT NULL,
+document_description TEXT NULL,
+document_format TEXT NULL,
+document_date TEXT NULL,
+document_teaching TEXT NULL,
+document_downloadLink TEXT NULL
 ); 
 
 CREATE TABLE IF NOT EXISTS Authorship (
-userID,
-docuID,
-PRIMARY KEY (userID, docuID),
-FOREIGN KEY (userID) REFERENCES Person(id)
+authorship_person_id,
+authorship_document_id,
+authorship_date TEXT NULL,
+PRIMARY KEY (authorship_person_id, authorship_document_id),
+FOREIGN KEY (authorship_person_id) REFERENCES Person(person_id)
 ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (docuID) REFERENCES Document(id)
+FOREIGN KEY (authorship_document_id) REFERENCES Document(document_id)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Tag (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-label TEXT NOT NULL UNIQUE
+tag_id INTEGER PRIMARY KEY AUTOINCREMENT,
+tag_label TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS HasTag (
-tagID,
-docuID,
-PRIMARY KEY (tagID, docuID),
-FOREIGN KEY (tagID) REFERENCES Tag(id)
+hasTag_tag_id,
+hasTag_doc_id,
+PRIMARY KEY (hasTag_tag_id, hasTag_doc_id),
+FOREIGN KEY (hasTag_tag_id) REFERENCES Tag(tag_id)
 ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (docuID) REFERENCES Document(id)
+FOREIGN KEY (hasTag_doc_id) REFERENCES Document(document_id)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
