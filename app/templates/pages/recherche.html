@@ -30,7 +30,7 @@
                         l'attribut form référence l'identifiant de la balise form qui contient ce menu
                         l'attribut name permet de spécifier le nom du champ dans les arguments
                         où sera stockée l'option selectionnée par l'utilisateur #}
-                        <option value="all">Toutes les matières</option>
+                        <option value="">Toutes les matières</option>
                         {# la premiere option du menu affichant la valeur "all" dans les arguments #}
                         {%- for matiere in matieres %}
                             {# pour chaque matière de la liste de matières
@@ -58,15 +58,15 @@
                     <label for="checkbox-form">Format de document</label>
                     <div class="row" form="recherche-form">
                         <div class="col-3">
-                            <input class="form-check-input" type="checkbox" type="search" name="type" value="img" id="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" type="search" name="img" value="1" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">Image</label>
                         </div>
                         <div class="col-3">
-                            <input class="form-check-input" type="checkbox" type="search" name="type" value="txt" id="defaultCheck2">
+                            <input class="form-check-input" type="checkbox" type="search" name="txt" value="1" id="defaultCheck2">
                             <label class="form-check-label" for="defaultCheck2">Texte</label>
                         </div>
                         <div class="col-3">
-                            <input class="form-check-input" type="checkbox" type="search" name="type" value="code" id="defaultCheck3">
+                            <input class="form-check-input" type="checkbox" type="search" name="code" value="1" id="defaultCheck3">
                             <label class="form-check-label" for="defaultCheck3">Code</label>
                         </div>
                     </div>
@@ -87,7 +87,8 @@
                 .items rend itérable la variable resultats, originellement objet de pagination #}
                 <li><a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a></li>
                 {# création d'un lien donnant accès à page dudit document
-                docu_id permettant de spécifier le nombre à faire apparaitre dans l'URL pour ce document #}
+                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                cet id est récupéré du document trouvé dans la liste de résultats #}
             {% endfor %}
         </ul>
 

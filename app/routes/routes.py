@@ -23,6 +23,21 @@ def recherche():
     # on stocke les mots clefs recherchés par l'utilisateur présents dans les arguments de l'URL
     matiere = request.args.get("matiere", None)
     # on récupère la valeur matiere dans les arguments correspondant au choix de l'utilisateur
+    img = request.args.get("img", None)
+    # on récupère 1 si l'utilisateur a coché la case image
+    txt = request.args.get("txt", None)
+    # on récupère 1 si l'utilisateur a coché la case txt
+    code = request.args.get("code", None)
+    # on récupère 1 si l'utilisateur a coché la case code
+    date = request.args.get("date", None)
+    # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
+    jour = str(date)[0:2]
+    mois = str(date)[3:5]
+    annee = str(date)[6:]
+
+    print(date)
+    print(jour + "-" + mois + "-" + annee)
+
     page = request.args.get("page", 1)
     # on récupère la page courante dans les arguments, si non indiquée, la valeur par défaut est 1
 
@@ -46,7 +61,7 @@ def recherche():
     # on donne une valeur par défaut au titre à afficher
 
     if motclef:
-        if str(matiere) != "all":
+        if matiere:
             resultats = Document.query.filter(
                 db.and_(
                     Document.document_title.like("%{}%".format(motclef)),
@@ -59,14 +74,14 @@ def recherche():
                 .paginate(page=page, per_page=RESULTS_PER_PAGE)
             titre = "Résultat pour la recherche « " + motclef + " »"
     else:
-        if matiere != "all":
+        if matiere:
             resultats = Document.query.filter(
                     Document.document_teaching == matiere) \
                 .paginate(page=page, per_page=RESULTS_PER_PAGE)
             titre = "Résultat pour la recherche des documents de matière " + str(matiere)
         else:
             resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
-            titre = "Tous les résultats"
+            titre = "Tous les documents de la base de données"
 
     # if motclef:
     #     # Si on a un mot clé, on requête toutes les tables de notre base de donnée pour vérifier s'il y a des correspondances
@@ -90,7 +105,11 @@ def recherche():
         titre=titre,
         keyword=motclef,
         matiere=matiere,
-        matieres=matieres
+        matieres=matieres,
+        img=img,
+        txt=txt,
+        code=code,
+        date=date,
     )
 
 @app.route("/document/<int:docu_id>")
@@ -104,5 +123,6 @@ def document(docu_id):
     """
 
     requested_docu = Document.query.get(docu_id)
+    # stocke dans la variable requested_docu le nom du document correspondant à l'id docu_id
 
     return render_template("pages/document.html", docu=requested_docu)
