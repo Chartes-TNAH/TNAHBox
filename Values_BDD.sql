@@ -12,7 +12,7 @@ VALUES
 ("","Tony", 0, "");
 
 INSERT INTO Document(
-document_label, document_format, document_teaching)
+document_title, document_format, document_teaching)
 -- document_date, document_description, document_downloadLink
 VALUES
 ("doc1","pdf","XML TEI"),

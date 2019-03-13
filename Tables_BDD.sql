@@ -15,7 +15,7 @@ person_is_admin INTEGER NULL
 
 CREATE TABLE IF NOT EXISTS Document (
 document_id INTEGER PRIMARY KEY AUTOINCREMENT,
-document_label TEXT NOT NULL,
+document_title TEXT NOT NULL,
 document_description TEXT NULL,
 document_format TEXT NULL,
 document_date TEXT NULL,
