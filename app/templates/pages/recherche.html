@@ -43,16 +43,18 @@
                 </div>
 
                 <div class="input-group" id="date-form">
-                    <div class="col-2">
+                    <div class="row">
                         <label for="date-form">Date du cours</label>
-                        <p>Il est possible de n'indiquer qu'un </p>
+                        <p class="text-muted">Il est possible de n'indiquer que l'année (AAAA) ou le mois (AAAA-MM).</p>
                     </div>
-                    <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
-                    <script type="text/javascript">
-                        $(function () {
-                            $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
-                        });
-                    </script>
+                    <div class="row">
+                        <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
+                        <script type="text/javascript">
+                            $(function () {
+                                $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+                            });
+                        </script>
+                    </div>
                 </div>
 
                 <div class="form-check" id="checkbox-form">
