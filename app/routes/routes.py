@@ -49,13 +49,13 @@ def recherche():
         if str(matiere) != "all":
             resultats = Document.query.filter(
                 db.and_(
-                    Document.document_label.like("%{}%".format(motclef)),
+                    Document.document_title.like("%{}%".format(motclef)),
                     Document.document_teaching == matiere)) \
                 .paginate(page=page, per_page=RESULTS_PER_PAGE)
             titre = "Résultat pour la recherche `" + motclef + "` de matière " + str(matiere)
         else:
             resultats = Document.query.filter(
-                Document.document_label.like("%{}%".format(motclef))) \
+                Document.document_title.like("%{}%".format(motclef))) \
                 .paginate(page=page, per_page=RESULTS_PER_PAGE)
             titre = "Résultat pour la recherche `" + motclef + "`"
     else:
@@ -72,12 +72,12 @@ def recherche():
     #     # Si on a un mot clé, on requête toutes les tables de notre base de donnée pour vérifier s'il y a des correspondances
     #     # Le résultat de cette requête est stocké dans la liste resultats = []
     #     resultats = Document.query.filter(or_(
-    #             Document.document_label.like("%{}%".format(motclef)),
+    #             Document.document_title.like("%{}%".format(motclef)),
     #             Document.document_format.like("%{}%".format(motclef)),
     #             Document.document_date.like("%{}%".format(motclef)),
     #             Document.document_teaching.like("%{}%".format(motclef)),
     #         )
-    #     ).order_by(Document.document_label.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+    #     ).order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
     #     titre = "Voici les résultats de votre recherche pour : '" + motclef + "`"
     #     # On affiche une phrase qui indiquera les résultats de la recherche en fonction du mot clé rentré par l'utilisateur
     #     # Cette variable titre sera réutilisée dans la page resultats.html
