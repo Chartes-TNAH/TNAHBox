@@ -1,38 +1,40 @@
 INSERT INTO Person(
-name, firstname, status)
--- email, login, passwordHash, linkedIn, cv
+person_name, person_firstname, person_is_teacher, person_promotion)
+-- person_email, 
+-- person_login, person_password, person_linkedIn,
+-- person_cv, person_git, person_is_admin
 VALUES
-("Pinche","Ariane","Enseignant·e"),
-("Jolivet","Vincent","Enseignant·e"),
-("Clérice","Thibault","Enseignant·e"),
-("Verdese","Vincent","Enseignant·e"),
-("Schmied","Marie-Caroline","Étudiant·e"),
-("","Tony","autre");
+("Pinche","Ariane", 1, "2013-2014"),
+("Jolivet","Vincent", 1, ""),
+("Clérice","Thibault", 1, "2013-2014"),
+("Andrieux","Clément", 0, "2018-2019"),
+("Schmied","Marie-Caroline", 0, "2018-2019"),
+("","Tony", 0, "");
 
 INSERT INTO Document(
-label, format, teaching)
--- date, downloadLink
+document_label, document_format, document_teaching)
+-- document_date, document_description, document_downloadLink
 VALUES
 ("doc1","pdf","XML TEI"),
 ("doc2","jpg","SQL"),
 ("doc3","odt","Python");
 
 INSERT INTO Authorship(
-userID, docuID)
+authorship_person_id, authorship_document_id)
 VALUES
-(5,1),
+(4,1),
 (5,2),
 (3,3);
 
 INSERT INTO Tag(
-label)
+tag_label)
 VALUES
 ("teiHeader 4EVER"), 
 ("DROP TABLE *;"),
 ("Pythounou Coconut Root");
 
 INSERT INTO HasTag(
-tagID, docuID)
+hasTag_tag_id, hasTag_doc_id)
 VALUES
 (1,1), 
 (2,2),
