@@ -2,8 +2,6 @@ from warnings import warn
 
 # Déclaration de toutes les constantes à utiliser dans le projet
 # Convention : les constantes portent des noms en majuscule
-# CONSTANTE1 = 1
-# CONSTANTE2 = 2
 
 RESULTS_PER_PAGE = 10
 

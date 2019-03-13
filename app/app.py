@@ -28,8 +28,6 @@ app = Flask(
 
 
 from .routes import routes
-from .routes import api
-
 
 def config_app(config_name="test"):
     """ Create the application """
