@@ -14,7 +14,7 @@
             method GET permet d'encoder les données du formulaire en argument de l'URL #}
 
                 <div class="input-group">
-                    <input type="search" name="keyword" class="form-control form-control-lg" type="text" placeholder="Faire une recherche">
+                    <input type="search" name="keyword" class="form-control form-control-lg" type="text" placeholder="Faire une recherche parmi tous les champs">
                     {# Création d'une balise input de type text pour que l'utilisateur rentre ses mots-clef
                     l'attribut name permet de spécifier le nom du champ dans les arguments
                     où seront stockés les mots-clefs rentrés par l'utilisateur #}
@@ -42,14 +42,15 @@
                     </select>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group" id="date-form">
                     <div class="col-2">
-                        <label for="exampleFormControlSelect1">Date du cours</label>
+                        <label for="date-form">Date du cours</label>
+                        <p>Il est possible de n'indiquer qu'un </p>
                     </div>
-                    <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="JJ-MM-AAAA" data-date-format="dd-mm-yyyy"/>
+                    <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
                     <script type="text/javascript">
                         $(function () {
-                            $( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+                            $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
                         });
                     </script>
                 </div>

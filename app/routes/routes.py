@@ -31,12 +31,11 @@ def recherche():
     # on récupère 1 si l'utilisateur a coché la case code
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
-    jour = str(date)[0:2]
-    mois = str(date)[3:5]
-    annee = str(date)[6:]
+    jour = str(date)[7:]
+    mois = str(date)[5:7]
+    annee = str(date)[0:4]
 
-    print(date)
-    print(jour + "-" + mois + "-" + annee)
+    # print(jour + "-" + mois + "-" + annee)
 
     page = request.args.get("page", 1)
     # on récupère la page courante dans les arguments, si non indiquée, la valeur par défaut est 1
@@ -44,7 +43,8 @@ def recherche():
     docuMatiere = Document.document_teaching
     matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
     matieres = [mat[0] for mat in matieres.all()]
-    # pour chaque matiere de matieres, je ne conserve que le label
+    # permet d'obtenir une liste des enregistrements de matiere dans la table Document
+    # où seulement le label est affiché
 
     if isinstance(page, str) and page.isdigit():
         # si la valeur de page est une chaine et ne contient que des nombres
