@@ -10,6 +10,9 @@ from ..constantes import RESULTS_PER_PAGE
 from ..modeles.donnees import Document, Authorship
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
+@app.route('/')
+def accueil ():
+    return render_template("pages/accueil.html", title="accueil")
 
 @app.route("/recherche")
 def recherche():
