@@ -10,9 +10,6 @@ from ..constantes import RESULTS_PER_PAGE
 from ..modeles.donnees import Document, Authorship
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
-# from ..modeles.utilisateurs import User
-# on importe la classe User du fichier utilisateurs.py contenu dans le dossier modeles
-
 
 @app.route("/recherche")
 def recherche():
@@ -29,7 +26,7 @@ def recherche():
     docuMatiere = Document.document_teaching
     matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
     matieres = [mat[0] for mat in matieres.all()]
-    # pour chaque matiere de matieres
+    # pour chaque matiere de matieres, je ne conserve que le label
 
     if isinstance(page, str) and page.isdigit():
         # si la valeur de page est une chaine et ne contient que des nombres
