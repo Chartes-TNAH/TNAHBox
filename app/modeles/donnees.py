@@ -21,9 +21,10 @@ class Person(db.Model):
     authorships = db.relationship("Authorship", back_populates="person")
 
 class Authorship(db.Model):
-    authorship_person_id = db.Column(db.Integer, db.ForeignKey('person.person_id'))
-    authorship_document_id = db.Column(db.Integer, db.ForeignKey('document.document_id'))
+    authorship_person_id = db.Column(db.Integer, db.ForeignKey('person.person_id'), primary_key=True)
+    authorship_document_id = db.Column(db.Integer, db.ForeignKey('document.document_id'), primary_key=True)
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
     person = db.relationship("Person", back_populates="authorships")
     document = db.relationship("Document", back_populates="authorships")
 
@@ -39,8 +40,8 @@ class Document(db.Model):
     hasTag=db.relationship("HasTag", back_populates="document")
 
 class HasTag(db.Model):
-    hasTag_tag_id = db.Column(db.Integer, db.ForeignKey('tag.tag_id'))
-    hasTag_doc_id = db.Column(db.Integer, db.ForeignKey('document.document_id'))
+    hasTag_tag_id = db.Column(db.Integer, db.ForeignKey('tag.tag_id'), primary_key=True)
+    hasTag_doc_id = db.Column(db.Integer, db.ForeignKey('document.document_id'), primary_key=True)
     tag = db.relationship("Tag", back_populates="hasTag")
     document = db.relationship("Document", back_populates="hasTag")
 

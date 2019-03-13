@@ -7,7 +7,7 @@ from ..app import app, db
 
 from ..constantes import RESULTS_PER_PAGE
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
-from ..modeles.donnees import Document
+from ..modeles.donnees import Document, Authorship
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 # from ..modeles.utilisateurs import User
