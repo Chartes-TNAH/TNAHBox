@@ -19,6 +19,9 @@ On part toujours sur la même table qui s’appelle `Person`. Une seule table so
 - Changer la base de données ?  **réflexion**
 - Choix : mieux vaut avoir des doublons qu'une nouvelle table dans la BDD
 
+## discussion à propos de la BDD : sqlite ou python ?
+**Réflexion en cours** à partir de la lecture du [tutoriel de M.Grinberg](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database) : construire notre BDD grâce à python ? Pour migration, plus simple ?
+
 
 
 
