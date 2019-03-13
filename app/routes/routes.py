@@ -93,7 +93,7 @@ def recherche():
         matieres=matieres
     )
 
-@app.route("/document/<int:document_id>")
+@app.route("/document/<int:docu_id>")
 def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
@@ -103,6 +103,6 @@ def document(docu_id):
 
     """
 
-    requested_docu = Document.query.get(document_id)
+    requested_docu = Document.query.get(docu_id)
 
     return render_template("pages/document.html", docu=requested_docu)
