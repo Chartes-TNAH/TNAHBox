@@ -23,8 +23,10 @@
                     </span>
                 </div>
 
-                <div class="form-group" id="form-matiere">
-                    <label for="exampleFormControlSelect1">Matière</label>
+                <div style="margin-top: 1em" class="form-group" id="form-matiere">
+                    <div class="row">
+                        <label for="form-matiere">Matière</label>
+                    </div>
                     <select form="recherche-form" name="matiere" class="form-control" id="exampleFormControlSelect1">
                         {# Création d'un menu déroulant où afficher les matières existantes dans la BDD
                         l'attribut form référence l'identifiant de la balise form qui contient ce menu
@@ -42,12 +44,14 @@
                     </select>
                 </div>
 
-                <div class="input-group" id="date-form">
+                <div id="date-form">
                     <div class="row">
                         <label for="date-form">Date du cours</label>
-                        <p class="text-muted">Il est possible de n'indiquer que l'année (AAAA) ou le mois (AAAA-MM).</p>
                     </div>
                     <div class="row">
+                        <p style="font-size: 14px" class="text-muted">Il est possible de n'indiquer que l'année (<i>AAAA</i>) ou le mois (<i>AAAA-MM</i>).</p>
+                    </div>
+                    <div style="margin-bottom: 1em" class="row">
                         <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
                         <script type="text/javascript">
                             $(function () {
@@ -58,7 +62,9 @@
                 </div>
 
                 <div class="form-check" id="checkbox-form">
-                    <label for="checkbox-form">Format de document</label>
+                    <div class="row">
+                        <label for="checkbox-form">Format de document</label>
+                    </div>
                     <div class="row" form="recherche-form">
                         <div class="col-3">
                             <input class="form-check-input" type="checkbox" type="search" name="img" value="1" id="defaultCheck1">
