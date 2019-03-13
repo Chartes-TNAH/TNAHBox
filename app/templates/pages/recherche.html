@@ -42,12 +42,11 @@
                     </select>
                 </div>
 
-                <div class="row">
-                    <div class='col-sm-6'>
+                <div class="input-group">
+                    <div class="col-2">
                         <label for="exampleFormControlSelect1">Date du cours</label>
-                        <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="JJ-MM-AAAA"/>
                     </div>
-
+                    <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="JJ-MM-AAAA" data-date-format="dd-mm-yyyy"/>
                     <script type="text/javascript">
                         $(function () {
                             $( "#datepicker" ).datepicker();
