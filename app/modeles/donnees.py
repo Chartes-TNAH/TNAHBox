@@ -20,6 +20,9 @@ class Person(db.Model):
     person_is_admin=db.Column(db.Boolean)
     authorships = db.relationship("Authorship", back_populates="person")
 
+    def __repr__(self):
+        return '<User {}>'.format(self.person_login)
+
 class Authorship(db.Model):
     authorship_person_id = db.Column(db.Integer, db.ForeignKey('person.person_id'), primary_key=True)
     authorship_document_id = db.Column(db.Integer, db.ForeignKey('document.document_id'), primary_key=True)
@@ -48,3 +51,4 @@ class Tag(db.Model):
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     tag_label = db.Column(db.String, nullable=False)
     hasTag=db.relationship("HasTag", back_populates="tag")
+
