@@ -34,9 +34,21 @@ def recherche():
     # on récupère 1 si l'utilisateur a coché la case code
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
-    jour = str(date)[7:]
-    mois = str(date)[5:7]
-    annee = str(date)[0:4]
+    if len(date) == 10:
+        jour = str(date)[7:]
+        mois = str(date)[5:7]
+        annee = str(date)[0:4]
+    elif len(date) == 7:
+        mois = str(date)[5:]
+        annee = str(date)[0:4]
+    elif len(date) == 4:
+        annee = str(date)[0:]
+    else:
+        date = ""
+    # en fonction du nombre de caractères indiqués pour la date par l'utilisateur
+    # j'assigne à des variables le numero du jour, du mois et de l'année
+    # si la longueur de la chaine ne correspond à rien, je vide la variable date
+    # pour que la recherche n'en tienne pas compte
 
     # # # GESTION DE LA VALEUR DE PAGE COURANTE
     page = request.args.get("page", 1)
@@ -112,17 +124,17 @@ def recherche():
 
     resultat_matiere = []
 
-    if matiere:
-        # si une matière est spécifiée
-        for resultat in resultats.items: # .item permet de rendre resultats iterable
-            # pour chaque résultat pour la recherche par mot-clef
-            if resultat.document_teaching == matiere:
-                # si ce résultat a pour matière la même que celle sélectionnée par l'utilisateur
-                # resultat.document_teaching = nom de matière (ex : XML TEI)
-                # resultat = <Document id>
-                resultats = resultats.items.append(resultat)
-
-    print(resultats)
+    # if matiere:
+    #     # si une matière est spécifiée
+    #     for resultat in resultats.items: # .item permet de rendre resultats iterable
+    #         # pour chaque résultat pour la recherche par mot-clef
+    #         if resultat.document_teaching == matiere:
+    #             # si ce résultat a pour matière la même que celle sélectionnée par l'utilisateur
+    #             # resultat.document_teaching = nom de matière (ex : XML TEI)
+    #             # resultat = <Document id>
+    #             resultats = resultats.items.append(resultat)
+    #
+    # print(resultats)
     # else:
     #     print(resultats.items)
 
@@ -150,7 +162,7 @@ def document(docu_id):
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
     au document dont l'id est donnée en paramètre
 
-    :param document_id: Identifiant d'un document de la base de données
+    :param docu_id: Identifiant d'un document de la base de données
 
     """
 
