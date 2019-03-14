@@ -32,7 +32,6 @@ def recherche():
     # on récupère 1 si l'utilisateur a coché la case txt
     code = request.args.get("code", None)
     # on récupère 1 si l'utilisateur a coché la case code
-    format = [img, txt, code]
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
     if len(date) == 10:
@@ -81,29 +80,6 @@ def recherche():
     titre = "Recherche"
     # on donne une valeur par défaut au titre à afficher
 
-    # if motclef:
-    #     if matiere:
-    #         resultats = Document.query.filter(
-    #             db.and_(
-    #                 Document.document_title.like("%{}%".format(motclef)),
-    #                 Document.document_teaching == matiere)) \
-    #             .paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Résultat pour la recherche « " + motclef + " » de matière " + str(matiere)
-    #     else:
-    #         resultats = Document.query.filter(
-    #             Document.document_title.like("%{}%".format(motclef))) \
-    #             .paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Résultat pour la recherche « " + motclef + " »"
-    # else:
-    #     if matiere:
-    #         resultats = Document.query.filter(
-    #                 Document.document_teaching == matiere) \
-    #             .paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Résultat pour la recherche des documents de matière " + str(matiere)
-    #     else:
-    #         resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Tous les documents de la base de données"
-
     if motclef:
         # Si on a un mot clé, on requête toutes les champs de Document
         # Le résultat de cette requête est stocké dans la liste resultats = []
@@ -125,20 +101,17 @@ def recherche():
 
     resultat_matiere = []
 
-    # if matiere:
-    #     # si une matière est spécifiée
-    #     for resultat in resultats.items: # .item permet de rendre resultats iterable
-    #         # pour chaque résultat pour la recherche par mot-clef
-    #         if resultat.document_teaching == matiere:
-    #             # si ce résultat a pour matière la même que celle sélectionnée par l'utilisateur
-    #             # resultat.document_teaching = nom de matière (ex : XML TEI)
-    #             # resultat = <Document id>
-    #             resultats = resultats.items.append(resultat)
-    #
-    # print(resultats)
-    # else:
-    #     print(resultats.items)
-
+    if matiere:
+        # si une matière est spécifiée
+        for resultat in resultats.items: # .item permet de rendre resultats iterable
+            # pour chaque résultat pour la recherche par mot-clef
+            if resultat.document_teaching == matiere:
+                # si ce résultat a pour matière la même que celle sélectionnée par l'utilisateur
+                # resultat.document_teaching = nom de matière (ex : XML TEI)
+                # resultat = <Document id>
+                resultats = resultats.items.append(resultat)
+    else:
+        pass
         #titre = "Résultat pour la recherche « " + motclef + " » de matière " + str(matiere)
 
 

@@ -85,49 +85,51 @@
         </div>
     </div>
 
-    <h1>{{titre}}</h1>
+    <div style="padding: 3em;">
+        <h1>{{titre}}</h1>
 
-    {% if resultats %}
-    {# si on obtient des résultats #}
-        <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
-        <ul>
-            {% for found_document in resultats.items %}
-                {# pour chaque document trouvé dans la liste de resultats
+        {% if resultats %}
+            {# si on obtient des résultats #}
+            <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
+            <ul>
+                {% for found_document in resultats.items %}
+                    {# pour chaque document trouvé dans la liste de resultats
                 .items rend itérable la variable resultats, originellement objet de pagination #}
-                <li><a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a></li>
-                {# création d'un lien donnant accès à page dudit document
+                    <li><a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a></li>
+                    {# création d'un lien donnant accès à page dudit document
                 docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
                 cet id est récupéré du document trouvé dans la liste de résultats #}
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </ul>
 
-        <nav aria-label="research-pagination">
-            <ul class="pagination">
-                {%- for page in resultats.iter_pages() %}
+            <nav aria-label="research-pagination">
+                <ul class="pagination">
+                    {%- for page in resultats.iter_pages() %}
 
-                    {% if page %}
-                        {% if page != resultats.page %}
-                            <li class="page-item">
-                                <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, page=page) }}">{{page}}</a>
-                                {# pour que la pagination fonctionne selon les mêmes critères de recherche
+                        {% if page %}
+                            {% if page != resultats.page %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, page=page) }}">{{page}}</a>
+                                    {# pour que la pagination fonctionne selon les mêmes critères de recherche
                                 pour toutes les pages de résultats, il faut re-spécifier en paramètre de url_for()
                                 toutes les variables contenant les facettes de la recherche #}
-                            </li>
+                                </li>
+                            {% else %}
+                                <li class="page-item active disabled">
+                                    <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                                </li>
+                            {% endif %}
+
                         {% else %}
-                            <li class="page-item active disabled">
-                                <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                            <li class="page-item disabled">
+                                <a class="page-link">...</a>
                             </li>
                         {% endif %}
 
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link">...</a>
-                        </li>
-                    {% endif %}
-
-                {%- endfor %}
-            </ul>
-        </nav>
-    {% endif %}
+                    {%- endfor %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
 
 {% endblock %}
