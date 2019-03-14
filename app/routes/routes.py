@@ -5,6 +5,7 @@ from flask_login import current_user, login_user, logout_user
 from ..app import app, db
 # on importe l'application provenant du fichier app.py un niveau au dessus dans l'arborescence des dossiers
 
+
 from ..constantes import RESULTS_PER_PAGE
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
 from ..modeles.donnees import Document, Authorship
