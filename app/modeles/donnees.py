@@ -32,6 +32,13 @@ class Person(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.person_password, password)
 
+    def get_id(self):
+        return(self.person_id)
+
+@login.user_loader
+def load_user(id):
+    return Person.query.get(int(id))
+
 class Authorship(db.Model):
     authorship_person_id = db.Column(db.Integer, db.ForeignKey('person.person_id'), primary_key=True)
     authorship_document_id = db.Column(db.Integer, db.ForeignKey('document.document_id'), primary_key=True)
@@ -61,6 +68,4 @@ class Tag(db.Model):
     tag_label = db.Column(db.String, nullable=False)
     hasTag=db.relationship("HasTag", back_populates="tag")
 
-@login.user_loader
-def load_user(id):
-    return Person.query.get(int(Person.person_id))
+

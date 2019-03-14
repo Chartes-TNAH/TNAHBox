@@ -139,15 +139,15 @@ def login():
         return redirect('/')
     form = LoginForm()
     if form.validate_on_submit():
-        user = Person.query.filter_by(person_login=form.Person.person_login.data).first()
-        if user is None or not user.check_password(form.Person.person_password.data):
+        user = Person.query.filter_by(person_login=form.person_login.data).first()
+        if user is None or not user.check_password(form.person_password.data):
             flash('Nom d\'utilisateur ou mot de passe incorrect')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('recherche')
-        return redirect(url_for(next_page))
+        return redirect(next_page)
     return render_template('pages/connexion.html', form=form)
 
 @app.route('/logout')
