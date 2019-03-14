@@ -140,16 +140,16 @@ def login():
         return redirect('/')
     form = LoginForm()
     if form.validate_on_submit():
-        user = Person.query.filter_by(username=form.Person.person_login.data).first()
+        user = Person.query.filter_by(person_login=form.Person.person_login.data).first()
         if user is None or not user.check_password(form.Person.person_password.data):
             flash('Nom d\'utilisateur ou mot de passe incorrect')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
-        if not next_page or url_parse(nex_page).netloc != '':
+        if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('recherche')
-        return redirect(url_for(nex_page))
-    return render_template()
+        return redirect(url_for(next_page))
+    return render_template('pages/connexion.html', form=form)
 
 @app.route('/logout')
 def logout():
@@ -162,12 +162,12 @@ def register():
         return redirect('/')
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = Person(username=form.Person.person_login.data, email=form.Person.person_email.data)
-        user.set_password(form.Person.person_password.data)
+        user = Person(person_login=form.Person.person_login, person_email=form.Person.person_email)
+        user.set_password(form.Person.person_password)
         db.session.add(user)
         db.session.commit()
         flash('Inscription enregistrée. Bienvenue !')
         return redirect(url_for('login'))
-    return render_template()
+    return render_template('pages/inscription.html', form=form)
 
 

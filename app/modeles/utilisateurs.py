@@ -8,30 +8,30 @@ from app.modeles.donnees import Person
 # correspondent aux données attendues
 # DataRequired = indique que le champ ne peut pas être laissé vide par l'utilisateur
 class LoginForm(FlaskForm):
-    username = StringField('Nom utilisateur', validators=[DataRequired()])
-    password = PasswordField('Mot de passe', validators=[DataRequired()])
+    person_login = StringField('Nom utilisateur', validators=[DataRequired()])
+    person_password = PasswordField('Mot de passe', validators=[DataRequired()])
     remember_me = BooleanField('Se souvenir de moi')
     submit = SubmitField('Connexion')
 
 # Même chose pour la classe Registration = founit un modèle de formulaire pour
 # l'enregistrement d'un nouvel utilisateur
 class RegistrationForm(FlaskForm):
-    username = StringField('Nom d\'utilisateur', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email])
-    password= PasswordField('Mot de passe', validators=[DataRequired()])
-    password2 = PasswordField('Mot de passe', validators=[DataRequired(), EqualTo('password')])
+    person_login = StringField('Nom d\'utilisateur*', validators=[DataRequired()])
+    person_email = StringField('Email*', validators=[DataRequired(), Email])
+    person_password= PasswordField('Mot de passe*', validators=[DataRequired()])
+    password2 = PasswordField('Mot de passe*', validators=[DataRequired(), EqualTo('person_password')])
     # password2 permet de vérifier le mot de passe pour éviter les erreurs de frappe
-    github = StringField('Compte Github (URL)')
-    linkedin = StringField('Compte LinkedIn (URL)')
-    promotion = StringField('Promotion TNAH')
-    submit = SubmitField('S\'enreistrer')
+    person_git = StringField('Compte Github (URL)')
+    person_linkedIn = StringField('Compte LinkedIn (URL)')
+    person_promotion = StringField('Promotion TNAH')
+    submit = SubmitField('S\'enregistrer')
 
     def validate_username(self, username):
-        user = Person.query.filter_by(username=Person.person_login.data).first()
+        user = Person.query.filter_by(person_login=Person.person_login).first()
         if user is not None:
             raise ValidationError('Nom d\'utilisateur déjà enregistré')
     def validate_email(self, email):
-        user = Person.query.filter_by(email=Person.person_email.data).first()
+        user = Person.query.filter_by(person_email=Person.person_email).first()
         if user is not None:
             raise ValidationError('Adresse mail déjà enregistrée')
 

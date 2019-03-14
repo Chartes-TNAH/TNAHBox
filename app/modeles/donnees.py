@@ -1,5 +1,6 @@
 from flask import url_for
 import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from .. app import db
 
@@ -22,6 +23,12 @@ class Person(db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
+
+    def set_password(self, password):
+        self.person_password= generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.person_password, password)
 
 class Authorship(db.Model):
     authorship_person_id = db.Column(db.Integer, db.ForeignKey('person.person_id'), primary_key=True)
