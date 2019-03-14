@@ -32,6 +32,7 @@ def recherche():
     # on récupère 1 si l'utilisateur a coché la case txt
     code = request.args.get("code", None)
     # on récupère 1 si l'utilisateur a coché la case code
+    format = [img, txt, code]
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
     if len(date) == 10:
