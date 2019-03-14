@@ -9,7 +9,7 @@
             #banner  {
                 background-position: center center;
                 padding:10vh;
-                background-image: url("../static/img/banniere.jpg");
+                background-image: url({{url_for("static", filename="img/banniere.jpg")}});
                 background-size: cover, auto;
             }
         </style>
@@ -34,7 +34,7 @@
             </form>
         </nav>
 
-        <div class="jumbotron jumbotron-fluid" style="height: 600px" id="banner">
+        <div class="jumbotron jumbotron-fluid" style="height: 600px"  id="banner">
             <div class="container">
             </div>
         </div>
