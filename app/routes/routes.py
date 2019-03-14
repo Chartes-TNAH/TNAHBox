@@ -36,7 +36,10 @@ def recherche():
     mois = str(date)[5:7]
     annee = str(date)[0:4]
 
-    # print(jour + "-" + mois + "-" + annee)
+    # on stocke dans des liste les extensions correspondant au différents formats de documents
+    # format_img = ["jpg", "jpeg", "png", "gif"]
+    # format_txt = ["odt", "doc", "docx", "pdf"]
+    # format_code = ["html", "py", "js", "xml"]
 
     page = request.args.get("page", 1)
     # on récupère la page courante dans les arguments, si non indiquée, la valeur par défaut est 1
@@ -85,7 +88,7 @@ def recherche():
     #         titre = "Tous les documents de la base de données"
 
     if motclef:
-        # Si on a un mot clé, on requête toutes les tables de notre base de donnée pour vérifier s'il y a des correspondances
+        # Si on a un mot clé, on requête toutes les champs de Document
         # Le résultat de cette requête est stocké dans la liste resultats = []
         resultats = Document.query.filter(or_(
                 Document.document_title.like("%{}%".format(motclef)),
@@ -96,8 +99,31 @@ def recherche():
             )
         ).order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
         titre = "Résultats de votre recherche pour : « " + motclef + " »"
-        # On affiche une phrase qui indiquera les résultats de la recherche en fonction du mot clé rentré par l'utilisateur
-        # Cette variable titre sera réutilisée dans la page resultats.html
+        # Si l'utilisateur n'a renseigné qu'un mot clef, titre donne le message à afficher
+    else:
+        resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
+        titre = "Tous les documents de la base de données"
+        # si l'utilisateur ne renseigne pas de mot clef, tous les documents de la base
+        # sont stockés dans résultats
+
+    resultat_matiere = []
+
+    if matiere:
+        # si une matière est spécifiée
+        for resultat in resultats.items: # .item permet de rendre resultats iterable
+            # pour chaque résultat pour la recherche par mot-clef
+            if resultat.document_teaching == matiere:
+                # si ce résultat a pour matière la même que celle sélectionnée par l'utilisateur
+                # resultat.document_teaching = nom de matière (ex : XML TEI)
+                # resultat = <Document id>
+                resultats = resultats.items.append(resultat)
+
+    print(resultats)
+    # else:
+    #     print(resultats.items)
+
+        #titre = "Résultat pour la recherche « " + motclef + " » de matière " + str(matiere)
+
 
 
 
