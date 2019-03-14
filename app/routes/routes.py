@@ -2,7 +2,6 @@ from flask import render_template, request, flash, redirect, url_for
 from sqlalchemy import and_, or_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from .. app import db
 from app.modeles.donnees import Person
 from app.modeles.utilisateurs import LoginForm, RegistrationForm
 
@@ -162,12 +161,10 @@ def register():
         return redirect('/')
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = Person(person_login=form.Person.person_login, person_email=form.Person.person_email)
+        user = app.donnees.Person(person_login=form.person_login, person_email=form.person_email)
         user.set_password(form.Person.person_password)
         db.session.add(user)
         db.session.commit()
         flash('Inscription enregistrée. Bienvenue !')
         return redirect(url_for('login'))
     return render_template('pages/inscription.html', form=form)
-
-

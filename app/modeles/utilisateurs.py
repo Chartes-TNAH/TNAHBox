@@ -26,11 +26,11 @@ class RegistrationForm(FlaskForm):
     person_promotion = StringField('Promotion TNAH')
     submit = SubmitField('S\'enregistrer')
 
-    def validate_username(self, username):
+    def validate_username(self, person_login):
         user = Person.query.filter_by(person_login=Person.person_login).first()
         if user is not None:
             raise ValidationError('Nom d\'utilisateur déjà enregistré')
-    def validate_email(self, email):
+    def validate_email(self, person_email):
         user = Person.query.filter_by(person_email=Person.person_email).first()
         if user is not None:
             raise ValidationError('Adresse mail déjà enregistrée')
