@@ -3,5 +3,131 @@
 {% block titre %}| {{titre}}{%endblock%}
 
 {% block corps %}
+    <div class="hero jumbotron">
+        <div class="container">
+            <form class="form" id="recherche-form" action="{{url_for("recherche")}}" method="GET">
+            {# Création d'un formulaire de recherche de class="form"
+            avec un identifiant à reprendre dans la balise <select>
+            pour que la valeur de l'attribut value de la balise <option>
+            apparaisse dans les arguments de l'URL spécifiée dans l'attribut action
+            action donne l'URI dans laquelle mettre les données du formulaire lorsque celui-ci est soumis
+            method GET permet d'encoder les données du formulaire en argument de l'URL #}
+
+                <div class="input-group">
+                    <input type="search" name="keyword" class="form-control form-control-lg" type="text" placeholder="Faire une recherche parmi tous les champs">
+                    {# Création d'une balise input de type text pour que l'utilisateur rentre ses mots-clef
+                    l'attribut name permet de spécifier le nom du champ dans les arguments
+                    où seront stockés les mots-clefs rentrés par l'utilisateur #}
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary btn-lg" href="#" role="button">Rechercher</button>
+                    </span>
+                </div>
+
+                <div style="margin-top: 1em" class="form-group" id="form-matiere">
+                    <div class="row">
+                        <label for="form-matiere">Matière</label>
+                    </div>
+                    <select form="recherche-form" name="matiere" class="form-control" id="exampleFormControlSelect1">
+                        {# Création d'un menu déroulant où afficher les matières existantes dans la BDD
+                        l'attribut form référence l'identifiant de la balise form qui contient ce menu
+                        l'attribut name permet de spécifier le nom du champ dans les arguments
+                        où sera stockée l'option selectionnée par l'utilisateur #}
+                        <option value="">Toutes les matières</option>
+                        {# la premiere option du menu affichant la valeur "all" dans les arguments #}
+                        {%- for matiere in matieres %}
+                            {# pour chaque matière de la liste de matières
+                            obtenue en requêtant la classe Document dans routes.py #}
+                            <option value="{{matiere}}">{{matiere}}</option>
+                            {# création d'une nouvelle option de valeur dans le menu et dans les arguments
+                            équivalente à l'enregistrement de l'attribut matiere dans la table Document#}
+                        {%- endfor %}
+                    </select>
+                </div>
+
+                <div id="date-form">
+                    <div class="row">
+                        <label for="date-form">Date du cours</label>
+                    </div>
+                    <div class="row">
+                        <p style="font-size: 14px" class="text-muted">Il est possible de n'indiquer que l'année (<i>AAAA</i>) ou le mois (<i>AAAA-MM</i>).</p>
+                    </div>
+                    <div style="margin-bottom: 1em" class="row">
+                        <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
+                        <script type="text/javascript">
+                            $(function () {
+                                $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <div class="form-check" id="checkbox-form">
+                    <div class="row">
+                        <label for="checkbox-form">Format de document</label>
+                    </div>
+                    <div class="row" form="recherche-form">
+                        <div class="col-3">
+                            <input class="form-check-input" type="checkbox" type="search" name="img" value="1" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">Image</label>
+                        </div>
+                        <div class="col-3">
+                            <input class="form-check-input" type="checkbox" type="search" name="txt" value="1" id="defaultCheck2">
+                            <label class="form-check-label" for="defaultCheck2">Texte</label>
+                        </div>
+                        <div class="col-3">
+                            <input class="form-check-input" type="checkbox" type="search" name="code" value="1" id="defaultCheck3">
+                            <label class="form-check-label" for="defaultCheck3">Code</label>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <h1>{{titre}}</h1>
+
+    {% if resultats %}
+    {# si on obtient des résultats #}
+        <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
+        <ul>
+            {% for found_document in resultats.items %}
+                {# pour chaque document trouvé dans la liste de resultats
+                .items rend itérable la variable resultats, originellement objet de pagination #}
+                <li><a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a></li>
+                {# création d'un lien donnant accès à page dudit document
+                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                cet id est récupéré du document trouvé dans la liste de résultats #}
+            {% endfor %}
+        </ul>
+
+        <nav aria-label="research-pagination">
+            <ul class="pagination">
+                {%- for page in resultats.iter_pages() %}
+
+                    {% if page %}
+                        {% if page != resultats.page %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, page=page) }}">{{page}}</a>
+                                {# pour que la pagination fonctionne selon les mêmes critères de recherche
+                                pour toutes les pages de résultats, il faut re-spécifier en paramètre de url_for()
+                                toutes les variables contenant les facettes de la recherche #}
+                            </li>
+                        {% else %}
+                            <li class="page-item active disabled">
+                                <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                            </li>
+                        {% endif %}
+
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">...</a>
+                        </li>
+                    {% endif %}
+
+                {%- endfor %}
+            </ul>
+        </nav>
+    {% endif %}
 
 {% endblock %}

@@ -1,0 +1,20 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if docu %}| Document : {{docu.document_title}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if docu %}
+        <h1>{{docu.document_title}}</h1>
+        <dl>
+{#            <dt>Auteur</dt><dd>{{docu.place_longitude}}</dd>#}
+{#            <dt>Latitude</dt><dd>{{docu.place_latitude}}</dd>#}
+{#            <dt>Description</dt><dd>{{docu.place_description}}</dd>#}
+{#            <dt>Type</dt><dd>{{docu.place_type}}</dd>#}
+        </dl>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+{% endblock %}

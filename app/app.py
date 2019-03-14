@@ -28,8 +28,6 @@ app = Flask(
 
 
 from .routes import routes
-from .routes import api
-
 
 def config_app(config_name="test"):
     """ Create the application """
@@ -42,10 +40,7 @@ def config_app(config_name="test"):
 
     # Set up extensions
     db.init_app(app)
-    # assets_env = Environment(app)
     login.init_app(app)
-
-    # Register Jinja template functions
 
     return app
 

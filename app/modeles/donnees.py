@@ -51,4 +51,3 @@ class Tag(db.Model):
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     tag_label = db.Column(db.String, nullable=False)
     hasTag=db.relationship("HasTag", back_populates="tag")
-
