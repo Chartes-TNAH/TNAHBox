@@ -35,7 +35,7 @@ class Document(db.Model):
     document_title = db.Column(db.Text)
     document_description = db.Column(db.Text)
     document_format = db.Column(db.String)
-    document_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    document_date = db.Column(db.Text)
     document_teaching = db.Column(db.String)
     document_downloadLink = db.Column(db.Text)
     authorships = db.relationship("Authorship", back_populates="document")
