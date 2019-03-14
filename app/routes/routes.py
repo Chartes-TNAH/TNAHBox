@@ -20,6 +20,8 @@ def recherche():
     """
     Route permettant des paramètres de recherche avancée parmi les métadonnées de la classe Document
     """
+
+    # # # RECUPERATION DES PARAMETRES DE RECHERCHE INDIQUES PAR L'UTILISATEUR
     motclef = request.args.get("keyword", None)
     # on stocke les mots clefs recherchés par l'utilisateur présents dans les arguments de l'URL
     matiere = request.args.get("matiere", None)
@@ -36,20 +38,9 @@ def recherche():
     mois = str(date)[5:7]
     annee = str(date)[0:4]
 
-    # on stocke dans des liste les extensions correspondant au différents formats de documents
-    # format_img = ["jpg", "jpeg", "png", "gif"]
-    # format_txt = ["odt", "doc", "docx", "pdf"]
-    # format_code = ["html", "py", "js", "xml"]
-
+    # # # GESTION DE LA VALEUR DE PAGE COURANTE
     page = request.args.get("page", 1)
     # on récupère la page courante dans les arguments, si non indiquée, la valeur par défaut est 1
-
-    docuMatiere = Document.document_teaching
-    matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
-    matieres = [mat[0] for mat in matieres.all()]
-    # permet d'obtenir une liste des enregistrements de matiere dans la table Document
-    # où seulement le label est affiché
-
     if isinstance(page, str) and page.isdigit():
         # si la valeur de page est une chaine et ne contient que des nombres
         page = int(page)
@@ -58,6 +49,19 @@ def recherche():
         page = 1
         # sinon on lui attribue la valeur 1
 
+    # # # RECUPERATION DES VALEURS DE LA BDD À FAIRE AFFICHER SUR LA PAGE DE RECHERCHE
+    docuMatiere = Document.document_teaching
+    matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
+    matieres = [mat[0] for mat in matieres.all()]
+    # permet d'obtenir une liste des enregistrements de matiere dans la table Document
+    # où seulement le label est affiché
+
+    # on stocke dans des liste les extensions correspondant au différents formats de documents
+    # format_img = ["jpg", "jpeg", "png", "gif"]
+    # format_txt = ["odt", "doc", "docx", "pdf"]
+    # format_code = ["html", "py", "js", "xml"]
+
+    # # # REQUÊTAGE EN FONCTION DES PARAMÈTRES DE RECHERCHE DE L'UTILISATEUR
     resultats = []
     # on crée une liste vide pour stocker les résultats
 
