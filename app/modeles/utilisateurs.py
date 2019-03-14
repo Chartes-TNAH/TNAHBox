@@ -16,8 +16,10 @@ class LoginForm(FlaskForm):
 # Même chose pour la classe Registration = founit un modèle de formulaire pour
 # l'enregistrement d'un nouvel utilisateur
 class RegistrationForm(FlaskForm):
+    person_firstName = StringField('Prénom*', validators=[DataRequired()])
+    person_name = StringField('Nom*', validators=[DataRequired()])
     person_login = StringField('Nom d\'utilisateur*', validators=[DataRequired()])
-    person_email = StringField('Email*', validators=[DataRequired(), Email])
+    person_email = StringField('Email*', validators=[DataRequired(), Email()])
     person_password= PasswordField('Mot de passe*', validators=[DataRequired()])
     password2 = PasswordField('Mot de passe*', validators=[DataRequired(), EqualTo('person_password')])
     # password2 permet de vérifier le mot de passe pour éviter les erreurs de frappe
@@ -27,11 +29,11 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('S\'enregistrer')
 
     def validate_username(self, person_login):
-        user = Person.query.filter_by(person_login=Person.person_login).first()
+        user = Person.query.filter_by(person_login=Person.person_login.data).first()
         if user is not None:
             raise ValidationError('Nom d\'utilisateur déjà enregistré')
     def validate_email(self, person_email):
-        user = Person.query.filter_by(person_email=Person.person_email).first()
+        user = Person.query.filter_by(person_email=Person.person_email.data).first()
         if user is not None:
             raise ValidationError('Adresse mail déjà enregistrée')
 

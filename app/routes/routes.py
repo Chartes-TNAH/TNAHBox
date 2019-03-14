@@ -161,8 +161,13 @@ def register():
         return redirect('/')
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = app.donnees.Person(person_login=form.person_login, person_email=form.person_email)
-        user.set_password(form.Person.person_password)
+        user = Person(person_login=form.person_login.data,
+                      person_email=form.person_email.data,
+                      person_name=form.person_name.data,
+                      person_firstName=form.person_firstName.data,
+                      person_git=form.person_git.data,
+                      person_linkedIn=form.person_linkedIn.data)
+        user.set_password(form.person_password.data)
         db.session.add(user)
         db.session.commit()
         flash('Inscription enregistrée. Bienvenue !')
