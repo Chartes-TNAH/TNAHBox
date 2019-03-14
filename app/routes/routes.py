@@ -1,6 +1,11 @@
-from flask import render_template, request, flash, redirect
+from flask import render_template, request, flash, redirect, url_for
 from sqlalchemy import and_, or_
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_parse
+from .. app import db
+from app.modeles.donnees import Person
+from app.modeles.utilisateurs import LoginForm, RegistrationForm
+
 
 from ..app import app, db
 # on importe l'application provenant du fichier app.py un niveau au dessus dans l'arborescence des dossiers
@@ -13,7 +18,7 @@ from ..modeles.donnees import Document, Authorship
 
 @app.route('/')
 def accueil ():
-    return render_template("pages/accueil.html", title="accueil")
+    return render_template("pages/accueil.html", title="Accueil")
 
 @app.route("/recherche")
 def recherche():
@@ -128,3 +133,41 @@ def document(docu_id):
     # stocke dans la variable requested_docu le nom du document correspondant à l'id docu_id
 
     return render_template("pages/document.html", docu=requested_docu)
+
+@app.route('/login', methods=['GET', "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect('/')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = Person.query.filter_by(username=form.Person.person_login.data).first()
+        if user is None or not user.check_password(form.Person.person_password.data):
+            flash('Nom d\'utilisateur ou mot de passe incorrect')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        if not next_page or url_parse(nex_page).netloc != '':
+            next_page = url_for('recherche')
+        return redirect(url_for(nex_page))
+    return render_template()
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect('/')
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = Person(username=form.Person.person_login.data, email=form.Person.person_email.data)
+        user.set_password(form.Person.person_password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Inscription enregistrée. Bienvenue !')
+        return redirect(url_for('login'))
+    return render_template()
+
+
