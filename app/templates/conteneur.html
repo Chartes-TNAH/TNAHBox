@@ -25,6 +25,18 @@
             <a class="navbar-brand" href="{{ url_for('accueil') }}">TNAHBox</a>
 
             <ul class="navbar-nav mr-auto">
+                {% if current_user.is_anonymous %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('login')}}">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('register')}}">S'enregistrer</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('logout')}}">Déconnexion</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for("recherche")}}">Recherche avancée</a>
                 </li>

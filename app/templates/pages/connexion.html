@@ -3,5 +3,25 @@
 {% block titre %}| Connexion{%endblock%}
 
 {% block corps %}
-
+<h1>Connexion</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.person_login.label }}<br>
+            {{ form.person_login(size=32) }}<br>
+            {% for error in form.person_login.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.person_password.label }}<br>
+            {{ form.person_password(size=32) }}<br>
+            {% for error in form.person_password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+        <p><a href="{{ url_for('register') }}">S'enregistrer</a></p>
+    </form>
 {% endblock %}

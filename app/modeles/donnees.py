@@ -1,11 +1,14 @@
 from flask import url_for
+from ..app import login
+from flask_login import UserMixin
 import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from .. app import db
 
 # Convention : les classes portent un nom commençant par une majuscule
 
-class Person(db.Model):
+class Person(UserMixin, db.Model):
     person_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     person_name = db.Column(db.String(25))
     person_firstName = db.Column(db.String(25))
@@ -22,6 +25,19 @@ class Person(db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
+
+    def set_password(self, password):
+        self.person_password= generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.person_password, password)
+
+    def get_id(self):
+        return(self.person_id)
+
+@login.user_loader
+def load_user(id):
+    return Person.query.get(int(id))
 
 class Authorship(db.Model):
     authorship_person_id = db.Column(db.Integer, db.ForeignKey('person.person_id'), primary_key=True)
@@ -51,3 +67,5 @@ class Tag(db.Model):
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     tag_label = db.Column(db.String, nullable=False)
     hasTag=db.relationship("HasTag", back_populates="tag")
+
+
