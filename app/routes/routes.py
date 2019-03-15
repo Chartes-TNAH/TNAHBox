@@ -113,21 +113,19 @@ def recherche():
                 if resultat.document_format == autre:
                     resultats_facettes = resultats_facettes.append(resultat)
 
+    resultDate = str(resultat.document_date)
     if date:
         for resultat in resultats.items:
             if len(date) == 10:
-                if resultat.document_date == date:
+                if resultDate == date:
                     resultats_facettes = resultats_facettes.append(resultat)
             elif len(date) == 7:
-                resultats = Document.query.filter(
-                    docu_date[0:7] == date) \
-                    .paginate(page=page, per_page=RESULTS_PER_PAGE)
+                if resultDate[0:7] == date:
+                    resultats_facettes = resultats_facettes.append(resultat)
             elif len(date) == 4:
-                resultats = Document.query.filter(
-                    docu_date[0:4] == date) \
-                    .paginate(page=page, per_page=RESULTS_PER_PAGE)
+                if resultDate[0:4] == date:
+                    resultats_facettes = resultats_facettes.append(resultat)
 
-    print(resultats_facettes)
 
     return render_template(
         "pages/recherche.html",
