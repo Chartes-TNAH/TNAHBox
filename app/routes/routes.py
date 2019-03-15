@@ -27,28 +27,18 @@ def recherche():
     matiere = request.args.get("matiere", None)
     # on récupère la valeur matiere dans les arguments correspondant au choix de l'utilisateur
     img = request.args.get("img", None)
-    # on récupère 1 si l'utilisateur a coché la case image
+    # on récupère image si l'utilisateur a coché la case image
     txt = request.args.get("txt", None)
-    # on récupère 1 si l'utilisateur a coché la case txt
+    # on récupère texte si l'utilisateur a coché la case txt
     code = request.args.get("code", None)
-    # on récupère 1 si l'utilisateur a coché la case code
+    # on récupère code si l'utilisateur a coché la case code
+    autre = request.args.get("autre", None)
+    # on récupère autre si l'utilisateur a coché la case autre
+    if img or txt or code or autre:
+        format = 1
+        # si j'ai a minima une case de cochée, j'assigne la valeur 1 à format
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
-    if len(date) == 10:
-        jour = str(date)[7:]
-        mois = str(date)[5:7]
-        annee = str(date)[0:4]
-    elif len(date) == 7:
-        mois = str(date)[5:]
-        annee = str(date)[0:4]
-    elif len(date) == 4:
-        annee = str(date)[0:]
-    else:
-        date = ""
-    # en fonction du nombre de caractères indiqués pour la date par l'utilisateur
-    # j'assigne à des variables le numero du jour, du mois et de l'année
-    # si la longueur de la chaine ne correspond à rien, je vide la variable date
-    # pour que la recherche n'en tienne pas compte
 
     # # # GESTION DE LA VALEUR DE PAGE COURANTE
     page = request.args.get("page", 1)
@@ -67,11 +57,6 @@ def recherche():
     matieres = [mat[0] for mat in matieres.all()]
     # permet d'obtenir une liste des enregistrements de matiere dans la table Document
     # où seulement le label est affiché
-
-    # on stocke dans des liste les extensions correspondant au différents formats de documents
-    # format_img = ["jpg", "jpeg", "png", "gif"]
-    # format_txt = ["odt", "doc", "docx", "pdf"]
-    # format_code = ["html", "py", "js", "xml"]
 
     # # # REQUÊTAGE EN FONCTION DES PARAMÈTRES DE RECHERCHE DE L'UTILISATEUR
     resultats = []
@@ -95,11 +80,11 @@ def recherche():
         # Si l'utilisateur n'a renseigné qu'un mot clef, titre donne le message à afficher
     else:
         resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
-        titre = "Tous les documents de la base de données"
+        titre = "Résultat de la recherche"
         # si l'utilisateur ne renseigne pas de mot clef, tous les documents de la base
         # sont stockés dans résultats
 
-    resultat_matiere = []
+    resultats_facettes = []
 
     if matiere:
         # si une matière est spécifiée
@@ -109,13 +94,40 @@ def recherche():
                 # si ce résultat a pour matière la même que celle sélectionnée par l'utilisateur
                 # resultat.document_teaching = nom de matière (ex : XML TEI)
                 # resultat = <Document id>
-                resultats = resultats.items.append(resultat)
-    else:
-        pass
-        #titre = "Résultat pour la recherche « " + motclef + " » de matière " + str(matiere)
+                resultats_facettes = resultats_facettes.append(resultat)
 
+    if format:
+        # si un format a été coché
+        for resultat in resultats.items:  # .item permet de rendre resultats iterable
+            # pour chaque résultat pour la recherche par mot-clef
+            if img:
+                if resultat.document_format == img:
+                    resultats_facettes = resultats_facettes.append(resultat)
+            if txt:
+                if resultat.document_format == txt:
+                    resultats_facettes = resultats_facettes.append(resultat)
+            if code:
+                if resultat.document_format == code:
+                    resultats_facettes = resultats_facettes.append(resultat)
+            if autre:
+                if resultat.document_format == autre:
+                    resultats_facettes = resultats_facettes.append(resultat)
 
+    if date:
+        for resultat in resultats.items:
+            if len(date) == 10:
+                if resultat.document_date == date:
+                    resultats_facettes = resultats_facettes.append(resultat)
+            elif len(date) == 7:
+                resultats = Document.query.filter(
+                    docu_date[0:7] == date) \
+                    .paginate(page=page, per_page=RESULTS_PER_PAGE)
+            elif len(date) == 4:
+                resultats = Document.query.filter(
+                    docu_date[0:4] == date) \
+                    .paginate(page=page, per_page=RESULTS_PER_PAGE)
 
+    print(resultats_facettes)
 
     return render_template(
         "pages/recherche.html",
