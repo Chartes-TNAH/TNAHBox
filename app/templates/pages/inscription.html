@@ -1,4 +1,7 @@
 {% extends "conteneur.html" %}
+
+{% block titre %}| S'enregistrer{%endblock%}
+
 {% block corps %}
 <h1>S'enregistrer</h1>
     <form action="" method="post">
@@ -53,6 +56,6 @@
             {{ form.person_promotion(size=100) }}<br>
         </p>
         <p>{{ form.submit() }}</p>
-        <p>* champs obligatoires</p>
+        <p><span style="color: red;">*</span> champs obligatoires</p>
     </form>
 {% endblock %}

@@ -16,16 +16,16 @@ class LoginForm(FlaskForm):
 # Même chose pour la classe Registration = founit un modèle de formulaire pour
 # l'enregistrement d'un nouvel utilisateur
 class RegistrationForm(FlaskForm):
-    person_firstName = StringField('Prénom*', validators=[DataRequired()])
-    person_name = StringField('Nom*', validators=[DataRequired()])
-    person_login = StringField('Nom d\'utilisateur*', validators=[DataRequired()])
-    person_email = StringField('Email*', validators=[DataRequired(), Email()])
-    person_password= PasswordField('Mot de passe*', validators=[DataRequired()])
-    password2 = PasswordField('Mot de passe*', validators=[DataRequired(), EqualTo('person_password')])
+    person_firstName = StringField('Prénom<span style="color: red;">*</span>', validators=[DataRequired()])
+    person_name = StringField('Nom<span style="color: red;">*</span>', validators=[DataRequired()])
+    person_login = StringField('Nom d\'utilisateur<span style="color: red;">*</span>', validators=[DataRequired()])
+    person_email = StringField('Email<span style="color: red;">*</span>', validators=[DataRequired(), Email()])
+    person_password= PasswordField('Mot de passe<span style="color: red;">*</span>', validators=[DataRequired()])
+    password2 = PasswordField('Mot de passe<span style="color: red;">*</span>', validators=[DataRequired(), EqualTo('person_password')])
     # password2 permet de vérifier le mot de passe pour éviter les erreurs de frappe
     person_git = StringField('Compte Github (URL)')
     person_linkedIn = StringField('Compte LinkedIn (URL)')
-    person_promotion = StringField('Promotion TNAH')
+    person_promotion = StringField('Promotion TNAH (année)')
     submit = SubmitField('S\'enregistrer')
 
     def validate_username(self, person_login):

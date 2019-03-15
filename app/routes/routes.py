@@ -166,7 +166,8 @@ def register():
                       person_name=form.person_name.data,
                       person_firstName=form.person_firstName.data,
                       person_git=form.person_git.data,
-                      person_linkedIn=form.person_linkedIn.data)
+                      person_linkedIn=form.person_linkedIn.data,
+                      person_promotion=form.person_promotion.data)
         user.set_password(form.person_password.data)
         db.session.add(user)
         db.session.commit()
