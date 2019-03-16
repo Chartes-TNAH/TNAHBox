@@ -108,10 +108,10 @@
 
             <nav aria-label="research-pagination">
                 <ul class="pagination">
-                    {%- for page in query.iter_pages() %}
+                    {%- for page in resultats.iter_pages() %}
 
                         {% if page %}
-                            {% if page != query.page %}
+                            {% if page != resultats.page %}
                                 <li class="page-item">
                                     <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, page=page) }}">{{page}}</a>
                                     {# pour que la pagination fonctionne selon les mêmes critères de recherche

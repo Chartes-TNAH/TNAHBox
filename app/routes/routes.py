@@ -8,7 +8,7 @@ from ..app import app, db
 
 from ..constantes import RESULTS_PER_PAGE
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
-from ..modeles.donnees import Document, Authorship
+from ..modeles.donnees import Document, Authorship, Person
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 @app.route('/')
@@ -68,6 +68,8 @@ def recherche():
             Document.document_teaching.like("%{}%".format(motclef)),
             Document.document_description.like("%{}%".format(motclef))))
         titre = "Résultats de votre recherche pour : « " + motclef + " »"
+    else:
+        query = Document.query
 
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
@@ -88,11 +90,11 @@ def recherche():
     if len(date) == 4:
         query = query.filter(str(Document.document_date)[0:4] == date)
 
-    query = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+    resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
 
     return render_template(
         "pages/recherche.html",
-        query=query,
+        resultats=resultats,
         titre=titre,
         keyword=motclef,
         matiere=matiere,
