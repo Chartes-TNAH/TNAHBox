@@ -58,8 +58,6 @@ def recherche():
     # # # REQUÊTAGE EN FONCTION DES PARAMÈTRES DE RECHERCHE DE L'UTILISATEUR
     query = Document.query
 
-    titre = "Résultat de la recherche"
-
     if motclef:
         query = Document.query.filter(or_(
             Document.document_title.like("%{}%".format(motclef)),
@@ -67,9 +65,9 @@ def recherche():
             Document.document_date.like("%{}%".format(motclef)),
             Document.document_teaching.like("%{}%".format(motclef)),
             Document.document_description.like("%{}%".format(motclef))))
-        titre = "Résultats de votre recherche pour : « " + motclef + " »"
+        titre = "Résultats de la recherche pour : « " + motclef + " »"
     else:
-        query = Document.query
+        titre = "Résultat de la recherche"
 
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
@@ -83,12 +81,14 @@ def recherche():
     if autre:
         query = query.filter(Document.document_format == autre)
 
-    if len(date) == 10:
-        query = query.filter(Document.document_date == date)
-    if len(date) == 7:
-        query = query.filter(str(Document.document_date)[0:7] == date)
-    if len(date) == 4:
-        query = query.filter(str(Document.document_date)[0:4] == date)
+    if date:
+        if len(date) == 10:
+            query = query.filter(Document.document_date == date)
+        if len(date) == 7:
+            query = query.filter(str(Document.document_date)[0:7] == date)
+        if len(date) == 4:
+            query = query.filter(str(Document.document_date)[0:4] == date)
+
 
     resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
 
