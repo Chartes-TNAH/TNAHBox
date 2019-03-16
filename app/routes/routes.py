@@ -34,9 +34,6 @@ def recherche():
     # on récupère code si l'utilisateur a coché la case code
     autre = request.args.get("autre", None)
     # on récupère autre si l'utilisateur a coché la case autre
-    if img or txt or code or autre:
-        format = 1
-        # si j'ai a minima une case de cochée, j'assigne la valeur 1 à format
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
 
@@ -59,77 +56,43 @@ def recherche():
     # où seulement le label est affiché
 
     # # # REQUÊTAGE EN FONCTION DES PARAMÈTRES DE RECHERCHE DE L'UTILISATEUR
-    resultats = []
-    # on crée une liste vide pour stocker les résultats
+    query = Document.query
 
-    titre = "Recherche"
-    # on donne une valeur par défaut au titre à afficher
+    titre = "Résultat de la recherche"
 
     if motclef:
-        # Si on a un mot clé, on requête toutes les champs de Document
-        # Le résultat de cette requête est stocké dans la liste resultats = []
-        resultats = Document.query.filter(or_(
-                Document.document_title.like("%{}%".format(motclef)),
-                Document.document_format.like("%{}%".format(motclef)),
-                Document.document_date.like("%{}%".format(motclef)),
-                Document.document_teaching.like("%{}%".format(motclef)),
-                Document.document_description.like("%{}%".format(motclef))
-            )
-        ).order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+        query = Document.query.filter(or_(
+            Document.document_title.like("%{}%".format(motclef)),
+            Document.document_format.like("%{}%".format(motclef)),
+            Document.document_date.like("%{}%".format(motclef)),
+            Document.document_teaching.like("%{}%".format(motclef)),
+            Document.document_description.like("%{}%".format(motclef))))
         titre = "Résultats de votre recherche pour : « " + motclef + " »"
-        # Si l'utilisateur n'a renseigné qu'un mot clef, titre donne le message à afficher
-    else:
-        resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
-        titre = "Résultat de la recherche"
-        # si l'utilisateur ne renseigne pas de mot clef, tous les documents de la base
-        # sont stockés dans résultats
-
-    resultats_facettes = []
 
     if matiere:
-        # si une matière est spécifiée
-        for resultat in resultats.items: # .item permet de rendre resultats iterable
-            # pour chaque résultat pour la recherche par mot-clef
-            if resultat.document_teaching == matiere:
-                # si ce résultat a pour matière la même que celle sélectionnée par l'utilisateur
-                # resultat.document_teaching = nom de matière (ex : XML TEI)
-                # resultat = <Document id>
-                resultats_facettes = resultats_facettes.append(resultat)
+        query = query.filter(Document.document_teaching == matiere)
 
-    if format:
-        # si un format a été coché
-        for resultat in resultats.items:  # .item permet de rendre resultats iterable
-            # pour chaque résultat pour la recherche par mot-clef
-            if img:
-                if resultat.document_format == img:
-                    resultats_facettes = resultats_facettes.append(resultat)
-            if txt:
-                if resultat.document_format == txt:
-                    resultats_facettes = resultats_facettes.append(resultat)
-            if code:
-                if resultat.document_format == code:
-                    resultats_facettes = resultats_facettes.append(resultat)
-            if autre:
-                if resultat.document_format == autre:
-                    resultats_facettes = resultats_facettes.append(resultat)
+    if img:
+        query = query.filter(Document.document_format == img)
+    if txt:
+        query = query.filter(Document.document_format == txt)
+    if code:
+        query = query.filter(Document.document_format == code)
+    if autre:
+        query = query.filter(Document.document_format == autre)
 
-    resultDate = str(resultat.document_date)
-    if date:
-        for resultat in resultats.items:
-            if len(date) == 10:
-                if resultDate == date:
-                    resultats_facettes = resultats_facettes.append(resultat)
-            elif len(date) == 7:
-                if resultDate[0:7] == date:
-                    resultats_facettes = resultats_facettes.append(resultat)
-            elif len(date) == 4:
-                if resultDate[0:4] == date:
-                    resultats_facettes = resultats_facettes.append(resultat)
+    if len(date) == 10:
+        query = query.filter(Document.document_date == date)
+    if len(date) == 7:
+        query = query.filter(str(Document.document_date)[0:7] == date)
+    if len(date) == 4:
+        query = query.filter(str(Document.document_date)[0:4] == date)
 
+    query = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
 
     return render_template(
         "pages/recherche.html",
-        resultats=resultats,
+        query=query,
         titre=titre,
         keyword=motclef,
         matiere=matiere,
@@ -137,6 +100,7 @@ def recherche():
         img=img,
         txt=txt,
         code=code,
+        autre=autre,
         date=date,
     )
 
