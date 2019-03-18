@@ -3,8 +3,13 @@
 {% block titre %}| {{titre}}{%endblock%}
 
 {% block corps %}
-    <div class="hero jumbotron">
+
+<div class="row">
+    <div class="col-4" style="background-color: #ddecee; top: -32px; bottom: 0; padding: 40px">
         <div class="container">
+            <div class="sidebar-header">
+                <h3>Recherche avancée</h3>
+            </div>
             <form class="form" id="recherche-form" action="{{url_for("recherche")}}" method="GET">
             {# Création d'un formulaire de recherche de class="form"
             avec un identifiant à reprendre dans la balise <select>
@@ -14,18 +19,18 @@
             method GET permet d'encoder les données du formulaire en argument de l'URL #}
 
                 <div class="input-group">
-                    <input type="search" name="keyword" class="form-control form-control-lg" type="text" placeholder="Faire une recherche parmi tous les champs">
+                    <input type="search" name="keyword" class="form-control form-control-lg" type="text" placeholder="Rechercher …">
                     {# Création d'une balise input de type text pour que l'utilisateur rentre ses mots-clef
                     l'attribut name permet de spécifier le nom du champ dans les arguments
                     où seront stockés les mots-clefs rentrés par l'utilisateur #}
                     <span class="input-group-btn">
-                        <button class="btn btn-primary btn-lg" href="#" role="button">Rechercher</button>
+                        <button class="btn btn-lg" style="background-color: #70b7c2" href="#" role="button">Rechercher</button>
                     </span>
                 </div>
 
                 <div style="margin-top: 1em" class="form-group" id="form-matiere">
                     <div class="row">
-                        <label for="form-matiere">Matière</label>
+                        <label for="form-matiere" style="padding-left: 15px;"><b>Matière</b></label>
                     </div>
                     <select form="recherche-form" name="matiere" class="form-control" id="exampleFormControlSelect1">
                         {# Création d'un menu déroulant où afficher les matières existantes dans la BDD
@@ -46,12 +51,12 @@
 
                 <div id="date-form">
                     <div class="row">
-                        <label for="date-form">Date du cours</label>
+                        <label for="date-form" style="padding-left: 15px;"><b>Date du cours</b></label>
                     </div>
                     <div class="row">
                         <p style="font-size: 14px" class="text-muted">Il est possible de n'indiquer que l'année (<i>AAAA</i>) ou le mois (<i>AAAA-MM</i>).</p>
                     </div>
-                    <div style="margin-bottom: 1em" class="row">
+                    <div style="margin-bottom: 1em; padding-left: 15px; padding-right: 15px" class="row">
                         <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
                         <script type="text/javascript">
                             $(function () {
@@ -63,7 +68,7 @@
 
                 <div class="form-check" id="checkbox-form">
                     <div class="row">
-                        <label for="checkbox-form">Format de document</label>
+                        <label for="checkbox-form"><b>Format de document</b></label>
                     </div>
                     <div class="row" form="recherche-form">
                         <div class="col-3">
@@ -89,7 +94,7 @@
         </div>
     </div>
 
-    <div style="padding: 3em;">
+    <div class="col-8" style="padding: 3em;">
         <h1>{{titre}}</h1>
 
         {% if resultats %}
@@ -135,5 +140,6 @@
             </nav>
         {% endif %}
     </div>
+</div>
 
 {% endblock %}

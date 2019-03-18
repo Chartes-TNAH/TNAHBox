@@ -73,7 +73,7 @@ def recherche():
 
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
-        titre = titre + " pour la matiere " + matiere
+        titre = titre + " pour la matière " + matiere
 
     if img:
         query = query.filter(Document.document_format == img)
