@@ -12,7 +12,7 @@ from ..app import app, db
 
 from ..constantes import RESULTS_PER_PAGE
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
-from ..modeles.donnees import Document, Authorship
+from ..modeles.donnees import Document, Authorship, Person, Tag, HasTag
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 @app.route('/')
@@ -24,33 +24,26 @@ def recherche():
     """
     Route permettant des paramètres de recherche avancée parmi les métadonnées de la classe Document
     """
+
+    # # # RECUPERATION DES PARAMETRES DE RECHERCHE INDIQUES PAR L'UTILISATEUR
     motclef = request.args.get("keyword", None)
     # on stocke les mots clefs recherchés par l'utilisateur présents dans les arguments de l'URL
     matiere = request.args.get("matiere", None)
     # on récupère la valeur matiere dans les arguments correspondant au choix de l'utilisateur
     img = request.args.get("img", None)
-    # on récupère 1 si l'utilisateur a coché la case image
+    # on récupère image si l'utilisateur a coché la case image
     txt = request.args.get("txt", None)
-    # on récupère 1 si l'utilisateur a coché la case txt
+    # on récupère texte si l'utilisateur a coché la case txt
     code = request.args.get("code", None)
-    # on récupère 1 si l'utilisateur a coché la case code
+    # on récupère code si l'utilisateur a coché la case code
+    autre = request.args.get("autre", None)
+    # on récupère autre si l'utilisateur a coché la case autre
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
-    jour = str(date)[7:]
-    mois = str(date)[5:7]
-    annee = str(date)[0:4]
 
-    # print(jour + "-" + mois + "-" + annee)
-
+    # # # GESTION DE LA VALEUR DE PAGE COURANTE
     page = request.args.get("page", 1)
     # on récupère la page courante dans les arguments, si non indiquée, la valeur par défaut est 1
-
-    docuMatiere = Document.document_teaching
-    matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
-    matieres = [mat[0] for mat in matieres.all()]
-    # permet d'obtenir une liste des enregistrements de matiere dans la table Document
-    # où seulement le label est affiché
-
     if isinstance(page, str) and page.isdigit():
         # si la valeur de page est une chaine et ne contient que des nombres
         page = int(page)
@@ -59,51 +52,81 @@ def recherche():
         page = 1
         # sinon on lui attribue la valeur 1
 
-    resultats = []
-    # on crée une liste vide pour stocker les résultats
+    # # # RECUPERATION DES VALEURS DE LA BDD À FAIRE AFFICHER SUR LA PAGE DE RECHERCHE
+    docuMatiere = Document.document_teaching
+    matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
+    matieres = [mat[0] for mat in matieres.all()]
+    # permet d'obtenir une liste des enregistrements de matiere dans la table Document
+    # où seulement le label est affiché
 
-    titre = "Recherche"
-    # on donne une valeur par défaut au titre à afficher
-
-    # if motclef:
-    #     if matiere:
-    #         resultats = Document.query.filter(
-    #             db.and_(
-    #                 Document.document_title.like("%{}%".format(motclef)),
-    #                 Document.document_teaching == matiere)) \
-    #             .paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Résultat pour la recherche « " + motclef + " » de matière " + str(matiere)
-    #     else:
-    #         resultats = Document.query.filter(
-    #             Document.document_title.like("%{}%".format(motclef))) \
-    #             .paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Résultat pour la recherche « " + motclef + " »"
-    # else:
-    #     if matiere:
-    #         resultats = Document.query.filter(
-    #                 Document.document_teaching == matiere) \
-    #             .paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Résultat pour la recherche des documents de matière " + str(matiere)
-    #     else:
-    #         resultats = Document.query.paginate(page=page, per_page=RESULTS_PER_PAGE)
-    #         titre = "Tous les documents de la base de données"
+    # # # REQUÊTAGE EN FONCTION DES PARAMÈTRES DE RECHERCHE DE L'UTILISATEUR
+    query = Document.query
+    titre = "Tous les documents"
 
     if motclef:
-        # Si on a un mot clé, on requête toutes les tables de notre base de donnée pour vérifier s'il y a des correspondances
-        # Le résultat de cette requête est stocké dans la liste resultats = []
-        resultats = Document.query.filter(or_(
-                Document.document_title.like("%{}%".format(motclef)),
-                Document.document_format.like("%{}%".format(motclef)),
-                Document.document_date.like("%{}%".format(motclef)),
-                Document.document_teaching.like("%{}%".format(motclef)),
-                Document.document_description.like("%{}%".format(motclef))
-            )
-        ).order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
-        titre = "Résultats de votre recherche pour : « " + motclef + " »"
-        # On affiche une phrase qui indiquera les résultats de la recherche en fonction du mot clé rentré par l'utilisateur
-        # Cette variable titre sera réutilisée dans la page resultats.html
+        query = Document.query.filter(or_(
+            Document.document_title.like("%{}%".format(motclef)),
+            Document.document_format.like("%{}%".format(motclef)),
+            Document.document_date.like("%{}%".format(motclef)),
+            Document.document_teaching.like("%{}%".format(motclef)),
+            Document.document_description.like("%{}%".format(motclef)),
+            Document.document_tag.any(Tag.tag_label.like("%{}%".format(motclef)))
+        ))
+        titre = "Résultats de la recherche « " + motclef + " »"
+    else:
+        titre = "Résultat de la recherche"
+
+    # if motclef:
+    #     query = Document.query.join(Tag).filter(or_(
+    #         Document.document_title.like("%{}%".format(motclef)),
+    #         Document.document_format.like("%{}%".format(motclef)),
+    #         Document.document_date.like("%{}%".format(motclef)),
+    #         Document.document_teaching.like("%{}%".format(motclef)),
+    #         Document.document_description.like("%{}%".format(motclef)),
+    #         Tag.tag_label.like("%{}%".format(motclef))
+    #     ))
+    #     titre = "Résultats de la recherche « " + motclef + " »"
+    # else:
+    #     titre = "Résultat de la recherche"
+
+    if matiere:
+        query = query.filter(Document.document_teaching == matiere)
+        titre = titre + " pour la matière " + matiere
+
+    if img:
+        query = query.filter(Document.document_format == img)
+
+        titre = titre + " pour le format " + img
+    if txt:
+        query = query.filter(Document.document_format == txt)
+        if img or code or autre:
+            titre = titre + " et " + txt
+        else:
+            titre = titre + " pour le format " + txt
+    if code:
+        query = query.filter(Document.document_format == code)
+        if img or txt or autre:
+            titre = titre + " et " + code
+        else:
+            titre = titre + " pour le format " + code
+    if autre:
+        query = query.filter(Document.document_format == autre)
+        if img or txt or code:
+            titre = titre + " et " + autre
+        else:
+            titre = titre + " pour le format " + autre
+
+    if date:
+        titre = titre + " à la date " + date
+        if len(date) == 10:
+            query = query.filter(Document.document_date == date)
+        if len(date) == 7:
+            query = query.filter(str(Document.document_date)[0:7] == date)
+        if len(date) == 4:
+            query = query.filter(str(Document.document_date)[0:4] == date)
 
 
+    resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
 
     return render_template(
         "pages/recherche.html",
@@ -115,6 +138,7 @@ def recherche():
         img=img,
         txt=txt,
         code=code,
+        autre=autre,
         date=date,
     )
 
@@ -124,7 +148,7 @@ def document(docu_id):
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
     au document dont l'id est donnée en paramètre
 
-    :param document_id: Identifiant d'un document de la base de données
+    :param docu_id: Identifiant d'un document de la base de données
 
     """
 
