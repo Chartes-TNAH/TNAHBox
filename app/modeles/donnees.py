@@ -1,15 +1,20 @@
+from flask import url_for
+import datetime
+
 from .. app import db
 
 
-class HasTag(db.Model):
-    tagged_document_id = db.Column(db.Integer, db.ForeignKey('Document.document_id'), primary_key=True)
-    document_tag_id = db.Column(db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True)
+HasTag = db.Table('HasTag',
+    db.Column('hasTag_doc_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
+    db.Column('hasTag_tag_id', db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True))
 
-class Authorship(db.Model):
-    author_of_document_id = db.Column(db.Integer, db.ForeignKey('Person.person_id'), primary_key=True)
-    document_id = db.Column(db.Integer, db.ForeignKey('Document.document_id'), primary_key=True)
+Authorship = db.Table('Authorship',
+    db.Column('authorship_person_id', db.Integer, db.ForeignKey('Person.person_id'), primary_key=True),
+    db.Column('authorship_document_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
+    db.Column('authorship_date', db.Text))
 
 class Document(db.Model):
+    __tablename__ = "Document"
     document_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     document_title = db.Column(db.Text)
     document_description = db.Column(db.Text)
@@ -19,19 +24,15 @@ class Document(db.Model):
     document_downloadLink = db.Column(db.Text)
     document_tag = db.relationship("Tag",
                     secondary=HasTag,
-                    back_populates="tagged_document")
-    document_author = db.relationship("Person",
-                    secondary=Authorship,
-                    back_populates="created_document")
+                    backref=db.backref("Document"))
 
 class Tag(db.Model):
+    __tablename__ = "Tag"
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     tag_label = db.Column(db.String, nullable=False)
-    tagged_document = db.relationship("Document",
-                    secondary=HasTag,
-                    back_populates="document_tag")
 
 class Person(db.Model):
+    __tablename__ = "Person"
     person_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     person_name = db.Column(db.String(25))
     person_firstName = db.Column(db.String(25))
@@ -46,7 +47,7 @@ class Person(db.Model):
     person_is_admin = db.Column(db.Boolean)
     created_document = db.relationship("Document",
                     secondary=Authorship,
-                    back_populates="document_author")
+                    backref=db.backref("Person"))
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)

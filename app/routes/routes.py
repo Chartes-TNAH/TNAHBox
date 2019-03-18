@@ -8,7 +8,7 @@ from ..app import app, db
 
 from ..constantes import RESULTS_PER_PAGE
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
-from ..modeles.donnees import Document, Authorship, Person, Tag
+from ..modeles.donnees import Document, Authorship, Person, Tag, HasTag
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 @app.route('/')
@@ -65,13 +65,25 @@ def recherche():
             Document.document_format.like("%{}%".format(motclef)),
             Document.document_date.like("%{}%".format(motclef)),
             Document.document_teaching.like("%{}%".format(motclef)),
-            Document.document_description.like("%{}%".format(motclef))))
-            # Tag.query.join(Document)
-        # Tag.query.join(Document, Tag.products)
-        # Document.join(Tag.tag_label.like("%{}%".format(motclef))))
+            Document.document_description.like("%{}%".format(motclef)),
+            Document.document_tag.any(Tag.tag_label.like("%{}%".format(motclef)))
+        ))
         titre = "Résultats de la recherche « " + motclef + " »"
     else:
         titre = "Résultat de la recherche"
+
+    # if motclef:
+    #     query = Document.query.join(Tag).filter(or_(
+    #         Document.document_title.like("%{}%".format(motclef)),
+    #         Document.document_format.like("%{}%".format(motclef)),
+    #         Document.document_date.like("%{}%".format(motclef)),
+    #         Document.document_teaching.like("%{}%".format(motclef)),
+    #         Document.document_description.like("%{}%".format(motclef)),
+    #         Tag.tag_label.like("%{}%".format(motclef))
+    #     ))
+    #     titre = "Résultats de la recherche « " + motclef + " »"
+    # else:
+    #     titre = "Résultat de la recherche"
 
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
