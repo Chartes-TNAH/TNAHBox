@@ -34,6 +34,7 @@ class Tag(db.Model):
     tag_label = db.Column(db.String, nullable=False)
 
 class Person(UserMixin, db.Model):
+    __tablename__ = "Person"
     person_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     person_name = db.Column(db.String(25))
     person_firstName = db.Column(db.String(25))

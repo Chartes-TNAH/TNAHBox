@@ -100,16 +100,27 @@
         {% if resultats %}
             {# si on obtient des résultats #}
             <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
-            <ul>
-                {% for found_document in resultats.items %}
-                    {# pour chaque document trouvé dans la liste de resultats
+
+            {% for found_document in resultats.items %}
+                {# pour chaque document trouvé dans la liste de resultats
                 .items rend itérable la variable resultats, originellement objet de pagination #}
-                    <li><a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a></li>
-                    {# création d'un lien donnant accès à page dudit document
-                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                cet id est récupéré du document trouvé dans la liste de résultats #}
-                {% endfor %}
-            </ul>
+                <div class="col-md-4">
+                    <div class="card mb-6 shadow-sm">
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">
+
+                        </text></svg>
+                        <div class="card-body">
+                            <ul class="card-text">
+                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                            {# création d'un lien donnant accès à page dudit document
+                            docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                            cet id est récupéré du document trouvé dans la liste de résultats #}
+                                <li style="list-style-type: none">{{found_document.document_description}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
 
             <nav aria-label="research-pagination">
                 <ul class="pagination">
