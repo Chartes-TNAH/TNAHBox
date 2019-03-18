@@ -5,7 +5,7 @@
 {% block corps %}
 
 <div class="row">
-    <div class="col-4" style="background-color: #ddecee; top: -32px; bottom: 0; padding: 40px">
+    <div class="col-4" style="background-color: #ddecee; top: -32px; padding: 40px">
         <div class="container">
             <div class="sidebar-header">
                 <h3>Recherche avancée</h3>
@@ -118,7 +118,7 @@
                         {% if page %}
                             {% if page != resultats.page %}
                                 <li class="page-item">
-                                    <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, page=page) }}">{{page}}</a>
+                                    <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, date=date, img=img, txt=txt, code=code, autre=autre, page=page) }}">{{page}}</a>
                                     {# pour que la pagination fonctionne selon les mêmes critères de recherche
                                 pour toutes les pages de résultats, il faut re-spécifier en paramètre de url_for()
                                 toutes les variables contenant les facettes de la recherche #}

@@ -66,7 +66,9 @@ def recherche():
             Document.document_date.like("%{}%".format(motclef)),
             Document.document_teaching.like("%{}%".format(motclef)),
             Document.document_description.like("%{}%".format(motclef))))
-            # Document.join(Tag.tag_label.like("%{}%".format(motclef))))
+            # Tag.query.join(Document)
+        # Tag.query.join(Document, Tag.products)
+        # Document.join(Tag.tag_label.like("%{}%".format(motclef))))
         titre = "Résultats de la recherche « " + motclef + " »"
     else:
         titre = "Résultat de la recherche"
