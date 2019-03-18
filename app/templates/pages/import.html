@@ -1,0 +1,13 @@
+{% extends 'conteneur.html' %}
+
+{% block title %}Upload d'images{% endblock %}
+
+{% block corps %}
+<h1>Choisissez un fichier à importer dans TNAH BOX :</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    <label for="fic">Fichier</label><input id="fic" type="file" name="fic" />
+
+
+    <input id="btsub" type="submit" value="importer" />
+</form>
+{% endblock %}

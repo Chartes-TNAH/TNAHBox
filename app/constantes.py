@@ -4,6 +4,7 @@ from warnings import warn
 # Convention : les constantes portent des noms en majuscule
 
 RESULTS_PER_PAGE = 10
+DOSSIER_UPLOAD = "./uploads"
 
 SECRET_KEY = "JE SUIS UN SECRET !"
 # variable nécessaire à la création d'applications Flask

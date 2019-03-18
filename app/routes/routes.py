@@ -1,7 +1,8 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, send_file
 from sqlalchemy import and_, or_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+from werkzeug import secure_filename
 from app.modeles.donnees import Person
 from app.modeles.utilisateurs import LoginForm, RegistrationForm
 
@@ -10,7 +11,7 @@ from ..app import app, db
 # on importe l'application provenant du fichier app.py un niveau au dessus dans l'arborescence des dossiers
 
 
-from ..constantes import RESULTS_PER_PAGE
+from ..constantes import RESULTS_PER_PAGE, DOSSIER_UPLOAD
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
 from ..modeles.donnees import Document, Authorship, Person, Tag, HasTag
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
@@ -185,3 +186,25 @@ def register():
         flash('Inscription enregistrée. Bienvenue !')
         return redirect(url_for('login'))
     return render_template('pages/inscription.html', form=form)
+
+def extension_ok(nom_fichier):
+    """ Renvoie True si le fichier possède une extension valide. """
+    return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('txt', 'pdf', 'csv' 'doc', 'jpg', 'json',
+                                                          'jpeg', 'gif', 'bmp', 'png', 'word', 'xml', 'py', 'odt')
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        f = request.files['fic']
+        # dans f, on stocke le nom du fichier uploader mis en argument de l'URL
+        if f:  # on vérifie qu'un fichier a bien été envoyé
+            if extension_ok(f.filename):  # on vérifie que son extension est valide
+                nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
+                f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier d'upload
+                flash(u'Fichier envoyé ! Voici <a href="{lien}">son lien</a>.'.format(lien=url_for('upped', nom=nom)),
+                      'suc')
+            else:
+                flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
+        else:
+            flash(u'Vous avez oublié le fichier !', 'error')
+    return render_template('pages/import.html')
