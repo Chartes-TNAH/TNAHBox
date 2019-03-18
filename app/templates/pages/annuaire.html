@@ -14,12 +14,10 @@
       <h1 class="jumbotron-heading">Annuaire du master TNAH de l'école nationale des chartes</h1>
       <p class="lead text-muted">Ecrire un petit texte pour présenter les sympathiques étudiants du master et les informations qui seront disponibles à propos d'eux sur cette page : noms et prénoms, promotion, CV, linkedIn, Git, et s'ils ont été professeurs ou non</p>
          <p style="padding-left: 20px">Il y a {{resultats.total}} personnes inscrites sur l'annuaire TNAH :</p>
-<!-- Voir si cette partie avec deux boutons peut être utilisée ou non ; deux boutons vers quoi ?...
-      <p>
-        <a href="#" class="btn btn-primary my-2">Main call to action</a>
-        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-      </p>
-      -->
+          <button type="button" class="btn btn-outline-light" style="color: #55595c" disabled>Étudiants</button>
+          <button type="button" class="btn btn-outline-light" style="color: #BF8BB8" disabled>Professeurs</button>
+
+
     </div>
   </section>
 
@@ -30,10 +28,20 @@
 {% for found_person in resultats.items %}
         <div class="col-md-4">
           <div class="card mb-6 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">
+            <svg class="bd-placeholder-img card-img-top">
+                {% if found_person.person_is_teacher %}
+                <rect width="100%" height="100%" fill="#BF8BB8"/>
+                {% else %}
+                <rect width="100%" height="100%" fill="#55595c"/>
+                {% endif %}
+                <!-- à conserver, permet de faire grand rectangle gris foncé -->
+                <text x="50%" y="50%" fill="#eceeef" dy=".3em">
+               <!-- avant modification, bootstrap = <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em"> -->
                 <a href="{{url_for('person', person_id = found_person.person_id)}}">{{found_person.person_firstName}} {{found_person.person_name}}</a>
-                <!-- afficher le Prénom Nom dans la case grise, qui peut éventuellement accueillir une image, voir si BDD etc. -->
-            </text></svg>
+                <!-- afficher le Prénom Nom dans la case gristextui peut éventuellement accueillir une image, voir si BDD etc. -->
+            </text>
+
+            </svg>
             <div class="card-body">
               <ul class="card-text">
                   <li style="list-style-type: none">{{found_person.person_email}}</li>
@@ -49,9 +57,9 @@
                     <button type="button" class="btn btn-sm btn-light" disabled>gitHub</button>
                     {% endif %}
                     {% if found_person.person_linkedIn %}
-                    <a href="{{found_person.person_linkedIn}}" class="btn btn-sm btn-dark" role="button" aria-disabled="true">linkedIn</a>
+                    <a href="{{found_person.person_linkedIn}}" class="btn btn-sm btn-dark" role="button" aria-disabled="true">LinkedIn</a>
                     {% else %}
-                    <button type="button" class="btn btn-sm btn-light" disabled>linkedIn</button>
+                    <button type="button" class="btn btn-sm btn-light" disabled>LinkedIn</button>
                     {% endif %}
                     <!-- boutons gitHub et linkedIn balancent vers le lien donné ; bouton grisé et non cliquable si l'information n'est pas contenue dans la BDD -->
                 </div>
@@ -77,20 +85,18 @@
 </main>
 
 
+<!-- premier code :
    <h1>{{titre}}</h1>
 
         <p style="padding-left: 20px">Il y a {{resultats.total}} personnes inscrites sur l'annuaire TNAH :</p>
         <ul>
             {% for found_person in resultats.items %}
-            <!-- variable found_person = pour chaque personne trouvé dans la liste des résultats avec itération grâce à .items -->
-            <!-- // code de la page /pages/document.html -->
                 <li style="margin-bottom: 10px; list-style-type: none;">
                     <a href="{{url_for('person', person_id = found_person.person_id)}}">{{found_person.person_firstName}} {{found_person.person_name}} ({{found_person.person_promotion}})</a>
                 </li>
-            <!-- liste à puces présentant Prénom Nom (Promotion) -->
             {% endfor %}
         </ul>
+        -->
 
 {% endblock %}
 
-<!-- css : li:before {padding: 0 20px 6px; margin-right: 8px; vertical-align: top; background: #678; -moz-border-radius: 60px; border-radius: 60px; font-weight: bold; font-size: 0.8em; color: white} -->
