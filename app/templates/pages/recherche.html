@@ -70,20 +70,20 @@
                     <div class="row">
                         <label for="checkbox-form"><b>Format de document</b></label>
                     </div>
-                    <div class="row" form="recherche-form">
-                        <div class="col-3">
+                    <div style="margin-left: 15px" form="recherche-form">
+                        <div class="row">
                             <input class="form-check-input" type="checkbox" type="search" name="img" value="image" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">Image</label>
                         </div>
-                        <div class="col-3">
+                        <div class="row">
                             <input class="form-check-input" type="checkbox" type="search" name="txt" value="texte" id="defaultCheck2">
                             <label class="form-check-label" for="defaultCheck2">Texte</label>
                         </div>
-                        <div class="col-3">
+                        <div class="row">
                             <input class="form-check-input" type="checkbox" type="search" name="code" value="code" id="defaultCheck3">
                             <label class="form-check-label" for="defaultCheck3">Code</label>
                         </div>
-                        <div class="col-3">
+                        <div class="row">
                             <input class="form-check-input" type="checkbox" type="search" name="autre" value="autre" id="defaultCheck4">
                             <label class="form-check-label" for="defaultCheck4">Autre</label>
                         </div>
@@ -101,87 +101,93 @@
             {# si on obtient des résultats #}
             <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
 
-            {% for found_document in resultats.items %}
-                {# pour chaque document trouvé dans la liste de resultats
-                .items rend itérable la variable resultats, originellement objet de pagination #}
-                {% if found_document.document_format == "image" %}
-                    <div class="col-4">
-                        <div class="card mb-6 shadow-sm">
-                            <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{url_for("static", filename="img/img.jpg")}}">
-                            <div class="card-body">
-                                <ul class="card-text">
-                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                {# création d'un lien donnant accès à page dudit document
-                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                cet id est récupéré du document trouvé dans la liste de résultats #}
-                                    <li style="list-style-type: none">{{found_document.document_description}}</li>
-                                    <li>Format image</li>
-                                </ul>
+            <div class="row">
+                {% for found_document in resultats.items %}
+                    {# pour chaque document trouvé dans la liste de resultats
+                    .items rend itérable la variable resultats, originellement objet de pagination #}
+                    {% if found_document.document_format == "image" %}
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/img.jpg")}}">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                    {# création d'un lien donnant accès à page dudit document
+                                    docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                    cet id est récupéré du document trouvé dans la liste de résultats #}
+                                    </h4>
+                                    <p class="card-text">{{found_document.document_description}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% elif found_document.document_format == "texte" %}
-                    <div class="col-4">
-                        <div class="card mb-6 shadow-sm">
-                            <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{url_for("static", filename="img/txt.jpg")}}">
-                            <div class="card-body">
-                                <ul class="card-text">
-                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                {# création d'un lien donnant accès à page dudit document
-                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                cet id est récupéré du document trouvé dans la liste de résultats #}
-                                    <li style="list-style-type: none">{{found_document.document_description}}</li>
-                                </ul>
+
+                    {% elif found_document.document_format == "texte" %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/txt.jpg")}}">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                    {# création d'un lien donnant accès à page dudit document
+                                    docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                    cet id est récupéré du document trouvé dans la liste de résultats #}
+                                    </h4>
+                                    <p class="card-text">{{found_document.document_description}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% elif found_document.document_format == "code" %}
-                    <div class="col-4">
-                        <div class="card mb-6 shadow-sm">
-                            <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{url_for("static", filename="img/code.jpg")}}">
-                            <div class="card-body">
-                                <ul class="card-text">
-                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                {# création d'un lien donnant accès à page dudit document
-                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                cet id est récupéré du document trouvé dans la liste de résultats #}
-                                    <li style="list-style-type: none">{{found_document.document_description}}</li>
-                                </ul>
+
+                    {% elif found_document.document_format == "code" %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/code.jpg")}}">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                    {# création d'un lien donnant accès à page dudit document
+                                    docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                    cet id est récupéré du document trouvé dans la liste de résultats #}
+                                    </h4>
+                                    <p class="card-text">{{found_document.document_description}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% elif found_document.document_format == "autre" %}
-                    <div class="col-4">
-                        <div class="card mb-6 shadow-sm">
-                            <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{url_for("static", filename="img/autre.jpg")}}"></img>
-                            <div class="card-body">
-                                <ul class="card-text">
-                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                {# création d'un lien donnant accès à page dudit document
-                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                cet id est récupéré du document trouvé dans la liste de résultats #}
-                                    <li style="list-style-type: none">{{found_document.document_description}}</li>
-                                </ul>
+
+                    {% elif found_document.document_format == "autre" %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/autre.jpg")}}">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                    {# création d'un lien donnant accès à page dudit document
+                                    docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                    cet id est récupéré du document trouvé dans la liste de résultats #}
+                                    </h4>
+                                    <p class="card-text">{{found_document.document_description}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% else %}
-                    <div class="col-md-3">
-                        <div class="card mb-6 shadow-sm">
-                           <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{url_for("static", filename="img/autre.jpg")}}">
-                            <div class="card-body">
-                                <ul class="card-text">
-                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                {# création d'un lien donnant accès à page dudit document
-                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                cet id est récupéré du document trouvé dans la liste de résultats #}
-                                    <li style="list-style-type: none">{{found_document.document_description}}</li>
-                                </ul>
+
+                    {% else %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/autre.jpg")}}">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                    {# création d'un lien donnant accès à page dudit document
+                                    docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                    cet id est récupéré du document trouvé dans la liste de résultats #}
+                                    </h4>
+                                    <p class="card-text">{{found_document.document_description}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
 
             <nav aria-label="research-pagination">
                 <ul class="pagination">
