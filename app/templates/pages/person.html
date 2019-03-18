@@ -4,14 +4,17 @@
          {%if person %}| Personne : {{person.person_name}} {% endif %}
 {% endblock %}
 
+<!-- design grâce à : view-source:https://getbootstrap.com/docs/4.3/examples/blog/ -->
 
 {% block corps %}
+
+<!--
         {% if person %}
             <h1>{{person.person_name}} {{person.person_firstName}} ({{person.person_promotion}})</h1>
-<!-- affichage Morillon Marie (2018) ; problème 18 mars 2019 : affichage promotion aléatoire -->
+
             <dl>
-                <!-- Rappel : balise dl = élément de liste de descriptions -->
-                <dt>adresse mail :</dt><dd>{{person.person_email}}</dd> <!-- balise dd = élément de détail d'une description -->
+
+                <dt>adresse mail :</dt><dd>{{person.person_email}}</dd>
                 <dt>linkedIn :</dt><dd>{{person.person_linkedIn}}</dd>
                 <dt>CV :</dt><dd>{{person.person_cv}}</dd>
                 <dt>git :</dt><dd>{{person.person_git}}</dd>
@@ -21,5 +24,49 @@
             <p>La base de données est en cours de constitution : n'hésitez pas à vous inscrire !</p>
         {% endif %}
         <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+-->
+
+{% if person %}
+<div class="row">
+  <div class="col-md-7 text-white rounded bg-dark">
+<!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
+    <div class="col-md-8">
+      <h1 class="display-4 font-italic">{{person.person_firstName}} {{person.person_name}}</h1>
+      <p class="lead my-3">promotion : {{person.person_promotion}}</p>
+        {% if person_cv %}
+      <p class="lead mb-0 text-white font-weight-bold">{{person.person_cv}}</p>
+        {% else %}
+            <p>Le CV de {{person.person_firstName}} {{person.person_name}} n'a pas été rempli.</p>
+        {% endif %}
+    </div>
+
+  </div>
+
+
+     <div class="col-md-5">
+          <div class="p-4 mb-3 bg-light rounded">
+            <h4 class="font-italic">Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="{{person.person_git}}">GitHub<!--str({{person.person_email}}.replace,) --></a></li>
+              <li><a href="{{person.person_linkedIn}}">linkedIn</a></li>
+              <li>adresse mail : {{person.person_email}}</li>
+            </ol>
+          </div>
+        </div>
+ </div>
+
+      {% else %}
+                <p>La base de données est en cours de constitution : n'hésitez pas à vous inscrire !</p>
+
+      {% endif %}
+
+
+
+
+<footer class="footer">
+      <div class="container">
+        <span class="text-muted"><a href="{{url_for('accueil')}}">Retour à l'accueil</a></span>
+      </div>
+</footer>
 
 {% endblock %}
