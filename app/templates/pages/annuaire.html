@@ -43,8 +43,16 @@
 
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
+                    {% if found_person.person_git %}
                     <a href="{{found_person.person_git}}" class="btn btn-sm btn-dark" role="button" aria-disabled="true">gitHub</a>
+                    {% else %}
+                    <button type="button" class="btn btn-secondary btn-lg" disabled>gitHub</button>
+                    {% endif %}
+                    {% if found_person.person_linkedIn %}
                     <a href="{{found_person.person_linkedIn}}" class="btn btn-sm btn-dark" role="button" aria-disabled="true">linkedIn</a>
+                    {% else %}
+                    <button type="button" class="btn btn-secondary btn-lg" disabled>linkedIn</button>
+                    {% endif %}
                     <!-- boutons gitHub et linkedIn balancent vers le lien donné ; voir si on ne peut pas griser le bouton si l'information n'est pas contenue dans la BDD -->
                 </div>
                 <small class="text-muted">({{found_person.person_promotion}})</small>
