@@ -109,13 +109,14 @@
 
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/img.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/img.jpg")}}">
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        <a class="col-6" href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
                                     {# création d'un lien donnant accès à page dudit document
                                     docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
                                     cet id est récupéré du document trouvé dans la liste de résultats #}
+                                        <img class="col-6" width="10px" src="{{url_for("static", filename="img/download.png")}}">
                                     </h4>
                                     <p class="card-text">{{found_document.document_description}}</p>
                                 </div>
@@ -125,13 +126,14 @@
                     {% elif found_document.document_format == "texte" %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/txt.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/txt.jpg")}}">
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        <a class="col-6" href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
                                     {# création d'un lien donnant accès à page dudit document
                                     docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
                                     cet id est récupéré du document trouvé dans la liste de résultats #}
+                                        <img class="col-6" src="{{url_for("static", filename="img/download.png")}}">
                                     </h4>
                                     <p class="card-text">{{found_document.document_description}}</p>
                                 </div>
@@ -141,13 +143,14 @@
                     {% elif found_document.document_format == "code" %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/code.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/code.jpg")}}">
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        <a class="col-6" href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
                                     {# création d'un lien donnant accès à page dudit document
                                     docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
                                     cet id est récupéré du document trouvé dans la liste de résultats #}
+                                        <img class="col-6" width="10px" src="{{url_for("static", filename="img/download.png")}}">
                                     </h4>
                                     <p class="card-text">{{found_document.document_description}}</p>
                                 </div>
@@ -157,13 +160,14 @@
                     {% elif found_document.document_format == "autre" %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/autre.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.jpg")}}">
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        <a class="col-6" href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
                                     {# création d'un lien donnant accès à page dudit document
                                     docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
                                     cet id est récupéré du document trouvé dans la liste de résultats #}
+                                        <img class="col-6" width="10px" src="{{url_for("static", filename="img/download.png")}}">
                                     </h4>
                                     <p class="card-text">{{found_document.document_description}}</p>
                                 </div>
@@ -173,13 +177,14 @@
                     {% else %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" width="80px" src="{{url_for("static", filename="img/autre.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.jpg")}}">
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        <a class="col-6" href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
                                     {# création d'un lien donnant accès à page dudit document
                                     docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
                                     cet id est récupéré du document trouvé dans la liste de résultats #}
+                                        <img class="col-6" width="10px" src="{{url_for("static", filename="img/download.png")}}">
                                     </h4>
                                     <p class="card-text">{{found_document.document_description}}</p>
                                 </div>

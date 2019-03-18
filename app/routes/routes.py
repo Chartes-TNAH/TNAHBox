@@ -76,19 +76,6 @@ def recherche():
     else:
         titre = "Résultat de la recherche"
 
-    # if motclef:
-    #     query = Document.query.join(Tag).filter(or_(
-    #         Document.document_title.like("%{}%".format(motclef)),
-    #         Document.document_format.like("%{}%".format(motclef)),
-    #         Document.document_date.like("%{}%".format(motclef)),
-    #         Document.document_teaching.like("%{}%".format(motclef)),
-    #         Document.document_description.like("%{}%".format(motclef)),
-    #         Tag.tag_label.like("%{}%".format(motclef))
-    #     ))
-    #     titre = "Résultats de la recherche « " + motclef + " »"
-    # else:
-    #     titre = "Résultat de la recherche"
-
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
         titre = titre + " pour la matière " + matiere
