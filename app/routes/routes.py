@@ -8,7 +8,7 @@ from ..app import app, db
 
 from ..constantes import RESULTS_PER_PAGE
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
-from ..modeles.donnees import Document, Authorship, Person
+from ..modeles.donnees import Document, Authorship, Person, Tag
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 @app.route('/')
@@ -57,6 +57,7 @@ def recherche():
 
     # # # REQUÊTAGE EN FONCTION DES PARAMÈTRES DE RECHERCHE DE L'UTILISATEUR
     query = Document.query
+    titre = "Tous les documents"
 
     if motclef:
         query = Document.query.filter(or_(
@@ -65,21 +66,38 @@ def recherche():
             Document.document_date.like("%{}%".format(motclef)),
             Document.document_teaching.like("%{}%".format(motclef)),
             Document.document_description.like("%{}%".format(motclef))))
+            # Document.join(Tag.tag_label.like("%{}%".format(motclef))))
         titre = "Résultats de la recherche pour : « " + motclef + " »"
     else:
         titre = "Résultat de la recherche"
 
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
+        titre = titre + "de matiere" + matiere
 
     if img:
         query = query.filter(Document.document_format == img)
+
+        titre = titre + " de format " + img
+
     if txt:
         query = query.filter(Document.document_format == txt)
+        if img or code or autre:
+            titre = titre + " et " + txt
+        else:
+            titre = titre + "de format" + txt
     if code:
         query = query.filter(Document.document_format == code)
+        if img or txt or autre:
+            titre = titre + " et " + code
+        else:
+            titre = titre + "de format" + code
     if autre:
         query = query.filter(Document.document_format == autre)
+        if img or txt or code:
+            titre = titre + " et " + autre
+        else:
+            titre = titre + "de format" + autre
 
     if date:
         if len(date) == 10:
