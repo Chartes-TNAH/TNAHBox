@@ -1,0 +1,25 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+         {%if person %}| Personne : {{person.person_name}} {% endif %}
+{% endblock %}
+
+
+{% block corps %}
+        {% if person %}
+            <h1>{{person.person_name}} {{person.person_firstName}} ({{person.person_promotion}})</h1>
+<!-- affichage Morillon Marie (2018) ; problème 18 mars 2019 : affichage promotion aléatoire -->
+            <dl>
+                <!-- Rappel : balise dl = élément de liste de descriptions -->
+                <dt>adresse mail :</dt><dd>{{person.person_email}}</dd> <!-- balise dd = élément de détail d'une description -->
+                <dt>linkedIn :</dt><dd>{{person.person_linkedIn}}</dd>
+                <dt>CV :</dt><dd>{{person.person_cv}}</dd>
+                <dt>git :</dt><dd>{{person.person_git}}</dd>
+                <dt>promotion :</dt><dd>{{person.person_promotion}}</dd>
+            </dl>
+        {% else %}
+            <p>La base de données est en cours de constitution : n'hésitez pas à vous inscrire !</p>
+        {% endif %}
+        <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+{% endblock %}

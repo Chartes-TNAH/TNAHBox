@@ -19,12 +19,22 @@ class Person(UserMixin, db.Model):
     person_linkedIn=db.Column(db.Text,unique=True)
     person_cv=db.Column(db.Text)
     person_git=db.Column(db.Text, unique=True)
-    person_promotion=(db.Text)
+    person_promotion=db.Column(db.Text)
     person_is_admin=db.Column(db.Boolean)
     authorships = db.relationship("Authorship", back_populates="person")
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
+
+    def to_dict(self):
+        return {
+            'name': self.person_name,
+            'firstName': self.person_firstName,
+            'email': self.person_email,
+            'git': self.person_git,
+            'promotion': self.person_promotion,
+        }
+    # définition d'une fonction pour déterminer les éléments à afficher dans la page person comme un dictionnaire
 
     def set_password(self, password):
         self.person_password= generate_password_hash(password)

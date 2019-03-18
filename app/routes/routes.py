@@ -174,3 +174,32 @@ def register():
         flash('Inscription enregistrée. Bienvenue !')
         return redirect(url_for('login'))
     return render_template('pages/inscription.html', form=form)
+
+
+@app.route("/person/<int:person_id>")
+def person(person_id):
+    requested_person = Person.query.get(person_id)
+    # variable requested_person appelée pour classe person car requête query
+    return render_template(
+        "pages/person.html",
+        person=requested_person)
+
+
+@app.route("/annuaire")
+def annuaire():
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+        # reprise dans les 4 dernières lignes de code du code utilisé pour la page recherche ; permet à la fonction
+        # paginate de fonctionner
+
+    resultats = []
+    resultats = Person.query.order_by(Person.person_name.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+        # idée : création d'une liste vide, résultats dans laquelle se trouvent toutes les entrées person, requêtées par query
+        # les résultats seront affichés par ordre alphabtique, grâce à order by et asc
+
+    return render_template(
+        "pages/annuaire.html",
+        resultats=resultats)
