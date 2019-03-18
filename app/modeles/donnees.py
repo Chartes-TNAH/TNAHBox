@@ -54,6 +54,16 @@ class Person(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
 
+    def to_dict(self):
+        return {
+            'name': self.person_name,
+            'firstName': self.person_firstName,
+            'email': self.person_email,
+            'git': self.person_git,
+            'promotion': self.person_promotion,
+        }
+    # définition d'une fonction pour déterminer les éléments à afficher dans la page person comme un dictionnaire
+
     def set_password(self, password):
         self.person_password= generate_password_hash(password)
 
