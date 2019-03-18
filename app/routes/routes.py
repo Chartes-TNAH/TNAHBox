@@ -67,39 +67,39 @@ def recherche():
             Document.document_teaching.like("%{}%".format(motclef)),
             Document.document_description.like("%{}%".format(motclef))))
             # Document.join(Tag.tag_label.like("%{}%".format(motclef))))
-        titre = "Résultats de la recherche pour : « " + motclef + " »"
+        titre = "Résultats de la recherche « " + motclef + " »"
     else:
         titre = "Résultat de la recherche"
 
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
-        titre = titre + "de matiere" + matiere
+        titre = titre + " pour la matiere " + matiere
 
     if img:
         query = query.filter(Document.document_format == img)
 
-        titre = titre + " de format " + img
-
+        titre = titre + " pour le format " + img
     if txt:
         query = query.filter(Document.document_format == txt)
         if img or code or autre:
             titre = titre + " et " + txt
         else:
-            titre = titre + "de format" + txt
+            titre = titre + " pour le format " + txt
     if code:
         query = query.filter(Document.document_format == code)
         if img or txt or autre:
             titre = titre + " et " + code
         else:
-            titre = titre + "de format" + code
+            titre = titre + " pour le format " + code
     if autre:
         query = query.filter(Document.document_format == autre)
         if img or txt or code:
             titre = titre + " et " + autre
         else:
-            titre = titre + "de format" + autre
+            titre = titre + " pour le format " + autre
 
     if date:
+        titre = titre + " à la date " + date
         if len(date) == 10:
             query = query.filter(Document.document_date == date)
         if len(date) == 7:
