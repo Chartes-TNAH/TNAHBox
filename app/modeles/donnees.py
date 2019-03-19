@@ -26,13 +26,16 @@ class Document(db.Model):
     document_downloadLink = db.Column(db.Text)
     document_tag = db.relationship("Tag",
                     secondary=HasTag,
-                    backref=db.backref("Document"))
+                    backref=db.backref("Document", lazy='dynamic'))
 
 
 class Tag(db.Model):
     __tablename__ = "Tag"
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     tag_label = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return '{}'.format(self.tag_label)
 
     @staticmethod
     def add_tag(label, docu_id):
@@ -52,12 +55,14 @@ class Tag(db.Model):
         # on ajoute un nouvel enregistrement à la Table Tag
         # où le champ tag_label est rempli avec la valeur de label
 
+        tag_id = Tag.query.filter(Tag.tag_id).all()
+
         new_association = HasTag.insert().values(hasTag_tag_id=tag.tag_id,
                                                  hasTag_doc_id=docu_id)
 
-    # on fait une nouvelle entrée dans la table HasTag
-    # pour associer l'id de ce nouvel enregistrement de la table Tag
-    # à l'id du Document renseigné en paramètre
+        # on fait une nouvelle entrée dans la table HasTag
+        # pour associer l'id de ce nouvel enregistrement de la table Tag
+        # à l'id du Document renseigné en paramètre
 
         try:
             # On essaie d'ajouter et de commit ces deux nouveaux enregistrements
@@ -88,7 +93,7 @@ class Person(UserMixin, db.Model):
     person_is_admin = db.Column(db.Boolean)
     created_document = db.relationship("Document",
                     secondary=Authorship,
-                    backref=db.backref("Person"))
+                    backref=db.backref("Person", lazy='dynamic'))
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)

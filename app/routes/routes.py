@@ -2,7 +2,6 @@ from flask import render_template, request, flash, redirect, url_for
 from sqlalchemy import and_, or_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from app.modeles.donnees import Person
 from app.modeles.utilisateurs import LoginForm, RegistrationForm
 
 
@@ -137,9 +136,6 @@ def document(docu_id):
 
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
-    requested_docu = Document.query.get(docu_id)
-    # stocke dans la variable requested_docu le nom du document correspondant à l'id docu_id
-
     tag_label = request.args.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
     if tag_label:
@@ -147,12 +143,9 @@ def document(docu_id):
         # si j'ai un tag donné par l'utilisateur
         # je l'ajoute à la table Tag et je l'associe avec le document de la page donnée
 
-    tags = Tag.query
-    # tags = Tag.query.filter(Tag.tagged_document.any())
-    # print(tags.all())
-    # je veux une liste des tags de ce document
+    requested_docu = Document.query.get(docu_id)
 
-    return render_template("pages/document.html", docu = requested_docu, tags = tags)
+    return render_template("pages/document.html", docu = requested_docu)
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
