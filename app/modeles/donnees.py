@@ -10,11 +10,6 @@ HasTag = db.Table('HasTag',
     db.Column('hasTag_doc_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
     db.Column('hasTag_tag_id', db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True))
 
-# class HasTag(db.Table):
-#     __tablename__ = "HasTag"
-#     hasTag_doc_id = db.Column(db.Integer, db.ForeignKey('Document.document_id'), primary_key=True)
-#     hasTag_tag_id = db.Column(db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True)
-
 Authorship = db.Table('Authorship',
     db.Column('authorship_person_id', db.Integer, db.ForeignKey('Person.person_id'), primary_key=True),
     db.Column('authorship_document_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
@@ -39,9 +34,6 @@ class Tag(db.Model):
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     tag_label = db.Column(db.String, nullable=False)
 
-    # def __init__(self, label):
-    #     self.tag_label = label
-
     @staticmethod
     def add_tag(label, docu_id):
         '''
@@ -63,7 +55,7 @@ class Tag(db.Model):
         new_association = HasTag.insert().values(hasTag_tag_id=tag.tag_id,
                                                  hasTag_doc_id=docu_id)
 
-    # on fait une nouvelle entrée dans la table Authorship
+    # on fait une nouvelle entrée dans la table HasTag
     # pour associer l'id de ce nouvel enregistrement de la table Tag
     # à l'id du Document renseigné en paramètre
 

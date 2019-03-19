@@ -142,11 +142,17 @@ def document(docu_id):
 
     tag_label = request.args.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
-
     if tag_label:
         Tag.add_tag(tag_label, docu_id)
+        # si j'ai un tag donné par l'utilisateur
+        # je l'ajoute à la table Tag et je l'associe avec le document de la page donnée
 
-    return render_template("pages/document.html", docu=requested_docu)
+    tags = Tag.query
+    # tags = Tag.query.filter(Tag.tagged_document.any())
+    # print(tags.all())
+    # je veux une liste des tags de ce document
+
+    return render_template("pages/document.html", docu = requested_docu, tags = tags)
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
