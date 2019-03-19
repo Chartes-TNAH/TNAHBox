@@ -9,15 +9,21 @@
 
 <div class="col-md-8 order-md-1" style="margin-left: 12em">
       <form class="needs-validation" novalidate>
+          <form action="" method="post">
+        {{ form.hidden_tag() }}
+
 
         <div class="mb-3">
-            <label for="document_title"><b>Titre du document</b></label>
+            <b>{{ form.document_title.label }}</b><br>
+            {{ form.document_title(size=20)}}
+          <!--
+          <label for="document_title"><b>titre du document</b></label>
           <div class="input-group">
             <input type="text" class="form-control" id="document_title" placeholder="Titre du document" required>
             <div class="invalid-feedback" style="width: 100%;">
               Le document doit avoir un titre.
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div class="mb-3">
@@ -62,14 +68,24 @@
         </div>
 
         <div class="mb-3">
+            <b>{{ form.document_date.label }}</b><br>
+            {{ form.document_date(size=20)}}
+            <!--
             <label for="document_date"><b>Date du cours</b></label>
           <input type="text" class="form-control" id="document_date" placeholder="Date" required>
         </div>
           <div class="invalid-feedback">
             Veuillez renseigner une date pour ce document.
+            -->
           </div>
 
+
+
+
           <div class="mb-3">
+              <b>{{ form.document_description.label }}</b><br>
+            {{ form.document_description(size=20)}}
+              <!--
             <label for="document_description"><b>Description du document</b></label>
           <div class="input-group">
             <input type="text" class="form-control" id="document_description" placeholder="Description du document" required>
@@ -77,9 +93,12 @@
               Le document doit être décrit au moins succinctement.
             </div>
           </div>
+              -->
         </div>
+                  </form>
       </form>
 </div>
+
 
 
     <input id="btsub" type="submit" value="importer" style="margin-left: 30em"/>
