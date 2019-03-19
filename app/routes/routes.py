@@ -139,9 +139,13 @@ def document(docu_id):
     tag_label = request.args.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
     if tag_label:
-        Tag.add_tag(tag_label, docu_id)
+        tag = Tag.add_tag(tag_label)
         # si j'ai un tag donné par l'utilisateur
         # je l'ajoute à la table Tag et je l'associe avec le document de la page donnée
+        tag_id = tag.get_id()
+        # je récupère l'id du tag qu'on vient d'ajouter à la BDD
+        Tag.associate_tag_and_docu(tag_id, docu_id)
+        # j'associe ce tag au document de la page courante
 
     requested_docu = Document.query.get(docu_id)
 

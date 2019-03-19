@@ -28,6 +28,9 @@ class Document(db.Model):
                     secondary=HasTag,
                     backref=db.backref("Document", lazy='dynamic'))
 
+    def get_id(self):
+        return(self.document_id)
+
 
 class Tag(db.Model):
     __tablename__ = "Tag"
@@ -37,44 +40,59 @@ class Tag(db.Model):
     def __repr__(self):
         return '{}'.format(self.tag_label)
 
+    def get_id(self):
+        return(self.tag_id)
+
     @staticmethod
-    def add_tag(label, docu_id):
+    def add_tag(label):
         '''
-        Fonction qui permet d'ajouter un tag à un document
+        Fonction qui permet d'ajouter un tag dans la BDD
         :param label: label du tag à ajoute (str)
-        :param docu_id: identifiant du document auquel ajouter le tag (int)
         :return: renvoie le tag nouvellement créé dans la BDD
         '''
         erreurs = []
         if not label:
             erreurs.append("Le tag fourni est vide")
-        if not docu_id:
-            erreurs.append("Il n'y a pas d'identifiant de document")
 
         tag = Tag(tag_label=label)
         # on ajoute un nouvel enregistrement à la Table Tag
         # où le champ tag_label est rempli avec la valeur de label
 
-        tag_id = Tag.query.filter(Tag.tag_id).all()
-
-        new_association = HasTag.insert().values(hasTag_tag_id=tag.tag_id,
-                                                 hasTag_doc_id=docu_id)
-
-        # on fait une nouvelle entrée dans la table HasTag
-        # pour associer l'id de ce nouvel enregistrement de la table Tag
-        # à l'id du Document renseigné en paramètre
-
         try:
-            # On essaie d'ajouter et de commit ces deux nouveaux enregistrements
+            # On essaie d'ajouter et de commit ce nouvel enregistrement
             db.session.add(tag)
-            db.session.execute(new_association)
-            # On envoie le paquet
             db.session.commit()
 
-            # On renvoie l'utilisateur
-            return True, tag
+            # On renvoie le tag
+            return tag
         except Exception as erreur:
             return False, [str(erreur)]
+
+
+    @staticmethod
+    def associate_tag_and_docu(tag_id, docu_id):
+        '''
+        Fonction qui permet d'asssocier un tag à un document
+        :param tag_id: identifiant du tag à ajouter au document (int)
+        :param docu_id: identifiant du document auquel ajouter le tag (int)
+        :return: renvoie une liste d'erreurs s'il y en a
+        '''
+        erreurs = []
+        if not tag_id:
+            erreurs.append("Il n'y a pas de tag à asssocier")
+        if not docu_id:
+            erreurs.append("Il n'y a pas de document à asssocier")
+
+        new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
+                                                 hasTag_doc_id=docu_id)
+        # je force l'ajout d'un nouvel enregistrement
+        # dans la table de relation HasTag
+
+        db.session.execute(new_association)
+        # On envoie le paquet
+        db.session.commit()
+
+        return erreurs
 
 
 class Person(UserMixin, db.Model):
