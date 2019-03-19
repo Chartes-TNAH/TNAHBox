@@ -1,13 +1,81 @@
 {% extends 'conteneur.html' %}
 
-{% block title %}Upload d'images{% endblock %}
+{% block title %}{{titre}}{% endblock %}
 
 {% block corps %}
 <h1>Choisissez un fichier à importer dans TNAH BOX :</h1>
 <form action="" method="post" enctype="multipart/form-data">
     <label for="fic">Fichier</label><input id="fic" type="file" name="fic" />
 
+<div class="col-md-8 order-md-1" style="margin-left: 12em">
+      <form class="needs-validation" novalidate>
 
-    <input id="btsub" type="submit" value="importer" />
+        <div class="mb-3">
+            <label for="document_title"><b>Titre du document</b></label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="document_title" placeholder="Titre du document" required>
+            <div class="invalid-feedback" style="width: 100%;">
+              Le document doit avoir un titre.
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+             <form class="form" id="matiere-form" action="{{url_for('recherche')}}" method="GET">
+                <div style="margin-top: 1em" class="form-group" id="form-matiere">
+                    <div class="row">
+                        <label for="form-matiere" style="padding-left: 15px;"><b>Matière</b></label>
+                    </div>
+                    <select form="matiere-form" name="matiere" class="form-control" id="exampleFormControlSelect1" required>
+                        <option value="">Toutes les matières</option>
+                        {%- for matiere in matieres %}
+                            <option value="{{matiere}}">{{matiere}}</option>
+                        {%- endfor %}
+            <!-- itération sur la variable matiere dans matieres pour avoir les matières enregistrées dans la BDD -->
+                    </select>
+             <div class="invalid-feedback">
+            Veuillez renseigner une matière pour ce document.
+             </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="mb-3">
+            <form class="form" id="format-form" action="{{url_for('recherche')}}" method="GET">
+                <div style="margin-top: 1em" class="form-group" id="form-format">
+                    <div class="row">
+                        <label for="form-format" style="padding-left: 15px;"><b>Format</b></label>
+                    </div>
+                    <select form="format-form" name="format" class="form-control" id="exampleFormControlSelect2" required>
+                        <option value="">Formats proposés</option>
+                        {%- for format in formats %}
+                            <option value="{{format}}">{{format}}</option>
+                        {%- endfor %}
+            <!-- même itération que pour matiere -->
+                    </select>
+             <div class="invalid-feedback">
+            Veuillez renseigner un format pour ce document.
+             </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="mb-3">
+            <label for="document_date"><b>Date du cours</b></label>
+          <input type="text" class="form-control" id="document_date" placeholder="Date" required>
+        </div>
+          <div class="invalid-feedback">
+            Veuillez renseigner une date pour ce document.
+          </div>
+      </form>
+</div>
+
+
+    <input id="btsub" type="submit" value="importer" style="margin-left: 30em"/>
 </form>
+
+
 {% endblock %}
+
+<!-- pour rendu visuel, modèle bootstrap utilisé : view-source:https://getbootstrap.com/docs/4.3/examples/checkout/ -->

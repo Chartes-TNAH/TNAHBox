@@ -194,6 +194,20 @@ def extension_ok(nom_fichier):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    docuMatiere = Document.document_teaching
+    matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
+    matieres = [mat[0] for mat in matieres.all()]
+
+    query = Document.query
+    titre = "Tous les documents"
+
+    docuFormat = Document.document_format
+    formats = Document.query.with_entities(docuFormat).order_by(docuFormat).distinct(docuFormat)
+    formats = [formt[0] for formt in formats.all()]
+
+    query = Document.query
+    titre = "Tous les documents"
+
     if request.method == 'POST':
         f = request.files['fic']
         # dans f, on stocke le nom du fichier uploader mis en argument de l'URL
@@ -207,4 +221,4 @@ def upload():
                 flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
         else:
             flash(u'Vous avez oublié le fichier !', 'error')
-    return render_template('pages/import.html')
+    return render_template('pages/import.html', matieres=matieres, formats=formats)
