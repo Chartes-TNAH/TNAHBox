@@ -4,11 +4,47 @@
 
 {% block corps %}
 
-    <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p>
+    <!-- conserver cette ligne ? correspond au premier code de la page <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p> -->
     <h1 class="h3 mb-3 font-weight-normal">Bienvenue sur la page d'accueil du projet TNAHBox !</h1>
 <body class="text-center">
     <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
     <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
+    <!-- deux boutons menant aux pages inscription et description -->
+    <p><!-- essai desgin ligne vide, sinon empilement des svg rounded et button --></p>
+
+
+
+     <div class="container marketing">
+    <div class="row">
+        {% for found_document in resultats %}
+        <!-- lien fait entre la list requêtée de résultats et la variable found_document -->
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
+            <title>{{found_document.document_format}}</title>
+            <!-- il faudra essayer d'afficher le type de format avec image de format par Ségolène -->
+            <rect width="100%" height="100%" fill="#777"/>
+            <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+        </svg>
+        <h2>{{found_document.document_title}}</h2>
+          {% if found_document.document_description %}
+        <p>{{found_document.document_description}}</p>
+          {% else %}
+          <p>Il n'y a pas de description pour ce document</p>
+          <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
+          {% endif %}
+        <p><a class="btn btn-secondary" href="{{url_for('document', docu_id = found_document.document_id)}}" role="button">View details &raquo;</a>
+        <!-- permet grâce au lien d'accéder à la page de chaque document.--></p>
+          <!-- essayer : si personne connectée, donner accès à la page, sinon, envoyer un message "vous n'êtes pas connecté" -->
+      </div>
+
+         {% endfor %}
+    </div>
+     </div>
+
+        <!-- design repris depuis view-source:https://getbootstrap.com/docs/4.3/examples/carousel/
+     objectif : afficher trois documents sur la page d'accueil -->
+
+
 </body>
 
 {% endblock %}
