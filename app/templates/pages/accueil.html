@@ -4,6 +4,11 @@
 
 {% block corps %}
 
-    <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les document</a></p>
+    <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p>
+    <h1 class="h3 mb-3 font-weight-normal">Bienvenue sur la page d'accueil du projet TNAHBox !</h1>
+<body class="text-center">
+    <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
+    <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
+</body>
 
 {% endblock %}
