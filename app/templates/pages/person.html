@@ -28,9 +28,9 @@
 
 
 <div class="row">
-  <div class="col-md-7 text-white rounded bg-dark">
+  <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 12em; padding-left: 1em;">
 <!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
-    <div class="col-md-8">
+    <div class="col-md-10">
       <h1 class="display-4 font-italic">{{person.person_firstName}} {{person.person_name}}</h1>
         <!-- affichage Prénom Nom -->
       <p class="lead my-3">promotion : {{person.person_promotion}}</p>
@@ -40,13 +40,12 @@
             <p>Le CV de {{person.person_firstName}} {{person.person_name}} n'a pas été rempli.</p>
         {% endif %}
     </div>
-
   </div>
 
 
-     <div class="col-md-5">
+     <div class="col-md-4" style="margin-right: 12em; margin-botoom: 20em">
           <div class="p-4 mb-3 bg-light rounded">
-            <h4 class="font-italic">Elsewhere</h4>
+            <h4 class="font-italic" style="text-align: center">Elsewhere</h4>
             <ol class="list-unstyled">
               <li>GitHub :
                   {% if person.person_git %}
@@ -58,7 +57,7 @@
                 </li>
               <li>linkedIn :
                   {% if person.person_linkedIn %}
-                  <a href="{{person.person_linkedIn}}">LinkedIn</a>
+                  <a href="{{person.person_linkedIn}}">{{person.person_firstName}} {{person.person_name}}</a>
                   {% else %}
                    <span style="color: grey;">Aucun compte LinkedIn n'a été renseigné.</span>
                 {% endif %}
@@ -74,11 +73,9 @@
 
 
 
-<footer class="footer">
-      <ul class="container" style="color:tomato; border-style:rounded; padding-top: 50px; padding-right: 30px; padding-bottom: 50px; padding-left: 80px;">
-        <li class="text-muted" style="list-style-type: none"><a href="{{url_for('accueil')}}">Retour à l'accueil</a></li>
-          <li class="text-muted" style="list-style-type: none"><a href="{{url_for('annuaire')}}">Retour à l'annuaire</a></li>
-      </ul>
+<footer class="footer" style="margin-top: 8em; text-align: center">
+    <a href="{{url_for('accueil')}}" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Retour à l'accueil</a>
+    <a href="{{url_for('annuaire')}}" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Retour à l'annuaire</a>
 </footer>
 
 

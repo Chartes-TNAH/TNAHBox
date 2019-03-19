@@ -200,7 +200,7 @@ def register():
     return render_template('pages/inscription.html', form=form)
 
 
-@app.route("/person/<int:person_id>")
+@app.route("/personne/<int:person_id>")
 def person(person_id):
     requested_person = Person.query.get(person_id)
     # variable requested_person appelée pour classe person car requête query
