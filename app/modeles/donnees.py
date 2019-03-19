@@ -49,7 +49,15 @@ class Document(db.Model):
         if not title:
             erreurs.append("Veuillez renseigner un titre pour ce document.")
         if not description:
-            erreurs.append("Veuillez renseigner un titre pour ce document.")
+            erreurs.append("Veuillez renseigner une description pour ce document.")
+        if not format:
+            erreurs.append("Veuillez renseigner un format pour ce document.")
+        if not date:
+            erreurs.append("Veuillez renseigner une date pour ce document.")
+        if not matiere:
+            erreurs.append("Veuillez renseigner une matière pour ce document.")
+        if not downloadLink:
+            erreurs.append("Veuillez renseigner un lien de téléchargement pour ce document.")
 
         docu = Document(document_title=title,
                         document_description=description,
@@ -57,11 +65,10 @@ class Document(db.Model):
                         document_date=date,
                         document_teaching=matiere,
                         document_dowloadLink=downloadLink)
-        # on a ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
+        # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
 
         new_association = Authorship.insert().values(authorship_person_id=user_id,
                                                  authorship_document_id=docu.document_id)
-
         # on force l'ajout d'une nouvelle entrée dans la table de relation Authorship
 
         try:

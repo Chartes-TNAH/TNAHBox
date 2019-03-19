@@ -4,6 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug import secure_filename
 from app.modeles.donnees import Person
+from app.modeles.donnees import Document
 from app.modeles.utilisateurs import LoginForm, RegistrationForm
 
 
@@ -221,4 +222,18 @@ def upload():
                 flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
         else:
             flash(u'Vous avez oublié le fichier !', 'error')
-    return render_template('pages/import.html', matieres=matieres, formats=formats)
+
+    form = ImportForm()
+    if form.validate_on_submit():
+            imp = Document(document_title=form.document_title.data,
+                           document_description=form.document_description.data,
+                           document_format=form.document_format.data,
+                           document_date=form.document_date.data,
+                           document_teaching=form.document_teaching.data,
+                           document_downloadLink=form.document_downloadLink.data)
+            #manque trois lignes de code, demander à Lauryne, comprendre :
+            #user.set_password(form.person_password.data)
+            #db.session.add(user)
+            #db.session.commit()
+        flash('Document enregistré ! merci :)')
+    return render_template('pages/import.html', matieres=matieres, formats=formats, form=form)
