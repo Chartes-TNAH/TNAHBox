@@ -18,14 +18,29 @@
                     <dt>Description</dt><dd>{{docu.document_description}}</dd>
                     <dt>Format</dt><dd>{{docu.document_format}}</dd>
                     <dt>Date</dt><dd>{{docu.document_date}}</dd>
-                    <a class="btn btn-primary" href="#">Aperçu</a>
+                    <div class="row">
+                        <a class="btn btn-lg" style="background-color: #70b7c2; color: white" href="#">Aperçu</a>
+                         <a href="#">
+                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 40px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de télécharment">
+                    </a>
+                    <a href="#">
+                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 40px" src="{{url_for("static", filename="img/preview_picto.png")}}" alt="Icone de prévisualisation">
+                    </a>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <dt>Tag</dt><dd>{{docu.document_teaching}}</dd>
                     <dt>Auteur</dt><dd>{{docu.document_description}}</dd>
                     <dt>Format</dt><dd>{{docu.document_format}}</dd>
                     <dt>Date</dt><dd>{{docu.document_date}}</dd>
-                    <a class="btn btn-primary" href="#">Téléchargement</a>
+                    <form class="form" id="recherche-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="tag" class="form-control form-control-lg" placeholder="Tag …">
+                            <span class="input-group-btn">
+                                <button class="btn btn-lg" style="background-color: #70b7c2" href="#" role="button">Insérer</button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
             </div>
         {% endif %}

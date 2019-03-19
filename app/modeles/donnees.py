@@ -28,6 +28,42 @@ class Document(db.Model):
                     secondary=HasTag,
                     backref=db.backref("Document"))
 
+    @staticmethod
+    def add_tag(label, docu_id):
+        '''
+        Fonction qui permet d'ajouter un tag à un document
+        :param label: label du tag à ajoute (str)
+        :param docu_id: identifiant du document auquel ajouter le tag (int)
+        :return: renvoie le tag nouvellement créé dans la BDD
+        '''
+        erreurs = []
+        if not label:
+            erreurs.append("Le tag fourni est vide")
+        if not docu_id:
+            erreurs.append("Il n'y a pas d'identifiant de document")
+
+        tag = Tag(tag_label = label)
+        # on ajoute un nouvel enregistrement à la Table Tag
+        # où le champ tag_label est rempli avec la valeur de label
+
+        authorship = Authorship(hasTag_tag_id = tag.tag_id,
+                                hasTag_doc_id = docu_id)
+        # on fait une nouvelle entrée dans la table Authorship
+        # pour associer l'id de ce nouvel enregistrement de la table Tag
+        # à l'id du Document renseigné en paramètre
+
+        try:
+            # On essaie d'ajouter et de commit ces deux nouveaux enregistrements
+            db.session.add(tag)
+            db.session.add(authorship)
+            # On envoie le paquet
+            db.session.commit()
+
+            # On renvoie l'utilisateur
+            return True, tag
+        except Exception as erreur:
+            return False, [str(erreur)]
+
 class Tag(db.Model):
     __tablename__ = "Tag"
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
