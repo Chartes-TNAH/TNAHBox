@@ -109,7 +109,7 @@
 
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/img.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/img.png")}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-6">
@@ -119,7 +119,7 @@
                                             cet id est récupéré du document trouvé dans la liste de résultats #}
                                         </h4>
                                         <a class="col-md-6" href="#">
-                                            <img class="col-6" align="right" style="height: auto; width: auto;" src="{{url_for("static", filename="img/download.png")}}">
+                                            <img class="col-6" align="right" style="height: auto; width: auto;" src="{{url_for("static", filename="img/download_picto.png")}}">
                                         </a>
                                     </div>
                                     <p class="card-text">{{found_document.document_description}}</p>
@@ -130,7 +130,7 @@
                     {% elif found_document.document_format == "texte" %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/txt.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/txt.png")}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-6">
@@ -140,7 +140,7 @@
                                             cet id est récupéré du document trouvé dans la liste de résultats #}
                                         </h4>
                                         <a class="col-md-6" href="#">
-                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download.png")}}">
+                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download_picto.png")}}">
                                         </a>
                                     </div>
                                     <p class="card-text">{{found_document.document_description}}</p>
@@ -151,7 +151,7 @@
                     {% elif found_document.document_format == "code" %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/code.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/code.png")}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-6">
@@ -161,7 +161,7 @@
                                             cet id est récupéré du document trouvé dans la liste de résultats #}
                                         </h4>
                                         <a class="col-md-6" href="#">
-                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download.png")}}">
+                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download_picto.png")}}">
                                         </a>
                                     </div>
                                     <p class="card-text">{{found_document.document_description}}</p>
@@ -172,7 +172,7 @@
                     {% elif found_document.document_format == "autre" %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.png")}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-6">
@@ -182,7 +182,7 @@
                                             cet id est récupéré du document trouvé dans la liste de résultats #}
                                         </h4>
                                         <a class="col-md-6" href="#">
-                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download.png")}}">
+                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download_picto.png")}}">
                                         </a>
                                     </div>
                                     <p class="card-text">{{found_document.document_description}}</p>
@@ -193,7 +193,7 @@
                     {% else %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.jpg")}}">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.png")}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-6">
@@ -203,7 +203,7 @@
                                             cet id est récupéré du document trouvé dans la liste de résultats #}
                                         </h4>
                                         <a class="col-md-6" href="#">
-                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download.png")}}">
+                                            <img class="col-6" align="right" src="{{url_for("static", filename="img/download_picto.png")}}">
                                         </a>
                                     </div>
                                     <p class="card-text">{{found_document.document_description}}</p>
