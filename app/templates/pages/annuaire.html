@@ -15,7 +15,8 @@
       <p class="lead text-muted">Ecrire un petit texte pour présenter les sympathiques étudiants du master et les informations qui seront disponibles à propos d'eux sur cette page : noms et prénoms, promotion, CV, linkedIn, Git, et s'ils ont été professeurs ou non</p>
          <p style="padding-left: 20px">Il y a {{resultats.total}} personnes inscrites sur l'annuaire TNAH :</p>
           <button type="button" class="btn btn-outline-light" style="color: #55595c" disabled>Étudiants</button>
-          <button type="button" class="btn btn-outline-light" style="color: #BF8BB8" disabled>Professeurs</button>
+          <button type="button" class="btn btn-outline-light" style="color: #BD052D" disabled>Professeurs</button>
+
 
 
     </div>
@@ -27,10 +28,10 @@
       <div class="row">
 {% for found_person in resultats.items %}
         <div class="col-md-4">
-          <div class="card mb-6 shadow-sm">
+          <div class="card mb-4 shadow-sm">
             <svg class="bd-placeholder-img card-img-top">
                 {% if found_person.person_is_teacher %}
-                <rect width="100%" height="100%" fill="#BF8BB8"/>
+                <rect width="100%" height="100%" fill="#BD052D"/><!-- couleur de l'ENC -->
                 {% else %}
                 <rect width="100%" height="100%" fill="#55595c"/>
                 {% endif %}
