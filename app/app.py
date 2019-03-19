@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_admin import Admin
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import os
@@ -23,6 +25,9 @@ app = Flask(
     template_folder=templates,
     static_folder=statics
 )
+
+admin = Admin(app, name='TNAHBox [administateur]')
+
 # on initie l'app où le nom __name__ sera précisé dans la configuration (config_app())
 # et on définit les dossiers contenants les templates et les statics
 
