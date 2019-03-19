@@ -28,6 +28,53 @@ class Document(db.Model):
                     secondary=HasTag,
                     backref=db.backref("Document"))
 
+    @staticmethod
+    def add_doc(user_id, title, description, format, date, matiere, downloadLink):
+        """
+        Fonction qui permet d'ajouter un nouveau document dans la BDD
+        ainsi qu'une nouvelle entrée dans la table Authorship liant l'utilisateur (identifié avec user_id)
+        et le document nouvellement créé
+        :param user_id: identifiant de l'utilisateur connecté (int)
+        :param title: titre donné au document (str)
+        :param description: courte présentation sur le doc (str)
+        :param format: "image", "texte", "code" ou "autre" (str)
+        :param date: date du cours rentrée par utilisateur (str)
+        :param matiere: matière de l'enseignement (str)
+        :param downloadLink: lien de téléchargement du document (str)
+        :return:
+        """
+        erreurs = []
+        if not user_id:
+            erreurs.append("aucun identifiant d'utilisateur identifié.")
+        if not title:
+            erreurs.append("Veuillez renseigner un titre pour ce document.")
+        if not description:
+            erreurs.append("Veuillez renseigner un titre pour ce document.")
+
+        docu = Document(document_title=title,
+                        document_description=description,
+                        document_format=format,
+                        document_date=date,
+                        document_teaching=matiere,
+                        document_dowloadLink=downloadLink)
+        # on a ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
+
+        new_association = Authorship.insert().values(authorship_person_id=user_id,
+                                                 authorship_document_id=docu.document_id)
+
+        # on force l'ajout d'une nouvelle entrée dans la table de relation Authorship
+
+        try:
+            # On essaie d'ajouter et de commit ces deux nouveaux enregistrements
+            db.session.add(docu)
+            db.session.execute(new_association)
+            # On envoie le paquet
+            db.session.commit()
+
+            return True, docu
+        except Exception as erreur:
+            return False, [str(erreur)]
+
 class Tag(db.Model):
     __tablename__ = "Tag"
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
