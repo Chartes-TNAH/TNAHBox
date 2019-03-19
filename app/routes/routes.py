@@ -148,8 +148,10 @@ def document(docu_id):
         # j'associe ce tag au document de la page courante
 
     requested_docu = Document.query.get(docu_id)
+    auteur = Person.query.filter(Person.created_document.contains(requested_docu))
+    print(auteur.all())
 
-    return render_template("pages/document.html", docu = requested_docu)
+    return render_template("pages/document.html", docu = requested_docu, auteur = auteur)
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
