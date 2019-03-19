@@ -10,6 +10,11 @@ HasTag = db.Table('HasTag',
     db.Column('hasTag_doc_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
     db.Column('hasTag_tag_id', db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True))
 
+# class HasTag(db.Table):
+#     __tablename__ = "HasTag"
+#     hasTag_doc_id = db.Column(db.Integer, db.ForeignKey('Document.document_id'), primary_key=True)
+#     hasTag_tag_id = db.Column(db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True)
+
 Authorship = db.Table('Authorship',
     db.Column('authorship_person_id', db.Integer, db.ForeignKey('Person.person_id'), primary_key=True),
     db.Column('authorship_document_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
@@ -28,6 +33,15 @@ class Document(db.Model):
                     secondary=HasTag,
                     backref=db.backref("Document"))
 
+
+class Tag(db.Model):
+    __tablename__ = "Tag"
+    tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    tag_label = db.Column(db.String, nullable=False)
+
+    # def __init__(self, label):
+    #     self.tag_label = label
+
     @staticmethod
     def add_tag(label, docu_id):
         '''
@@ -42,20 +56,21 @@ class Document(db.Model):
         if not docu_id:
             erreurs.append("Il n'y a pas d'identifiant de document")
 
-        tag = Tag(tag_label = label)
+        tag = Tag(tag_label=label)
         # on ajoute un nouvel enregistrement à la Table Tag
         # où le champ tag_label est rempli avec la valeur de label
 
-        authorship = Authorship(hasTag_tag_id = tag.tag_id,
-                                hasTag_doc_id = docu_id)
-        # on fait une nouvelle entrée dans la table Authorship
-        # pour associer l'id de ce nouvel enregistrement de la table Tag
-        # à l'id du Document renseigné en paramètre
+        new_association = HasTag.insert().values(hasTag_tag_id=tag.tag_id,
+                                                 hasTag_doc_id=docu_id)
+
+    # on fait une nouvelle entrée dans la table Authorship
+    # pour associer l'id de ce nouvel enregistrement de la table Tag
+    # à l'id du Document renseigné en paramètre
 
         try:
             # On essaie d'ajouter et de commit ces deux nouveaux enregistrements
             db.session.add(tag)
-            db.session.add(authorship)
+            db.session.execute(new_association)
             # On envoie le paquet
             db.session.commit()
 
@@ -64,10 +79,6 @@ class Document(db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
-class Tag(db.Model):
-    __tablename__ = "Tag"
-    tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
-    tag_label = db.Column(db.String, nullable=False)
 
 class Person(UserMixin, db.Model):
     __tablename__ = "Person"

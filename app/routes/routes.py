@@ -135,12 +135,16 @@ def document(docu_id):
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
     au document dont l'id est donnée en paramètre
 
-    :param docu_id: Identifiant d'un document de la base de données
-
+    :param docu_id: Identifiant d'un document de la base de données (int)
     """
-
     requested_docu = Document.query.get(docu_id)
     # stocke dans la variable requested_docu le nom du document correspondant à l'id docu_id
+
+    tag_label = request.args.get("tag", None)
+    # on stocke le label du tag donné par l'utilisateur
+
+    if tag_label:
+        Tag.add_tag(tag_label, docu_id)
 
     return render_template("pages/document.html", docu=requested_docu)
 
