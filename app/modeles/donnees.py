@@ -26,12 +26,95 @@ class Document(db.Model):
     document_downloadLink = db.Column(db.Text)
     document_tag = db.relationship("Tag",
                     secondary=HasTag,
-                    backref=db.backref("Document"))
+                    backref=db.backref("Document", lazy='dynamic'))
+
+    def get_id(self):
+        return(self.document_id)
+
 
 class Tag(db.Model):
     __tablename__ = "Tag"
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     tag_label = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return '{}'.format(self.tag_label)
+
+    def get_id(self):
+        return(self.tag_id)
+
+    @staticmethod
+    def add_tag(label):
+        '''
+        Fonction qui permet d'ajouter un tag dans la BDD
+        :param label: label du tag à ajoute (str)
+        :return: renvoie le tag nouvellement créé dans la BDD
+        '''
+        erreurs = []
+        if not label:
+            erreurs.append("Le tag fourni est vide")
+
+        all_tag_labels = Tag.query.with_entities(Tag.tag_label)
+        all_tag_labels = [tlbl[0] for tlbl in all_tag_labels.all()]
+        # je récupère tous les enregistrements de tag_label dans la table Tag
+
+        if label:
+            if label not in all_tag_labels:
+                tag = Tag(tag_label=label)
+                # si mon tag n'est pas déjà dans la table tag
+                # je crée un nouvel enregistrement
+                # On essaie d'ajouter et de commit ce nouvel enregistrement
+                db.session.add(tag)
+                db.session.commit()
+            else: # si j'ai déjà un tag déjà ainsi nommé
+                tag = Tag.query.filter(Tag.tag_label == label).first()
+                # j'assigne à tag, la valeur de l'enregistrement dont le label
+                # correspond bien à celui renseigné en paramètre
+
+        try:
+            return tag
+        except Exception as erreur:
+            return False, [str(erreur)]
+
+
+    @staticmethod
+    def associate_tag_and_docu(tag_id, docu_id):
+        '''
+        Fonction qui permet d'asssocier un tag à un document
+        :param tag_id: identifiant du tag à ajouter au document (int)
+        :param docu_id: identifiant du document auquel ajouter le tag (int)
+        :return: renvoie une liste d'erreurs s'il y en a
+        '''
+        erreurs = []
+        if not tag_id:
+            erreurs.append("Il n'y a pas de tag à asssocier")
+        if not docu_id:
+            erreurs.append("Il n'y a pas de document à asssocier")
+
+        # tagged_documents = HasTag.query.all()
+        # association = HasTag.query.get(docu_id, tag_id)
+        #
+        # if association:
+        #     pass
+        # else:
+        #     new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
+        #                                             hasTag_doc_id=docu_id)
+        #     # je force l'ajout d'un nouvel enregistrement
+        #     # dans la table de relation HasTag
+        #     db.session.execute(new_association)
+        #     # On envoie le paquet
+        #     db.session.commit()
+
+        new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
+                                                 hasTag_doc_id=docu_id)
+        # je force l'ajout d'un nouvel enregistrement
+        # dans la table de relation HasTag
+        db.session.execute(new_association)
+        # On envoie le paquet
+        db.session.commit()
+
+        return erreurs
+
 
 class Person(UserMixin, db.Model):
     __tablename__ = "Person"
@@ -49,7 +132,7 @@ class Person(UserMixin, db.Model):
     person_is_admin = db.Column(db.Boolean)
     created_document = db.relationship("Document",
                     secondary=Authorship,
-                    backref=db.backref("Person"))
+                    backref=db.backref("Person")) #, lazy='dynamic'))
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
