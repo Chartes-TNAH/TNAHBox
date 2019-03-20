@@ -164,13 +164,7 @@ def recherche():
             pass
 
     if date:
-        titre = titre + " à la date " + date
-        if len(date) == 10:
-            query = query.filter(Document.document_date == date)
-        if len(date) == 7:
-            query = query.filter(str(Document.document_date)[0:7] == date)
-        if len(date) == 4:
-            query = query.filter(str(Document.document_date)[0:4] == date)
+        query = Document.query.filter(Document.document_date.like("%{}%".format(date)))
 
 
     resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
