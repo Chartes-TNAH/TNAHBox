@@ -80,7 +80,7 @@ class Tag(db.Model):
     @staticmethod
     def associate_tag_and_docu(tag_id, docu_id):
         '''
-        Fonction qui permet d'asssocier un tag à un document
+        Fonction qui permet d'associer un tag à un document
         :param tag_id: identifiant du tag à ajouter au document (int)
         :param docu_id: identifiant du document auquel ajouter le tag (int)
         :return: renvoie une liste d'erreurs s'il y en a
