@@ -91,13 +91,24 @@ class Tag(db.Model):
         if not docu_id:
             erreurs.append("Il n'y a pas de document à asssocier")
 
-        authorships = Authorship.query.all()
+        # tagged_documents = HasTag.query.all()
+        # association = HasTag.query.get(docu_id, tag_id)
+        #
+        # if association:
+        #     pass
+        # else:
+        #     new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
+        #                                             hasTag_doc_id=docu_id)
+        #     # je force l'ajout d'un nouvel enregistrement
+        #     # dans la table de relation HasTag
+        #     db.session.execute(new_association)
+        #     # On envoie le paquet
+        #     db.session.commit()
 
         new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
                                                  hasTag_doc_id=docu_id)
         # je force l'ajout d'un nouvel enregistrement
         # dans la table de relation HasTag
-
         db.session.execute(new_association)
         # On envoie le paquet
         db.session.commit()

@@ -79,28 +79,89 @@ def recherche():
         query = query.filter(Document.document_teaching == matiere)
         titre = titre + " pour la matière " + matiere
 
-    if img:
-        query = query.filter(Document.document_format == img)
-
-        titre = titre + " pour le format " + img
-    if txt:
-        query = query.filter(Document.document_format == txt)
-        if img or code or autre:
-            titre = titre + " et " + txt
-        else:
+    # # # REQUÊTAGE EN FONCTION DES CHECKBOXES
+    if img or txt or code or autre:
+        # si une case format est cochée
+        if img and txt and code and autre:
+            titre = titre + " pour tous les formats"
+        elif img and txt and code:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt,
+                Document.document_format == code,
+            ))
+            titre = titre + " pour les formats " + img + ", " + txt + " et " + code
+        elif img and txt and autre:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt,
+                Document.document_format == autre,
+            ))
+            titre = titre + " pour les formats " + img + ", " + txt + " ou " + autre
+        elif img and code and autre:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == code,
+                Document.document_format == autre,
+            ))
+            titre = titre + " pour les formats " + img + ", " + code + " ou " + autre
+        elif txt and code and autre:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == code,
+                Document.document_format == autre,
+            ))
+            titre = titre + " pour les formats " + txt + ", " + code + " ou " + autre
+        elif img and txt:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt
+            ))
+            titre = titre + " pour les formats " + img + " et " + txt
+        elif img and code:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == code
+            ))
+            titre = titre + " pour les formats " + img + " et " + code
+        elif img and autre:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == autre
+            ))
+            titre = titre + " pour les formats " + img + " et " + autre
+        elif txt and code:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == code
+            ))
+            titre = titre + " pour les formats " + txt + " et " + code
+        elif txt and autre:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == autre
+            ))
+            titre = titre + " pour les formats " + txt + " et " + autre
+        elif code and autre:
+            query = query.filter(or_(
+                Document.document_format == code,
+                Document.document_format == autre
+            ))
+            titre = titre + " pour les formats " + code + " et " + autre
+        elif img:
+            query = query.filter(Document.document_format == img)
+            titre = titre + " pour le format " + img
+        elif txt:
+            query = query.filter(Document.document_format == txt)
             titre = titre + " pour le format " + txt
-    if code:
-        query = query.filter(Document.document_format == code)
-        if img or txt or autre:
-            titre = titre + " et " + code
-        else:
+        elif code:
+            query = query.filter(Document.document_format == code)
             titre = titre + " pour le format " + code
-    if autre:
-        query = query.filter(Document.document_format == autre)
-        if img or txt or code:
-            titre = titre + " et " + autre
-        else:
+        elif autre:
+            query = query.filter(Document.document_format == autre)
             titre = titre + " pour le format " + autre
+        else:
+            pass
 
     if date:
         titre = titre + " à la date " + date
