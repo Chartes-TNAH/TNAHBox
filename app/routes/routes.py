@@ -2,7 +2,6 @@ from flask import render_template, request, flash, redirect, url_for
 from sqlalchemy import and_, or_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from app.modeles.donnees import Person
 from app.modeles.utilisateurs import LoginForm, RegistrationForm
 
 
@@ -76,45 +75,93 @@ def recherche():
     else:
         titre = "Résultat de la recherche"
 
-    # if motclef:
-    #     query = Document.query.join(Tag).filter(or_(
-    #         Document.document_title.like("%{}%".format(motclef)),
-    #         Document.document_format.like("%{}%".format(motclef)),
-    #         Document.document_date.like("%{}%".format(motclef)),
-    #         Document.document_teaching.like("%{}%".format(motclef)),
-    #         Document.document_description.like("%{}%".format(motclef)),
-    #         Tag.tag_label.like("%{}%".format(motclef))
-    #     ))
-    #     titre = "Résultats de la recherche « " + motclef + " »"
-    # else:
-    #     titre = "Résultat de la recherche"
-
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
         titre = titre + " pour la matière " + matiere
 
-    if img:
-        query = query.filter(Document.document_format == img)
-
-        titre = titre + " pour le format " + img
-    if txt:
-        query = query.filter(Document.document_format == txt)
-        if img or code or autre:
-            titre = titre + " et " + txt
-        else:
+    # # # REQUÊTAGE EN FONCTION DES CHECKBOXES
+    if img or txt or code or autre:
+        # si une case format est cochée
+        if img and txt and code and autre:
+            titre = titre + " pour tous les formats"
+        elif img and txt and code:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt,
+                Document.document_format == code,
+            ))
+            titre = titre + " pour les formats " + img + ", " + txt + " et " + code
+        elif img and txt and autre:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt,
+                Document.document_format == autre,
+            ))
+            titre = titre + " pour les formats " + img + ", " + txt + " ou " + autre
+        elif img and code and autre:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == code,
+                Document.document_format == autre,
+            ))
+            titre = titre + " pour les formats " + img + ", " + code + " ou " + autre
+        elif txt and code and autre:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == code,
+                Document.document_format == autre,
+            ))
+            titre = titre + " pour les formats " + txt + ", " + code + " ou " + autre
+        elif img and txt:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt
+            ))
+            titre = titre + " pour les formats " + img + " et " + txt
+        elif img and code:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == code
+            ))
+            titre = titre + " pour les formats " + img + " et " + code
+        elif img and autre:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == autre
+            ))
+            titre = titre + " pour les formats " + img + " et " + autre
+        elif txt and code:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == code
+            ))
+            titre = titre + " pour les formats " + txt + " et " + code
+        elif txt and autre:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == autre
+            ))
+            titre = titre + " pour les formats " + txt + " et " + autre
+        elif code and autre:
+            query = query.filter(or_(
+                Document.document_format == code,
+                Document.document_format == autre
+            ))
+            titre = titre + " pour les formats " + code + " et " + autre
+        elif img:
+            query = query.filter(Document.document_format == img)
+            titre = titre + " pour le format " + img
+        elif txt:
+            query = query.filter(Document.document_format == txt)
             titre = titre + " pour le format " + txt
-    if code:
-        query = query.filter(Document.document_format == code)
-        if img or txt or autre:
-            titre = titre + " et " + code
-        else:
+        elif code:
+            query = query.filter(Document.document_format == code)
             titre = titre + " pour le format " + code
-    if autre:
-        query = query.filter(Document.document_format == autre)
-        if img or txt or code:
-            titre = titre + " et " + autre
-        else:
+        elif autre:
+            query = query.filter(Document.document_format == autre)
             titre = titre + " pour le format " + autre
+        else:
+            pass
 
     if date:
         titre = titre + " à la date " + date
@@ -148,14 +195,29 @@ def document(docu_id):
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
     au document dont l'id est donnée en paramètre
 
-    :param docu_id: Identifiant d'un document de la base de données
-
+    :param docu_id: Identifiant d'un document de la base de données (int)
     """
+    # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
+    tag_label = request.args.get("tag", None)
+    # on stocke le label du tag donné par l'utilisateur
 
+    if tag_label:
+        tag = Tag.add_tag(tag_label)
+        # si j'ai un tag donné par l'utilisateur
+        # je l'ajoute à la table Tag et je le staocke dans tag OU
+        # je récupère l'enregistrement qui existe déjà avec ce label dans la table Tag
+        tag_id = tag.get_id()
+        # je récupère l'id de ce tag
+        Tag.associate_tag_and_docu(tag_id, docu_id)
+        # j'associe ce tag au document de la page courante
+
+    # # # AFFICHAGE DE L'AUTEUR DU DOCUMENT
     requested_docu = Document.query.get(docu_id)
-    # stocke dans la variable requested_docu le nom du document correspondant à l'id docu_id
+    # je récupère le document dont l'id correspond à l'URL de la page
+    auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id)).first()
+    # j'en récupère l'auteur
 
-    return render_template("pages/document.html", docu=requested_docu)
+    return render_template("pages/document.html", docu = requested_docu, auteur = auteur)
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
