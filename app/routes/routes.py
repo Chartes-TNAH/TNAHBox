@@ -15,8 +15,29 @@ from ..modeles.donnees import Document, Authorship, Person, Tag, HasTag
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 @app.route('/')
-def accueil ():
-    return render_template("pages/accueil.html", title="Accueil")
+def accueil():
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    resultats = []
+    query = Document.query
+    resultats = query.order_by(Document.document_id.desc()).limit(3)
+    # resultats donne dans l'ordre descendant des id des documents, limités à 3, DONC les trois derniers
+
+    return render_template(
+        "pages/accueil.html",
+        resultats=resultats)
+
+#def accueil ():
+#    resultats = []
+#    query = Document.query
+#    resultats = query.all()
+#    return render_template("pages/accueil.html", title="Accueil", resultats=resultats)
+
+
 
 @app.route("/recherche")
 def recherche():
