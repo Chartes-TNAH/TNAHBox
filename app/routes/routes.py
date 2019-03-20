@@ -25,7 +25,8 @@ def accueil():
 
     resultats = []
     query = Document.query
-    resultats = query.all()
+    resultats = query.order_by(Document.document_id.desc()).limit(3)
+    # resultats donne dans l'ordre descendant des id des documents, limités à 3, DONC les trois derniers
 
     return render_template(
         "pages/accueil.html",
