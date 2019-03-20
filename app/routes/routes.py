@@ -136,23 +136,27 @@ def document(docu_id):
 
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
+    # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT
     tag_label = request.args.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
+
     if tag_label:
         tag = Tag.add_tag(tag_label)
         # si j'ai un tag donné par l'utilisateur
-        # je l'ajoute à la table Tag et je l'associe avec le document de la page donnée
+        # je l'ajoute à la table Tag et je le staocke dans tag OU
+        # je récupère l'enregistrement qui existe déjà avec ce label dans la table Tag
         tag_id = tag.get_id()
-        # je récupère l'id du tag qu'on vient d'ajouter à la BDD
+        # je récupère l'id de ce tag
         Tag.associate_tag_and_docu(tag_id, docu_id)
         # j'associe ce tag au document de la page courante
 
+    # # # AFFICHAGE DE L'AUTEUR DU DOCUMENT
     requested_docu = Document.query.get(docu_id)
     # auteur = Person.query.filter(Person.created_document.contains(requested_docu))
     # auteur = Document.query.filter(Document.Person.any(created_document=requested_docu)).all()
     # auteur = Person.query.filter(Person.created_document.any(Document.document_id.in_(docu_id)))
     auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id))
-    print(auteur.all())
+    #print(auteur.all())
 
     return render_template("pages/document.html", docu = requested_docu, auteur = auteur)
 

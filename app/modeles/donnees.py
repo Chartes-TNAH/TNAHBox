@@ -54,16 +54,24 @@ class Tag(db.Model):
         if not label:
             erreurs.append("Le tag fourni est vide")
 
-        tag = Tag(tag_label=label)
-        # on ajoute un nouvel enregistrement à la Table Tag
-        # où le champ tag_label est rempli avec la valeur de label
+        all_tag_labels = Tag.query.with_entities(Tag.tag_label)
+        all_tag_labels = [tlbl[0] for tlbl in all_tag_labels.all()]
+        # je récupère tous les enregistrements de tag_label dans la table Tag
+
+        if label:
+            if label not in all_tag_labels:
+                tag = Tag(tag_label=label)
+                # si mon tag n'est pas déjà dans la table tag
+                # je crée un nouvel enregistrement
+                # On essaie d'ajouter et de commit ce nouvel enregistrement
+                db.session.add(tag)
+                db.session.commit()
+            else: # si j'ai déjà un tag déjà ainsi nommé
+                tag = Tag.query.filter(Tag.tag_label == label).first()
+                # j'assigne à tag, la valeur de l'enregistrement dont le label
+                # correspond bien à celui renseigné en paramètre
 
         try:
-            # On essaie d'ajouter et de commit ce nouvel enregistrement
-            db.session.add(tag)
-            db.session.commit()
-
-            # On renvoie le tag
             return tag
         except Exception as erreur:
             return False, [str(erreur)]
