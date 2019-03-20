@@ -3,56 +3,184 @@
 {% block titre %}| Accueil{%endblock%}
 
 {% block corps %}
-
+<body>
+<div style="text-align: center">
     <!-- conserver cette ligne ? correspond au premier code de la page <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p> -->
     <h1 class="h3 mb-3 font-weight-normal">Bienvenue sur la page d'accueil du projet TNAHBox !</h1>
-<body class="text-center">
     <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
     <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
     <!-- deux boutons menant aux pages inscription et description -->
-
+</div>
 
 
      <div class="container marketing" style="margin-top: 2em">
          <!-- pour une raison que je n'explique pas, les boutons sont recouverts par les "ronds" svg des docs sans un petit margin-top-->
+         <h4>Voici les trois derniers documents ajoutés à la base : </h4>
     <div class="row">
         {% for found_document in resultats %}
-        <!-- lien fait entre la list requêtée de résultats et la variable found_document
-        pour l'instant resultats = tous, voir s'il ne faudra pas réduire si on ne veut que les derniers documents grâce à last ou les documents préférés (plus compliqué)-->
-      <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-            <title>{{found_document.document_format}}</title>
-            <!-- titre visible au passage de la souris, bof...-->
-            <!-- il faudra essayer d'afficher le type de format avec image de format par Ségolène ; laisser le svg pour l'instant pour rendu visuel -->
-            <rect width="100%" height="100%" fill="#777"/>
-            <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-        </svg>
-          <h2><a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}.{{found_document.document_format}}</a></h2> <!-- titre du document avec l'extension, voir si ça ne posera pas de problème si l'extension est rentrée dans le titre, ne pas avoir doc.pdf.pdf ; vigilence -->
-          {% if found_document.document_description %}
-        <p>{{found_document.document_description}}</p>
-          {% else %}
-          <p>Il n'y a pas de description pour ce document</p>
-          <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
-          {% endif %}
-          {% if found_document.document_teaching %}
-        <p>{{found_document.document_teaching}}</p>
-          {% else %}
-          <p>Il n'y a pas de matière renseignée pour ce document</p>
-          <!-- Si la matière du document a été remplie dans la BDD, afficher sinon phrase -->
-          {% endif %}
-        <!-- <p><a class="btn btn-secondary" href="{{url_for('document', docu_id = found_document.document_id)}}" role="button">voir plus &raquo;</a>
-        </p> boutons faisant le lien vers la page de chaque document, j'ai préféré pour rendu visuel de mettre le lien dans le titre du doc-->
+
+                    {% if found_document.document_format == "image" %}
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/img.png')}}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h4 class="card-title col-md-8">
+                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        </h4>
+                                        <div class="col-md-4">
+                                            <b>
+                                            {% if found_document.document_teaching %}
+                                            <p>{{found_document.document_teaching}}</p>
+                                              {% else %}
+                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
+                                              <!-- Si la matière du document a été remplie dans la BDD, afficher sinon phrase -->
+                                              {% endif %}
+                                                </b>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">{% if found_document.document_description %}
+                                        <p>{{found_document.document_description}}</p>
+                                          {% else %}
+                                          <p>Il n'y a pas de description pour ce document</p>
+                                          <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
+                                          {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% elif found_document.document_format == "texte" %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/txt.png')}}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h4 class="card-title col-md-8">
+                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        </h4>
+                                        <div class="col-md-4">
+                                            <b>
+                                            {% if found_document.document_teaching %}
+                                            <p>{{found_document.document_teaching}}</p>
+                                              {% else %}
+                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
+                                              {% endif %}
+                                                </b>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">{% if found_document.document_description %}
+                                    <p>{{found_document.document_description}}</p>
+                                      {% else %}
+                                      <p>Il n'y a pas de description pour ce document</p>
+                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
+                                      {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% elif found_document.document_format == "code" %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/code.png')}}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h4 class="card-title col-md-8">
+                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        </h4>
+                                        <div class="col-md-4">
+                                            <b>
+                                           {% if found_document.document_teaching %}
+                                            <p>{{found_document.document_teaching}}</p>
+                                              {% else %}
+                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
+                                              {% endif %}
+                                                </b>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">
+                                        {% if found_document.document_description %}
+                                    <p>{{found_document.document_description}}</p>
+                                      {% else %}
+                                      <p>Il n'y a pas de description pour ce document</p>
+                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
+                                      {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% elif found_document.document_format == "autre" %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h4 class="card-title col-md-8">
+                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        </h4>
+                                        <div class="col-md-4">
+                                            <b>
+                                            {% if found_document.document_teaching %}
+                                            <p>{{found_document.document_teaching}}</p>
+                                              {% else %}
+                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
+                                              {% endif %}
+                                                </b>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">
+                                        {% if found_document.document_description %}
+                                    <p>{{found_document.document_description}}</p>
+                                      {% else %}
+                                      <p>Il n'y a pas de description pour ce document</p>
+                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
+                                      {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h4 class="card-title col-md-8">
+                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                        </h4>
+                                        <div class="col-md-4">
+                                            <b>
+                                            {% if found_document.document_teaching %}
+                                            <p>{{found_document.document_teaching}}</p>
+                                              {% else %}
+                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
+                                              {% endif %}
+                                                </b>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">
+                                        {% if found_document.document_description %}
+                                    <p>{{found_document.document_description}}</p>
+                                      {% else %}
+                                      <p>Il n'y a pas de description pour ce document</p>
+                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
+                                      {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+{% endfor %}
+
           <!-- essayer : si personne connectée, donner accès à la page, sinon, envoyer un message "vous n'êtes pas connecté"
           problème : idée que les documents ne sont accessibles si l'user est logué-->
-      </div>
 
-         {% endfor %}
+        <!-- design repris depuis page recherche avec les card de bootstrap -->
     </div>
-     </div>
-
-        <!-- design repris depuis view-source:https://getbootstrap.com/docs/4.3/examples/carousel/
-     objectif : afficher trois documents sur la page d'accueil -->
-
-
+    </div>
 </body>
 {% endblock %}
