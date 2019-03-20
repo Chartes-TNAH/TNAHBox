@@ -91,6 +91,8 @@ class Tag(db.Model):
         if not docu_id:
             erreurs.append("Il n'y a pas de document à asssocier")
 
+        authorships = Authorship.query.all()
+
         new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
                                                  hasTag_doc_id=docu_id)
         # je force l'ajout d'un nouvel enregistrement
