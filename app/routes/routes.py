@@ -226,6 +226,7 @@ def upload():
             flash(u'Vous avez oublié le fichier !', 'error')
 
     form = ImportForm()
+    # formulaire ImportForm
     if form.validate_on_submit():
             importer = Document(document_title=form.document_title.data,
                            document_description=form.document_description.data,
