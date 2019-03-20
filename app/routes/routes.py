@@ -148,7 +148,10 @@ def document(docu_id):
         # j'associe ce tag au document de la page courante
 
     requested_docu = Document.query.get(docu_id)
-    auteur = Person.query.filter(Person.created_document.contains(requested_docu))
+    # auteur = Person.query.filter(Person.created_document.contains(requested_docu))
+    # auteur = Document.query.filter(Document.Person.any(created_document=requested_docu)).all()
+    # auteur = Person.query.filter(Person.created_document.any(Document.document_id.in_(docu_id)))
+    auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id))
     print(auteur.all())
 
     return render_template("pages/document.html", docu = requested_docu, auteur = auteur)

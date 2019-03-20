@@ -111,7 +111,7 @@ class Person(UserMixin, db.Model):
     person_is_admin = db.Column(db.Boolean)
     created_document = db.relationship("Document",
                     secondary=Authorship,
-                    backref=db.backref("Person", lazy='dynamic'))
+                    backref=db.backref("Person")) #, lazy='dynamic'))
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
