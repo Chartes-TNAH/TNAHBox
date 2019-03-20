@@ -7,15 +7,30 @@
 {% block corps %}
     <h1 style="margin-left: 2em">Galerie de document</h1>
     {% if docu %}
-        {% if docu.document_format == "image" %}
+
             <div class="row" style="padding: 2em">
                 <div class="col-md-3">
-                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for("static", filename="img/img.png")}}" alt="fichier en format image">
+                    {% if docu.document_format == "image" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
+                    {% elif docu.document_format == "texte" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
+                    {% elif docu.document_format == "code" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                    {% elif docu.document_format == "autre" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">
+                    {% else %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">
+                    {% endif %}
                 </div>
                 <div class="col-md-4">
                     <h2>{{docu.document_title}}</h2>
                     <dt>Matière</dt><dd>{{docu.document_teaching}}</dd>
-                    <dt>Description</dt><dd>{{docu.document_description}}</dd>
+                    <dt>Description</dt>
+                    {% if docu.document_description %}
+                        <dd>{{docu.document_description}}</dd>
+                    {% else %}
+                        <dd>Il n'y a pas de description renseignée pour ce document dans la base.</dd>
+                    {% endif %}
                     <dt>Format</dt><dd>{{docu.document_format}}</dd>
                     <div class="row">
                         <div style="margin-left: 1em"></div>
@@ -29,11 +44,17 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <dt>Date</dt><dd>{{docu.document_date}}</dd>
-                    {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
+                    <dt>Date</dt>
+                    {% if docu.document_date %}
+                        <dd>{{docu.document_date}}</dd>
                     {% else %}
-                        <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
+                        <dd>Il n'y a pas de date renseignée pour ce document dans la base.</dd>
+                    {% endif %}
+                    <dt>Auteur</dt>
+                    {% if auteur.person_name %}
+                        <dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd>
+                    {% else %}
+                        <dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
                     {% endif %}
                     <dt>Tag</dt>
                     <dd>
@@ -51,183 +72,6 @@
                     </form>
                 </div>
             </div>
-        {% elif docu.document_format == "texte" %}
-            <div class="row" style="padding: 2em">
-                <div class="col-md-3">
-                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for("static", filename="img/txt.png")}}" alt="fichier en format image">
-                </div>
-                <div class="col-md-4">
-                    <h2>{{docu.document_title}}</h2>
-                    <dt>Matière</dt><dd>{{docu.document_teaching}}</dd>
-                    <dt>Description</dt><dd>{{docu.document_description}}</dd>
-                    <dt>Format</dt><dd>{{docu.document_format}}</dd>
-                    <div class="row">
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/download_picto_clear.png")}}" alt="Icone de téléchargement">
-                        </a>
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/preview_picto_clear.png")}}" alt="Icone de prévisualisation">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <dt>Date</dt><dd>{{docu.document_date}}</dd>
-                    {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
-                    {% else %}
-                        <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
-                    {% endif %}
-                    <dt>Tag</dt>
-                    <dd>
-                        {% for tag in docu.document_tag %}
-                            <span class="badge badge-light">{{tag}}</span>
-                        {% endfor %}
-                    </dd>
-                    <form class="form" id="recherche-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="GET">
-                        <div class="input-group">
-                            <input type="text" name="tag" class="form-control form-control-lg" placeholder="Tag …">
-                            <span class="input-group-btn">
-                                <button class="btn btn-lg" style="background-color: #70b7c2; color: #e4edee" href="#" role="button">Insérer</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        {% elif docu.document_format == "code" %}
-            <div class="row" style="padding: 2em">
-                <div class="col-md-3">
-                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for("static", filename="img/code.png")}}" alt="fichier en format image">
-                </div>
-                <div class="col-md-4">
-                    <h2>{{docu.document_title}}</h2>
-                    <dt>Matière</dt><dd>{{docu.document_teaching}}</dd>
-                    <dt>Description</dt><dd>{{docu.document_description}}</dd>
-                    <dt>Format</dt><dd>{{docu.document_format}}</dd>
-                    <div class="row">
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/download_picto_clear.png")}}" alt="Icone de téléchargement">
-                        </a>
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/preview_picto_clear.png")}}" alt="Icone de prévisualisation">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <dt>Date</dt><dd>{{docu.document_date}}</dd>
-                    {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
-                    {% else %}
-                        <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
-                    {% endif %}
-                    <dt>Tag</dt>
-                    <dd>
-                        {% for tag in docu.document_tag %}
-                            <span class="badge badge-light">{{tag}}</span>
-                        {% endfor %}
-                    </dd>
-                    <form class="form" id="recherche-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="GET">
-                        <div class="input-group">
-                            <input type="text" name="tag" class="form-control form-control-lg" placeholder="Tag …">
-                            <span class="input-group-btn">
-                                <button class="btn btn-lg" style="background-color: #70b7c2; color: #e4edee" href="#" role="button">Insérer</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        {% elif docu.document_format == "autre" %}
-            <div class="row" style="padding: 2em">
-                <div class="col-md-3">
-                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for("static", filename="img/autre.png")}}" alt="fichier en format image">
-                </div>
-                <div class="col-md-4">
-                    <h2>{{docu.document_title}}</h2>
-                    <dt>Matière</dt><dd>{{docu.document_teaching}}</dd>
-                    <dt>Description</dt><dd>{{docu.document_description}}</dd>
-                    <dt>Format</dt><dd>{{docu.document_format}}</dd>
-                    <div class="row">
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/download_picto_clear.png")}}" alt="Icone de téléchargement">
-                        </a>
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/preview_picto_clear.png")}}" alt="Icone de prévisualisation">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <dt>Date</dt><dd>{{docu.document_date}}</dd>
-                    {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
-                    {% else %}
-                        <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
-                    {% endif %}
-                    <dt>Tag</dt>
-                    <dd>
-                        {% for tag in docu.document_tag %}
-                            <span class="badge badge-light">{{tag}}</span>
-                        {% endfor %}
-                    </dd>
-                    <form class="form" id="recherche-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="GET">
-                        <div class="input-group">
-                            <input type="text" name="tag" class="form-control form-control-lg" placeholder="Tag …">
-                            <span class="input-group-btn">
-                                <button class="btn btn-lg" style="background-color: #70b7c2; color: #e4edee" href="#" role="button">Insérer</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        {% else %}
-            <div class="row" style="padding: 2em">
-                <div class="col-md-3">
-                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for("static", filename="img/autre.png")}}" alt="fichier en format image">
-                </div>
-                <div class="col-md-4">
-                    <h2>{{docu.document_title}}</h2>
-                    <dt>Matière</dt><dd>{{docu.document_teaching}}</dd>
-                    <dt>Description</dt><dd>{{docu.document_description}}</dd>
-                    <dt>Format</dt><dd>{{docu.document_format}}</dd>
-                    <div class="row">
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/download_picto_clear.png")}}" alt="Icone de téléchargement">
-                        </a>
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/preview_picto_clear.png")}}" alt="Icone de prévisualisation">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <dt>Date</dt><dd>{{docu.document_date}}</dd>
-                    {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
-                    {% else %}
-                        <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
-                    {% endif %}
-                    <dt>Tag</dt>
-                    <dd>
-                        {% for tag in docu.document_tag %}
-                            <span class="badge badge-light">{{tag}}</span>
-                        {% endfor %}
-                    </dd>
-                    <form class="form" id="recherche-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="GET">
-                        <div class="input-group">
-                            <input type="text" name="tag" class="form-control form-control-lg" placeholder="Tag …">
-                            <span class="input-group-btn">
-                                <button class="btn btn-lg" style="background-color: #70b7c2; color: #e4edee" href="#" role="button">Insérer</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        {% endif %}
 
     {% else %}
         <div class="container"><p>Aucun document ne correspond à l'identifiant renseigné.</p></div>
