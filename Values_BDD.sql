@@ -4,11 +4,11 @@ person_name, person_firstname, person_is_teacher, person_promotion)
 -- person_login, person_password, person_linkedIn,
 -- person_cv, person_git, person_is_admin
 VALUES
-("Pinche","Ariane", 1, "2013-2014"),
+("Pinche","Ariane", 1, "2014"),
 ("Jolivet","Vincent", 1, ""),
-("Clérice","Thibault", 1, "2013-2014"),
-("Andrieux","Clément", 0, "2018-2019"),
-("Schmied","Marie-Caroline", 0, "2018-2019"),
+("Clérice","Thibault", 1, "2014"),
+("Andrieux","Clément", 0, "2019"),
+("Schmied","Marie-Caroline", 0, "2019"),
 ("","Tony", 0, "");
 
 INSERT INTO Document(
