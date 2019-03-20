@@ -136,7 +136,7 @@ def document(docu_id):
 
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
-    # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT
+    # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
     tag_label = request.args.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
 
@@ -152,11 +152,9 @@ def document(docu_id):
 
     # # # AFFICHAGE DE L'AUTEUR DU DOCUMENT
     requested_docu = Document.query.get(docu_id)
-    # auteur = Person.query.filter(Person.created_document.contains(requested_docu))
-    # auteur = Document.query.filter(Document.Person.any(created_document=requested_docu)).all()
-    # auteur = Person.query.filter(Person.created_document.any(Document.document_id.in_(docu_id)))
-    auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id))
-    #print(auteur.all())
+    # je récupère le document dont l'id correspond à l'URL de la page
+    auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id)).first()
+    # j'en récupère l'auteur
 
     return render_template("pages/document.html", docu = requested_docu, auteur = auteur)
 

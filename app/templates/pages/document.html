@@ -31,7 +31,7 @@
                 <div class="col-md-4">
                     <dt>Date</dt><dd>{{docu.document_date}}</dd>
                     {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_name}}</dd>
+                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
                     {% else %}
                         <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
                     {% endif %}
@@ -75,7 +75,7 @@
                 <div class="col-md-4">
                     <dt>Date</dt><dd>{{docu.document_date}}</dd>
                     {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_name}}</dd>
+                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
                     {% else %}
                         <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
                     {% endif %}
@@ -119,7 +119,7 @@
                 <div class="col-md-4">
                     <dt>Date</dt><dd>{{docu.document_date}}</dd>
                     {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_name}}</dd>
+                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
                     {% else %}
                         <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
                     {% endif %}
@@ -163,7 +163,7 @@
                 <div class="col-md-4">
                     <dt>Date</dt><dd>{{docu.document_date}}</dd>
                     {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_name}}</dd>
+                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
                     {% else %}
                         <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
                     {% endif %}
@@ -207,7 +207,7 @@
                 <div class="col-md-4">
                     <dt>Date</dt><dd>{{docu.document_date}}</dd>
                     {% if auteur.person_name %}
-                        <dt>Auteur</dt><dd>{{auteur.person_name}}</dd>
+                        <dt>Auteur</dt><dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd></dd>
                     {% else %}
                         <dt>Auteur</dt><dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
                     {% endif %}
@@ -230,7 +230,7 @@
         {% endif %}
 
     {% else %}
-        <p>Aucun document ne correspond à l'identifiant renseigné.</p>
+        <div class="container"><p>Aucun document ne correspond à l'identifiant renseigné.</p></div>
     {% endif %}
 
     {% include "partials/retour_accueil.html" %}
