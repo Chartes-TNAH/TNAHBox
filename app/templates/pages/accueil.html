@@ -19,11 +19,20 @@
     <div class="row">
         {% for found_document in resultats %}
 
-                    {% if found_document.document_format == "image" %}
-
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
+                                {% if found_document.document_format == "image" %}
                                 <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/img.png')}}">
+                                {% elif found_document.document_format == "texte" %}
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/txt.png')}}">
+                                {% elif found_document.document_format == "code" %}
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/code.png')}}">
+                                {% elif found_document.document_format == "autre" %}
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
+                                {% else %}
+                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
+                                {% endif %}
+                             <!-- ici : si le format correspond à , alors appliquer l'image choisie ; la boucle for au dessus permet itération facile -->
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-8">
@@ -51,129 +60,7 @@
                             </div>
                         </div>
 
-                    {% elif found_document.document_format == "texte" %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/txt.png')}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <b>
-                                            {% if found_document.document_teaching %}
-                                            <p>{{found_document.document_teaching}}</p>
-                                              {% else %}
-                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
-                                              {% endif %}
-                                                </b>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">{% if found_document.document_description %}
-                                    <p>{{found_document.document_description}}</p>
-                                      {% else %}
-                                      <p>Il n'y a pas de description pour ce document</p>
-                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
-                                      {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
 
-                    {% elif found_document.document_format == "code" %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/code.png')}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <b>
-                                           {% if found_document.document_teaching %}
-                                            <p>{{found_document.document_teaching}}</p>
-                                              {% else %}
-                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
-                                              {% endif %}
-                                                </b>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">
-                                        {% if found_document.document_description %}
-                                    <p>{{found_document.document_description}}</p>
-                                      {% else %}
-                                      <p>Il n'y a pas de description pour ce document</p>
-                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
-                                      {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    {% elif found_document.document_format == "autre" %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <b>
-                                            {% if found_document.document_teaching %}
-                                            <p>{{found_document.document_teaching}}</p>
-                                              {% else %}
-                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
-                                              {% endif %}
-                                                </b>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">
-                                        {% if found_document.document_description %}
-                                    <p>{{found_document.document_description}}</p>
-                                      {% else %}
-                                      <p>Il n'y a pas de description pour ce document</p>
-                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
-                                      {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    {% else %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <b>
-                                            {% if found_document.document_teaching %}
-                                            <p>{{found_document.document_teaching}}</p>
-                                              {% else %}
-                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
-                                              {% endif %}
-                                                </b>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">
-                                        {% if found_document.document_description %}
-                                    <p>{{found_document.document_description}}</p>
-                                      {% else %}
-                                      <p>Il n'y a pas de description pour ce document</p>
-                                      <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
-                                      {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
 {% endfor %}
 
           <!-- essayer : si personne connectée, donner accès à la page, sinon, envoyer un message "vous n'êtes pas connecté"
