@@ -29,12 +29,9 @@ class Document(db.Model):
                     backref=db.backref("Document"))
 
     @staticmethod
-    def add_doc(user_id, title, description, format, date, matiere, downloadLink):
+    def add_doc(title, description, format, date, matiere, downloadLink):
         """
         Fonction qui permet d'ajouter un nouveau document dans la BDD
-        ainsi qu'une nouvelle entrée dans la table Authorship liant l'utilisateur (identifié avec user_id)
-        et le document nouvellement créé
-        :param user_id: identifiant de l'utilisateur connecté (int)
         :param title: titre donné au document (str)
         :param description: courte présentation sur le doc (str)
         :param format: "image", "texte", "code" ou "autre" (str)
@@ -44,8 +41,6 @@ class Document(db.Model):
         :return:
         """
         erreurs = []
-        if not user_id:
-            erreurs.append("aucun identifiant d'utilisateur identifié.")
         if not title:
             erreurs.append("Veuillez renseigner un titre pour ce document.")
         if not description:
@@ -67,20 +62,43 @@ class Document(db.Model):
                         document_dowloadLink=downloadLink)
         # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
 
-        new_association = Authorship.insert().values(authorship_person_id=user_id,
-                                                 authorship_document_id=docu.document_id)
-        # on force l'ajout d'une nouvelle entrée dans la table de relation Authorship
-
         try:
-            # On essaie d'ajouter et de commit ces deux nouveaux enregistrements
+            # On essaie d'ajouter le document à la BDD
             db.session.add(docu)
-            db.session.execute(new_association)
-            # On envoie le paquet
             db.session.commit()
 
-            return True, docu
+            return docu
         except Exception as erreur:
             return False, [str(erreur)]
+
+
+    @staticmethod
+    def associate_docu_and_user(user_id, docu_id):
+        '''
+        Fonction qui permet d'asssocier un user à un document et
+        de créer un nouvel enregistrement dans Authorship
+        :param user_id: identifiant de l'auteur du document (int)
+        :param docu_id: identifiant du document importé par l'utilisateur (int)
+        :return: renvoie une liste d'erreurs s'il y en a
+        '''
+        erreurs = []
+        if not user_id:
+            erreurs.append("Il n'y a pas d'utilisateur à asssocier")
+        if not docu_id:
+            erreurs.append("Il n'y a pas de document à asssocier")
+
+        new_association = Authorship.insert().values(authorship_person_id=user_id,
+                                                     authorship_document_id=docu_id)
+        # je force l'ajout d'un nouvel enregistrement
+        # dans la table de relation Authorship
+
+        db.session.execute(new_association)
+        # On envoie le paquet
+        db.session.commit()
+
+        return erreurs
+
+
 
 class Tag(db.Model):
     __tablename__ = "Tag"

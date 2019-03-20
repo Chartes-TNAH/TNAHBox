@@ -17,6 +17,8 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
               <!--méthode POST prévue pour importer les documents -->
         {{ form.hidden_tag() }}
 <!-- je ne saurai pas expliquer cette ligne, mais elle est nécessaire -->
+<!-- ici, proposition de faire l'import du document grâce à Flask et FlaskForm ; en parallèle essai de développement d'une fonction
+dans donnees, fonction par staticmethod, add_doc-->
 
         <div class="mb-3">
             <b>{{ form.document_title.label }}</b><br>
@@ -37,44 +39,14 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
         </div>
 
         <div class="mb-3">
-             <form class="form" id="matiere-form" action="{{url_for('recherche')}}" method="GET">
-                <div style="margin-top: 1em" class="form-group" id="form-matiere">
-                    <div class="row">
-                        <label for="form-matiere" style="padding-left: 15px;"><b>Matière</b></label>
-                    </div>
-                    <select form="matiere-form" name="matiere" class="form-control" id="exampleFormControlSelect1" required>
-                        <option value="">Toutes les matières</option>
-                        {%- for matiere in matieres %}
-                            <option value="{{matiere}}">{{matiere}}</option>
-                        {%- endfor %}
-            <!-- itération sur la variable matiere dans matieres pour avoir les matières enregistrées dans la BDD -->
-                    </select>
-             <div class="invalid-feedback">
-            Veuillez renseigner une matière pour ce document.
-             </div>
-                </div>
-            </form>
+            {{ form.document_teaching.label }}<br>
+            {{ form.document_teaching }}
         </div>
 
 
         <div class="mb-3">
-            <form class="form" id="format-form" action="{{url_for('recherche')}}" method="GET">
-                <div style="margin-top: 1em" class="form-group" id="form-format">
-                    <div class="row">
-                        <label for="form-format" style="padding-left: 15px;"><b>Format</b></label>
-                    </div>
-                    <select form="format-form" name="format" class="form-control" id="exampleFormControlSelect2" required>
-                        <option value="">Formats proposés</option>
-                        {%- for format in formats %}
-                            <option value="{{format}}">{{format}}</option>
-                        {%- endfor %}
-            <!-- même itération que pour matiere -->
-                    </select>
-             <div class="invalid-feedback">
-            Veuillez renseigner un format pour ce document.
-             </div>
-                </div>
-            </form>
+            {{ form.document_format.label }}<br>
+            {{ form.document_format }}
         </div>
 
         <div class="mb-3">
@@ -93,7 +65,6 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
 
 
 
-
           <div class="mb-3">
               <b>{{ form.document_description.label }}</b><br>
             {{ form.document_description(size=50)}}
@@ -109,7 +80,7 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
           </div>
               -->
         </div>
-                  </form>
+          </form>
       </form>
 </div>
 
