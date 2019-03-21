@@ -3,59 +3,66 @@
 {% block titre %}| S'enregistrer{%endblock%}
 
 {% block corps %}
-<h1>S'enregistrer</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.person_firstName.label }}<br>
-            {{ form.person_firstName(size=32) }}
-        </p>
-        <p>
-            {{ form.person_name.label }}<br>
-            {{ form.person_name(size=32) }}<br>
+<div class="container">
+        <div class="row">
+            <div class="col-9">
+                <h1 style="color: #2e7e76;"><i>Inscription</i></h1>
+                <hr>
+            </div>
+        </div>
 
-        </p>
-        <p>
-            {{ form.person_login.label }}<br>
-            {{ form.person_login(size=32) }}<br>
-            {% for error in form.person_login.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.person_email.label }}<br>
-            {{ form.person_email(size=64) }}<br>
-            {% for error in form.person_email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.person_password.label }}<br>
-            {{ form.person_password(size=32) }}<br>
-            {% for error in form.person_password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password2.label }}<br>
-            {{ form.password2(size=32) }}<br>
-            {% for error in form.password2.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.person_git.label }}<br>
-            {{ form.person_git(size=100) }}<br>
-        </p>
-        <p>
-            {{ form.person_linkedIn.label }}<br>
-            {{ form.person_linkedIn(size=100) }}<br>
-        </p>
-        <p>
-            {{ form.person_promotion.label }}<br>
-            {{ form.person_promotion(size=100) }}<br>
-        </p>
-        <p>{{ form.submit() }}</p>
-        <p><span style="color: red;">*</span> champs obligatoires</p>
+        <div class="row">
+            <div class="col-5">
+                {{ form.person_firstName.label }}<br>
+                {{ form.person_firstName(size=35) }}
+            </div>
+            <div class="col-5">
+                {{ form.person_name.label }}<br>
+                {{ form.person_name(size=35) }}<br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5"><br>
+                {{ form.person_login.label }}<br>
+                {{ form.person_login(size=35) }}<br>
+                    {% for error in form.person_login.errors %}
+                        <span style="color: #b21e1e;;">[{{ error }}]</span>
+                    {% endfor %}
+            </div>
+            <div class="col-5"><br>
+                {{ form.person_email.label }}<br>
+                {{ form.person_email(size=35) }}<br>
+                    {% for error in form.person_email.errors %}
+                        <span style="color: #b21e1e;">[{{ error }}]</span>
+                    {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5"><br>
+                {{ form.person_password.label }}<br>
+                {{ form.person_password(size=35) }}<br>
+                    {% for error in form.person_password.errors %}
+                        <span style="color: #b21e1e;">[{{ error }}]</span>
+                    {% endfor %}
+            </div>
+            <div class="col-5"><br>
+                {{ form.password2.label }}<br>
+                {{ form.password2(size=35) }}<br>
+                    {% for error in form.password2.errors %}
+                        <span style="color: #b21e1e;">[{{ error }}]</span>
+                    {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2"><br>
+                {{ form.submit() }}
+            </div>
+        </div>
+        <p><span style="color: #b21e1e;">*</span> champs obligatoires</p>
+    </div>
     </form>
 {% endblock %}
