@@ -1,0 +1,67 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}| Mon profil{%endblock%}
+
+{% block corps %}
+<div class="row">
+  <div class="col-md-9 text-white rounded bg-danger">
+<!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
+    <div class="col-md-12">
+      <h1 class="display-4 font-italic">{{user.person_login}}</h1>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 text-white rounded bg-secondary">
+<!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
+    <div class="col-md-12">
+      <p class="lead my-3">{{user.person_description}}</p>
+    </div>
+  </div>
+</div>
+<div class="col"><p class="lead my-3">Dernière connexion : {{user.person_last_seen}}</p></div>
+
+
+<div class="col-md-8">
+          <div class="p-4 mb-3 bg-transparent rounded">
+            <h4 class="font-italic">Informations :</h4>
+              <hr>
+              <div class="row">
+              <div class="col-md-4">
+            <ol class="list-unstyled">
+                <li>{{user.person_firstName}}</li>
+                <li>{{user.person_name}}</li>
+                <li>Promotion {{user.person_promotion}}</li>
+            </ol>
+                </div>
+                <div class="col-md-7">
+                    <ol class="list-unstyled">
+                        <li>Mail : {{user.person_email}}</li>
+                        <li>Compte GitHub : {% if user.person_git %}
+                  <a href="{{user.person_git}}">{{(user.person_git).replace("https://github.com/","")|safe}}</a>
+                  <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
+                {% else %}
+                   <span style="color: grey;">Aucun compte GitHub enregistré</span>
+                {% endif %}</li>
+
+                        <li>LinkedIn :
+                  {% if user.person_linkedIn %}
+                  <a href="{{user.person_linkedIn}}">{{user.person_firstName}} {{user.person_name}}</a>
+                  {% else %}
+                   <span style="color: grey;">Aucun compte LinkedIn enregistré</span>
+                {% endif %}
+                        </li>
+
+                    </ol>
+                </div>
+
+            </ol>
+          </div>
+        </div>
+
+
+{% if user == current_user %}
+<a href="{{ url_for('edit_profile') }}"><button type="button" class="btn btn-danger" >Mondifier mon profil</button></a>
+{% endif %}
+
+{% endblock %}
