@@ -23,6 +23,9 @@ Pull request car modifications de la BDD.
 ## Page connexion
 * Aspect amélioré ! simple et sobre, couleurs définies par le projet (couleur ENC + son inverse en bleu)
 
+## Formulaire d'inscription
+* Création d'une page pour modifier le compte ; désormais à l'inscription, l'utilisateur ne remplit pas tous les champs, juste Nom, Prénom, Login, Mdp1, Mdp2, Mail. Et une autre page pour CV, LinkedIn, GitHub et Promo, dans un second temps
+
 ## Import des documents
 * Recherche solution avec WTFForm et Flask
 * Recherche solution avec une fonction définie avec donnees.py `def add_doc` (`@staticmethod`) etc.
