@@ -320,9 +320,9 @@ def upload():
                 nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
                 f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier d'upload
 
-                dwnldLink = url_for('upped', nom=nom)
-                # on stocke le lien de téléchargement du fichier uploadé
-                docu = Document.add_doc(title, description, format, date, matiere) #, dwnldLink)
+                downloadlink = url_for('static', filename = "uploads/" + nom)
+                # on stocke le lien de stockage sur le serveur du fichier uploadé
+                docu = Document.add_doc(title, description, format, date, matiere, downloadlink)
                 # on ajoute le document à la BDD
                 Document.associate_docu_and_user(current_user, docu)
                 # on l'associe à l'user connecté dans la table Authorship

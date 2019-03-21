@@ -3,7 +3,7 @@ from warnings import warn
 # Déclaration de toutes les constantes à utiliser dans le projet
 # Convention : les constantes portent des noms en majuscule
 
-RESULTS_PER_PAGE = 10
+RESULTS_PER_PAGE = 9
 DOSSIER_UPLOAD = "./app/static/uploads/"
 
 SECRET_KEY = "JE SUIS UN SECRET !"
