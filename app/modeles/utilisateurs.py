@@ -47,3 +47,5 @@ class EditProfileForm(FlaskForm):
     person_linkedIn= StringField('Compte LinkedIn (URL)')
     person_description = TextAreaField('Description')
     submit = SubmitField('Enregistrer les modifications')
+
+
