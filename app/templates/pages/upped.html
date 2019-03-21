@@ -1,0 +1,19 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if docu %}| Document : {{docu.document_title}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    <h1 style="margin-left: 2em">Le document a bien été ajouté à la base de donnée !</h1>
+
+    <p>{{ nom }}</p>
+{#    {% if docu %}#}
+{##}
+{#    {% else %}#}
+{#        <div class="container"><p>Aucun document ne correspond à l'identifiant renseigné.</p></div>#}
+{#    {% endif %}#}
+
+    {% include "partials/retour_accueil.html" %}
+{% endblock %}
+

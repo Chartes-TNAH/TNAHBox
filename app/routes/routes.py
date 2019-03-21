@@ -322,7 +322,7 @@ def upload():
 
                 dwnldLink = url_for('upped', nom=nom)
                 # on stocke le lien de téléchargement du fichier uploadé
-                docu = Document.add_doc(title, description, format, date, matiere, dwnldLink)
+                docu = Document.add_doc(title, description, format, date, matiere) #, dwnldLink)
                 # on ajoute le document à la BDD
                 Document.associate_docu_and_user(current_user, docu)
                 # on l'associe à l'user connecté dans la table Authorship
@@ -349,3 +349,18 @@ def upload():
     #         db.session.commit()
     #         flash('Document enregistré ! merci')
     return render_template('pages/import.html', matieres=matieres, formats=formats) #, form=form)
+
+@app.route("/upped/<nom>")
+def upped(nom):
+    """
+    Route pour la page à afficher après avoir importé un nouveau document dans la BDD
+
+    :param nom: nom du fichier en question
+    """
+
+    return render_template("pages/upped.html", nom=nom)
+
+    # downloadLink = url_for('upped', nom=nom)
+    # uploaded_docu = Document.query.filter(Document.document_downloadLink == downloadLink).first()
+    #
+    # return render_template("pages/upped.html", docu = uploaded_docu)

@@ -33,7 +33,7 @@ class Document(db.Model):
 
 
     @staticmethod
-    def add_doc(title, description, format, date, matiere, downloadLink):
+    def add_doc(title, description, format, date, matiere): #, downloadlink):
         """
         Fonction qui permet d'ajouter un nouveau document dans la BDD
         :param title: titre donné au document (str)
@@ -55,15 +55,15 @@ class Document(db.Model):
             erreurs.append("Veuillez renseigner une date pour ce document.")
         if not matiere:
             erreurs.append("Veuillez renseigner une matière pour ce document.")
-        if not downloadLink:
-            erreurs.append("Aucun lien de téléchargement pour ce document.")
+        # if not downloadlink:
+        #     erreurs.append("Aucun lien de téléchargement pour ce document.")
 
         docu = Document(document_title=title,
                         document_description=description,
                         document_format=format,
                         document_date=date,
-                        document_teaching=matiere,
-                        document_dowloadLink=downloadLink)
+                        document_teaching=matiere) #,
+                        #document_dowloadLink=downloadlink)
         # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
 
         try:

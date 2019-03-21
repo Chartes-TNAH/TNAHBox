@@ -26,13 +26,13 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
         <!-- IMPORT DU TITRE (name = title) -->
         <div class="input-group row" style="padding: 10px">
             <label class="col-md-2" for="input-title" style="margin: auto; font-size: 24px"><b>Titre</b></label>
-            <input name="title" id="input-title" type="text" class="col-md-10 form-control form-control-lg" required placeholder="Titre du document …">
+            <input name="title" id="input-title" type="text" class="col-md-10 form-control form-control-lg" required placeholder="Titre du document …" style="font-size: 16px">
         </div>
         <!-- IMPORT DE LA DESCRIPTION (name = desc) -->
         <div class="input-group row" style="padding: 10px">
             <label class="col-md-2" for="input-desc" style="margin: auto; font-size: 24px"><b>Description</b></label>
             {# <input name="desc" type="text">#}
-            <textarea name="desc" class="form-control col-md-10 form-control-lg" rows="3" id="input-desc" placeholder="Description du document …"></textarea>
+            <textarea name="desc" class="form-control col-md-10 form-control-lg" rows="3" id="input-desc" placeholder="Description du document …" style="font-size: 16px"></textarea>
         </div>
         <!-- IMPORT DE LA MATIERE (name = matiere) -->
         <div class="form-group row" style="padding: 10px">
@@ -60,7 +60,7 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
                 <label for="input-date" style="margin: auto; font-size: 24px"><b>Date</b></label>
                 <p style="font-size: 12px" class="text-muted">AAAA-MM-JJ</p>
             </div>
-            <input id="input-date" type='text' name="date" class="col-md-9 form-control form-control-lg" id='datepicker' style="font-size: 18px" placeholder="Il est possible de n'indiquer que l'année (AAAA) ou le mois (AAAA-MM)." data-date-format="yy-mm-dd"/>
+            <input id="input-date" type='text' name="date" class="col-md-9 form-control form-control-lg" id='datepicker' style="font-size: 16px" placeholder="Il est possible de n'indiquer que l'année (AAAA) ou le mois (AAAA-MM)." data-date-format="yy-mm-dd"/>
             <script type="text/javascript">
                 $(function () {
                     $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
