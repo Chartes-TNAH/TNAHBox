@@ -3,6 +3,7 @@ from ..app import login
 from flask_login import UserMixin
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
 
 from .. app import db
 
@@ -130,6 +131,8 @@ class Person(UserMixin, db.Model):
     person_git = db.Column(db.Text, unique=True)
     person_promotion = db.Column(db.Text)
     person_is_admin = db.Column(db.Boolean)
+    person_last_seen = db.Column(db.Text, default=date)
+    person_description = db.Column(db.Text)
     created_document = db.relationship("Document",
                     secondary=Authorship,
                     backref=db.backref("Person")) #, lazy='dynamic'))
