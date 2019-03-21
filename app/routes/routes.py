@@ -183,7 +183,7 @@ def recherche():
         date=date,
     )
 
-@app.route("/document/<int:docu_id>")
+@app.route("/document/<int:docu_id>", methods=['GET', "POST"])
 def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
@@ -192,7 +192,7 @@ def document(docu_id):
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
     # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
-    tag_label = request.args.get("tag", None)
+    tag_label = request.form.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
 
     if tag_label:
