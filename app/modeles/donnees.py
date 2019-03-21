@@ -56,7 +56,7 @@ class Document(db.Model):
         if not matiere:
             erreurs.append("Veuillez renseigner une matière pour ce document.")
         if not downloadLink:
-            erreurs.append("Veuillez renseigner un lien de téléchargement pour ce document.")
+            erreurs.append("Aucun lien de téléchargement pour ce document.")
 
         docu = Document(document_title=title,
                         document_description=description,
@@ -77,7 +77,7 @@ class Document(db.Model):
 
 
     @staticmethod
-    def associate_docu_and_user(user_id, docu_id):
+    def associate_docu_and_user(user, docu):
         '''
         Fonction qui permet d'asssocier un user à un document et
         de créer un nouvel enregistrement dans Authorship
@@ -86,22 +86,20 @@ class Document(db.Model):
         :return: renvoie une liste d'erreurs s'il y en a
         '''
         erreurs = []
-        if not user_id:
-            erreurs.append("Il n'y a pas d'utilisateur à asssocier")
-        if not docu_id:
-            erreurs.append("Il n'y a pas de document à asssocier")
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à associer")
+        if not docu:
+            erreurs.append("Il n'y a pas de document à associer")
 
-        new_association = Authorship.insert().values(authorship_person_id=user_id,
-                                                     authorship_document_id=docu_id)
-        # je force l'ajout d'un nouvel enregistrement
-        # dans la table de relation Authorship
+        if user is None or docu is None:
+            return
 
-        db.session.execute(new_association)
-        # On envoie le paquet
+        if docu not in user.created_document:
+            # si le document n'est pas dans la liste de document créés par cet utilisateur
+            user.created_document.append(docu)
+
+        db.session.add(user)
         db.session.commit()
-
-        return erreurs
-
 
 
 class Tag(db.Model):
@@ -158,9 +156,9 @@ class Tag(db.Model):
         '''
         erreurs = []
         if not tag_id:
-            erreurs.append("Il n'y a pas de tag à asssocier")
+            erreurs.append("Il n'y a pas de tag à associer")
         if not docu_id:
-            erreurs.append("Il n'y a pas de document à asssocier")
+            erreurs.append("Il n'y a pas de document à associer")
 
         tag = Tag.query.filter(Tag.tag_id == tag_id).first()
         # je récupère le tag correspondant à l'id

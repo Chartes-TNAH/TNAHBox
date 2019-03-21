@@ -286,34 +286,46 @@ def annuaire():
         "pages/annuaire.html",
         resultats=resultats)
 
-def extension_ok(nom_fichier):
+
+def extension_ok(nom_fichier=""):
     """ Renvoie True si le fichier possède une extension valide. """
-    return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('txt', 'pdf', 'csv' 'doc', 'jpg', 'json',
+    return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('txt', 'pdf', 'csv', 'doc', 'jpg', 'json',
                                                           'jpeg', 'gif', 'bmp', 'png', 'word', 'xml', 'py', 'odt')
 
 @app.route('/upload', methods=['GET', 'POST'])
+@login_required
 def upload():
+    # # # VALEURS À AFFICHER DANS LES SELECTS
     docuMatiere = Document.document_teaching
     matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
     matieres = [mat[0] for mat in matieres.all()]
-
-    query = Document.query
-    titre = "Tous les documents"
 
     docuFormat = Document.document_format
     formats = Document.query.with_entities(docuFormat).order_by(docuFormat).distinct(docuFormat)
     formats = [formt[0] for formt in formats.all()]
 
-    query = Document.query
-    titre = "Tous les documents"
+    # # # VALEURS RENSEIGNÉES PAR L'UTILISATEUR
+    title = request.form.get("title", None)
+    description = request.form.get("desc", None)
+    format = request.form.get("format", None)
+    date = request.form.get("date", None)
+    matiere = request.form.get("matiere", None)
 
+    # # # IMPORT DE FICHIER
     if request.method == 'POST':
-        f = request.files['fic']
-        # dans f, on stocke le nom du fichier uploader mis en argument de l'URL
+        f = request.files['file']
+        # dans f, on stocke le fichier uploadé
         if f:  # on vérifie qu'un fichier a bien été envoyé
             if extension_ok(f.filename):  # on vérifie que son extension est valide
                 nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
                 f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier d'upload
+
+                dwnldLink = url_for('upped', nom=nom)
+                # on stocke le lien de téléchargement du fichier uploadé
+                docu = Document.add_doc(title, description, format, date, matiere, dwnldLink)
+                # on ajoute le document à la BDD
+                Document.associate_docu_and_user(current_user, docu)
+                # on l'associe à l'user connecté dans la table Authorship
                 flash(u'Fichier envoyé ! Voici <a href="{lien}">son lien</a>.'.format(lien=url_for('upped', nom=nom)),
                       'suc')
             else:
@@ -321,18 +333,19 @@ def upload():
         else:
             flash(u'Vous avez oublié le fichier !', 'error')
 
-    form = ImportForm()
-    # formulaire ImportForm
-    if form.validate_on_submit():
-            importer = Document(document_title=form.document_title.data,
-                           document_description=form.document_description.data,
-                           document_format=form.document_format.data,
-                           document_date=form.document_date.data,
-                           document_teaching=form.document_teaching.data,
-                           document_downloadLink=form.document_downloadLink.data)
-            #manque trois lignes de code, demander à Lauryne, comprendre :
-            #importer.set_password(form.person_password.data)
-            db.session.add(document)
-            db.session.commit()
-            flash('Document enregistré ! merci')
-    return render_template('pages/import.html', matieres=matieres, formats=formats, form=form)
+
+    # form = ImportForm()
+    # # formulaire ImportForm
+    # if form.validate_on_submit():
+    #         importer = Document(document_title=form.document_title.data,
+    #                        document_description=form.document_description.data,
+    #                        document_format=form.document_format.data,
+    #                        document_date=form.document_date.data,
+    #                        document_teaching=form.document_teaching.data,
+    #                        document_downloadLink=form.document_downloadLink.data)
+    #         #manque trois lignes de code, demander à Lauryne, comprendre :
+    #         #importer.set_password(form.person_password.data)
+    #         db.session.add(document)
+    #         db.session.commit()
+    #         flash('Document enregistré ! merci')
+    return render_template('pages/import.html', matieres=matieres, formats=formats) #, form=form)
