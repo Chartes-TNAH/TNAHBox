@@ -1,0 +1,95 @@
+{% extends 'conteneur.html' %}
+
+{% block title %}{{titre}}{% endblock %}
+
+<!-- Cette page est destinée à offrir une interface à l'utilisateur-trice qui voudra ajouter des documents à la BDD
+A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e et reconnué-e -->
+
+{% block corps %}
+<h1>Choisissez un fichier à importer dans TNAH BOX :</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    <label for="fic">Fichier</label><input id="fic" type="file" name="fic" />
+
+<div class="col-md-8 order-md-1" style="margin-left: 12em">
+      <form class="needs-validation" novalidate>
+          <!-- éléments de design repris de Bootstrap -->
+          <form action="" method="post">
+              <!--méthode POST prévue pour importer les documents -->
+        {{ form.hidden_tag() }}
+<!-- je ne saurai pas expliquer cette ligne, mais elle est nécessaire -->
+<!-- ici, proposition de faire l'import du document grâce à Flask et FlaskForm ; en parallèle essai de développement d'une fonction
+dans donnees, fonction par staticmethod, add_doc-->
+
+        <div class="mb-3">
+            <b>{{ form.document_title.label }}</b><br>
+            {{ form.document_title(size=50)}}
+            <!-- Ici ; je ne sais pas si c'est faisable de l'inclure dans le bootstrap mais correspond à :
+            depuis le formulaire déclaré dans routes.py "form = ImportForm() ... etc" et repris de la classe FlaskForm de importer.py
+            je prends le label correspondant à document_title associé au formulaire + passage à la ligne, <br>
+            et place pour écrire le titre avec la taille, choix de 5à (problème de responsive design -->
+
+          <!-- Code qui suit correspond à Bootstrap, jolie apparence mais donnée sans lien :
+          <label for="document_title"><b>titre du document</b></label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="document_title" placeholder="Titre du document" required>
+            <div class="invalid-feedback" style="width: 100%;">
+              Le document doit avoir un titre.
+            </div>
+          </div> -->
+        </div>
+
+        <div class="mb-3">
+            {{ form.document_teaching.label }}<br>
+            {{ form.document_teaching }}
+        </div>
+
+
+        <div class="mb-3">
+            {{ form.document_format.label }}<br>
+            {{ form.document_format }}
+        </div>
+
+        <div class="mb-3">
+            <b>{{ form.document_date.label }}</b><br>
+            {{ form.document_date(size=50)}}
+            <!-- idem que pour document_title -->
+
+            <!--
+            <label for="document_date"><b>Date du cours</b></label>
+          <input type="text" class="form-control" id="document_date" placeholder="Date" required>
+        </div>
+          <div class="invalid-feedback">
+            Veuillez renseigner une date pour ce document.
+            -->
+          </div>
+
+
+
+          <div class="mb-3">
+              <b>{{ form.document_description.label }}</b><br>
+            {{ form.document_description(size=50)}}
+              <!-- idem que pour document_title -->
+
+              <!--
+            <label for="document_description"><b>Description du document</b></label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="document_description" placeholder="Description du document" required>
+            <div class="invalid-feedback" style="width: 100%;">
+              Le document doit être décrit au moins succinctement.
+            </div>
+          </div>
+              -->
+        </div>
+          </form>
+      </form>
+</div>
+
+
+
+    <input id="btsub" type="submit" value="importer" style="margin-left: 30em"/>
+</form>
+
+
+{% endblock %}
+
+<!-- pour rendu visuel, modèle bootstrap utilisé : view-source:https://getbootstrap.com/docs/4.3/examples/checkout/ -->
