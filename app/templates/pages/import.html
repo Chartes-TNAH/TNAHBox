@@ -33,7 +33,7 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
                    required
                    placeholder="Titre du document …"
                    style="font-size: 16px"
-                   maxlength="30">
+                   maxlength="50">
         </div>
         <!-- IMPORT DE LA DESCRIPTION (name = desc) -->
         <div class="input-group row" style="padding: 10px">
@@ -51,6 +51,7 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
             <label class="col-md-2" for="select-matiere" style="font-size: 24px"><b>Matière</b></label>
             <select  id="select-matiere" form="file-form" name="matiere" class="form-control col-md-9">
                 <option value="">Sélectionner une matière</option>
+                <option value="Autre"><i>– Autre –</i></option>
                 <option value="Anglais">Anglais</option>
                 <option value="Bash / Linux">Bash / Linux</option>
                 <option value="CMS (OMEKA)">CMS (OMEKA)</option>
