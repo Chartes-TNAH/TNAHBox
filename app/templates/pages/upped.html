@@ -1,18 +1,37 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if docu %}| Document : {{docu.document_title}} {% endif %}
+    {%if docu %}| Document téléchargé {% endif %}
 {% endblock %}
 
 {% block corps %}
-    <h1 style="margin-left: 2em">Le document a bien été ajouté à la base de donnée !</h1>
+    <div class="container">
+        <h1 style="margin-left: 2em">Le document a bien été ajouté à la base de donnée</h1>
 
-    <p>{{ nom }}</p>
-{#    {% if docu %}#}
-{##}
-{#    {% else %}#}
-{#        <div class="container"><p>Aucun document ne correspond à l'identifiant renseigné.</p></div>#}
-{#    {% endif %}#}
+        <div class="row" style="text-align: center">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <p>Merci pour votre contribution !</p>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+
+        <div class="row" style="text-align: center">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <img src="{{url_for('static', filename='img/bmo_dancing.gif')}}">
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+
+        <div class="row" style="text-align: center; padding: 2em">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <a href="{{url_for('recherche')}}">Parcourir l'ensemble des documents de TNAH Box</a>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
 
     {% include "partials/retour_accueil.html" %}
 {% endblock %}

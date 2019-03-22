@@ -333,7 +333,6 @@ def upped():
     """
     Route pour la page à afficher après avoir importé un nouveau document dans la BDD
 
-    :param nom: nom du fichier en question
     """
 
     return render_template("pages/upped.html")
