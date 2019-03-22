@@ -317,39 +317,26 @@ def upload():
                 # on ajoute le document à la BDD
                 Document.associate_docu_and_user(current_user, docu)
                 # on l'associe à l'user connecté dans la table Authorship
-                flash(u'Fichier envoyé ! Voici <a href="{lien}">son lien</a>.'.format(lien=url_for('upped', nom=nom)),
-                      'suc')
+                return redirect(url_for('upped'))
+                # flash(u'Fichier envoyé ! Voici <a href="{lien}">son lien</a>.'.format(lien=url_for('upped', nom=nom)),
+                #       'suc')
             else:
                 flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
         else:
             flash(u'Vous avez oublié le fichier !', 'error')
 
 
-    # form = ImportForm()
-    # # formulaire ImportForm
-    # if form.validate_on_submit():
-    #         importer = Document(document_title=form.document_title.data,
-    #                        document_description=form.document_description.data,
-    #                        document_format=form.document_format.data,
-    #                        document_date=form.document_date.data,
-    #                        document_teaching=form.document_teaching.data,
-    #                        document_downloadLink=form.document_downloadLink.data)
-    #         #manque trois lignes de code, demander à Lauryne, comprendre :
-    #         #importer.set_password(form.person_password.data)
-    #         db.session.add(document)
-    #         db.session.commit()
-    #         flash('Document enregistré ! merci')
     return render_template('pages/import.html') #, form=form)
 
-@app.route("/upped/<nom>")
-def upped(nom):
+@app.route("/upped")
+def upped():
     """
     Route pour la page à afficher après avoir importé un nouveau document dans la BDD
 
     :param nom: nom du fichier en question
     """
 
-    return render_template("pages/upped.html", nom=nom)
+    return render_template("pages/upped.html")
 
     # downloadLink = url_for('upped', nom=nom)
     # uploaded_docu = Document.query.filter(Document.document_downloadLink == downloadLink).first()
