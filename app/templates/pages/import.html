@@ -26,13 +26,20 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
         <!-- IMPORT DU TITRE (name = title) -->
         <div class="input-group row" style="padding: 10px">
             <label class="col-md-2" for="input-title" style="margin: auto; font-size: 24px"><b>Titre</b></label>
-            <input name="title" id="input-title" type="text" class="col-md-10 form-control form-control-lg" required placeholder="Titre du document …" style="font-size: 16px">
+            <input name="title"
+                   id="input-title"
+                   type="text"
+                   class="col-md-10 form-control form-control-lg"
+                   required
+                   placeholder="Titre du document …"
+                   style="font-size: 16px"
+                   maxlength="30">
         </div>
         <!-- IMPORT DE LA DESCRIPTION (name = desc) -->
         <div class="input-group row" style="padding: 10px">
             <label class="col-md-2" for="input-desc" style="margin: auto; font-size: 24px"><b>Description</b></label>
             {# <input name="desc" type="text">#}
-            <textarea name="desc" class="form-control col-md-10 form-control-lg" rows="3" id="input-desc" placeholder="Description du document …" style="font-size: 16px"></textarea>
+            <textarea name="desc" class="form-control col-md-10 form-control-lg" rows="3" id="input-desc" placeholder="Description du document …" style="font-size: 16px" maxlength="200"></textarea>
         </div>
         <!-- IMPORT DE LA MATIERE (name = matiere) -->
         <div class="form-group row" style="padding: 10px">
