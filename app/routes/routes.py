@@ -186,16 +186,23 @@ def recherche():
             pass
 
     if date:
-        titre = titre + " à la date " + date
-        if len(date) == 10:
-            query = query.filter(Document.document_date == date)
-        if len(date) == 7:
-            query = query.filter(str(Document.document_date)[0:7] == date)
-        if len(date) == 4:
-            query = query.filter(str(Document.document_date)[0:4] == date)
+        query = Document.query.filter(Document.document_date.like("%{}%".format(date)))
 
 
     resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+
+    def lenDesc(desc):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
+        :param desc: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 60) ou 0 (si desc < 60)
+        '''
+        if len(desc) > 60:
+            lendesc = 1
+        else:
+            lendesc = 0
+
+        return lendesc
 
     return render_template(
         "pages/recherche.html",
@@ -209,9 +216,10 @@ def recherche():
         code=code,
         autre=autre,
         date=date,
+        lenDesc = lenDesc
     )
 
-@app.route("/document/<int:docu_id>")
+@app.route("/document/<int:docu_id>", methods=['GET', "POST"])
 def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
@@ -220,7 +228,7 @@ def document(docu_id):
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
     # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
-    tag_label = request.args.get("tag", None)
+    tag_label = request.form.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
 
     if tag_label:

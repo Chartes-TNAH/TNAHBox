@@ -105,11 +105,21 @@
                 {% for found_document in resultats.items %}
                     {# pour chaque document trouvé dans la liste de resultats
                     .items rend itérable la variable resultats, originellement objet de pagination #}
-                    {% if found_document.document_format == "image" %}
 
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/img.png")}}">
+                                {% if found_document.document_format == "image" %}
+                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
+                                {% elif found_document.document_format == "texte" %}
+                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
+                                {% elif found_document.document_format == "code" %}
+                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                                {% elif found_document.document_format == "autre" %}
+                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">
+                                {% else %}
+                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">
+                                {% endif %}
+
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-8">
@@ -119,108 +129,30 @@
                                             cet id est récupéré du document trouvé dans la liste de résultats #}
                                         </h4>
                                         <div class="col-md-4">
-                                            <a href="#" style="text-align: right">
-                                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
-                                            </a>
+                                            {% if found_document.document_downloadLink %}
+                                                <a style="text-align: right" href="{{ found_document.document_downloadLink }}" download>
+                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
+                                                </a>
+                                            {% else %}
+                                                <a style="text-align: right" href="">
+                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/no_download_picto.png")}}" alt="Icone de téléchargement">
+                                                </a>
+                                            {% endif %}
                                         </div>
                                     </div>
-                                    <p class="card-text">{{found_document.document_description}}</p>
+                                    <span class="badge badge-light">{{found_document.document_teaching}}</span>
+                                    {% if found_document.document_description %}
+                                        {% if lenDesc(found_document.document_description) %}
+                                            <p class="card-text" style="padding: 5px">{{found_document.document_description[0:59] + " …"}}</p>
+                                        {% else %}
+                                            <p class="card-text" style="padding: 5px">{{found_document.document_description}}</p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="card-text" style="padding: 5px">Aucune description</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-
-                    {% elif found_document.document_format == "texte" %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/txt.png")}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                            {# création d'un lien donnant accès à page dudit document
-                                            docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                            cet id est récupéré du document trouvé dans la liste de résultats #}
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <a href="#" style="text-align: right">
-                                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">{{found_document.document_description}}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    {% elif found_document.document_format == "code" %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/code.png")}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                            {# création d'un lien donnant accès à page dudit document
-                                            docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                            cet id est récupéré du document trouvé dans la liste de résultats #}
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <a href="#" style="text-align: right">
-                                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">{{found_document.document_description}}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    {% elif found_document.document_format == "autre" %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.png")}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                            {# création d'un lien donnant accès à page dudit document
-                                            docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                            cet id est récupéré du document trouvé dans la liste de résultats #}
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <a href="#" style="text-align: right">
-                                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">{{found_document.document_description}}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    {% else %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for("static", filename="img/autre.png")}}">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                            {# création d'un lien donnant accès à page dudit document
-                                            docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                            cet id est récupéré du document trouvé dans la liste de résultats #}
-                                        </h4>
-                                        <div class="col-md-4">
-                                            <a href="#" style="text-align: right">
-                                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">{{found_document.document_description}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
                 {% endfor %}
             </div>
 
