@@ -34,13 +34,23 @@
                     <dt>Format</dt><dd>{{docu.document_format}}</dd>
                     <div class="row">
                         <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/download_picto_clear.png")}}" alt="Icone de téléchargement">
-                        </a>
-                        <div style="margin-left: 1em"></div>
-                        <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="#">
-                            <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/preview_picto_clear.png")}}" alt="Icone de prévisualisation">
-                        </a>
+                        {% if docu.document_downloadLink %}
+                            <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="{{ docu.document_downloadLink }}" download>
+                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/download_picto_clear.png")}}" alt="Icone de téléchargement">
+                            </a>
+                            <div style="margin-left: 1em"></div>
+                            <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="{{ docu.document_downloadLink }}">
+                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/preview_picto_clear.png")}}" alt="Icone de prévisualisation">
+                            </a>
+                        {% else %}
+                            <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="">
+                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/no_download_picto.png")}}" alt="Icone de téléchargement">
+                            </a>
+                            <div style="margin-left: 1em"></div>
+                            <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="">
+                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/no_preview_picto.png")}}" alt="Icone de prévisualisation">
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-4">
