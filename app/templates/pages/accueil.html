@@ -7,8 +7,8 @@
 <div style="text-align: center">
     <!-- conserver cette ligne ? correspond au premier code de la page <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p> -->
     <h1 class="h3 mb-3 font-weight-normal">Bienvenue sur la page d'accueil du projet TNAHBox !</h1>
-    <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
-    <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
+    <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true" style="margin-right: 0.5em">Inscription</a>
+    <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true" style="margin-right: 0.5em">Connexion</a>
     <!-- deux boutons menant aux pages inscription et description -->
 </div>
 
@@ -70,4 +70,5 @@
     </div>
     </div>
 </body>
+ {% include "partials/footer_accueil.html" %}
 {% endblock %}
