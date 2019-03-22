@@ -129,14 +129,24 @@
                                             cet id est récupéré du document trouvé dans la liste de résultats #}
                                         </h4>
                                         <div class="col-md-4">
-                                            <a href="#" style="text-align: right">
-                                                <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
-                                            </a>
+                                            {% if found_document.document_downloadLink %}
+                                                <a style="text-align: right" href="{{ found_document.document_downloadLink }}" download>
+                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
+                                                </a>
+                                            {% else %}
+                                                <a style="text-align: right" href="">
+                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/no_download_picto.png")}}" alt="Icone de téléchargement">
+                                                </a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <span class="badge badge-light">{{found_document.document_teaching}}</span>
                                     {% if found_document.document_description %}
-                                        <p class="card-text" style="padding: 5px">{{found_document.document_description}}</p>
+                                        {% if lenDesc(found_document.document_description) %}
+                                            <p class="card-text" style="padding: 5px">{{found_document.document_description[0:59] + " …"}}</p>
+                                        {% else %}
+                                            <p class="card-text" style="padding: 5px">{{found_document.document_description}}</p>
+                                        {% endif %}
                                     {% else %}
                                         <p class="card-text" style="padding: 5px">Aucune description</p>
                                     {% endif %}
