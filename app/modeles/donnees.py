@@ -3,6 +3,7 @@ from ..app import login
 from flask_login import UserMixin
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
 
 from .. app import db
 
@@ -76,11 +77,10 @@ class Tag(db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
-
     @staticmethod
     def associate_tag_and_docu(tag_id, docu_id):
         '''
-        Fonction qui permet d'asssocier un tag à un document
+        Fonction qui permet d'associer un tag à un document
         :param tag_id: identifiant du tag à ajouter au document (int)
         :param docu_id: identifiant du document auquel ajouter le tag (int)
         :return: renvoie une liste d'erreurs s'il y en a
@@ -91,26 +91,21 @@ class Tag(db.Model):
         if not docu_id:
             erreurs.append("Il n'y a pas de document à asssocier")
 
-        # tagged_documents = HasTag.query.all()
-        # association = HasTag.query.get(docu_id, tag_id)
-        #
-        # if association:
-        #     pass
-        # else:
-        #     new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
-        #                                             hasTag_doc_id=docu_id)
-        #     # je force l'ajout d'un nouvel enregistrement
-        #     # dans la table de relation HasTag
-        #     db.session.execute(new_association)
-        #     # On envoie le paquet
-        #     db.session.commit()
+        tag = Tag.query.filter(Tag.tag_id == tag_id).first()
+        # je récupère le tag correspondant à l'id
+        doc = Document.query.filter(Document.document_id == docu_id).first()
+        # idem pour le document
 
-        new_association = HasTag.insert().values(hasTag_tag_id=tag_id,
-                                                 hasTag_doc_id=docu_id)
-        # je force l'ajout d'un nouvel enregistrement
-        # dans la table de relation HasTag
-        db.session.execute(new_association)
-        # On envoie le paquet
+        if tag is None or doc is None:
+            # si les identifiants ne correspondent à rien, je ne fais rien
+            return
+
+        if tag not in doc.document_tag:
+            # si le tag n'est pas déjà dans la liste de tag contenu dans document_tag
+            doc.document_tag.append(tag)
+            # je l'ajoute à cette liste
+
+        db.session.add(doc)
         db.session.commit()
 
         return erreurs
@@ -130,6 +125,8 @@ class Person(UserMixin, db.Model):
     person_git = db.Column(db.Text, unique=True)
     person_promotion = db.Column(db.Text)
     person_is_admin = db.Column(db.Boolean)
+    person_last_seen = db.Column(db.Text, default=date)
+    person_description = db.Column(db.Text)
     created_document = db.relationship("Document",
                     secondary=Authorship,
                     backref=db.backref("Person")) #, lazy='dynamic'))

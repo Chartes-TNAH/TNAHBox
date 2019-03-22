@@ -2,7 +2,8 @@ from flask import render_template, request, flash, redirect, url_for
 from sqlalchemy import and_, or_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from app.modeles.utilisateurs import LoginForm, RegistrationForm
+from app.modeles.utilisateurs import LoginForm, RegistrationForm, EditProfileForm
+from datetime import date
 
 
 from ..app import app, db
@@ -185,16 +186,23 @@ def recherche():
             pass
 
     if date:
-        titre = titre + " à la date " + date
-        if len(date) == 10:
-            query = query.filter(Document.document_date == date)
-        if len(date) == 7:
-            query = query.filter(str(Document.document_date)[0:7] == date)
-        if len(date) == 4:
-            query = query.filter(str(Document.document_date)[0:4] == date)
+        query = Document.query.filter(Document.document_date.like("%{}%".format(date)))
 
 
     resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+
+    def lenDesc(desc):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
+        :param desc: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 60) ou 0 (si desc < 60)
+        '''
+        if len(desc) > 60:
+            lendesc = 1
+        else:
+            lendesc = 0
+
+        return lendesc
 
     return render_template(
         "pages/recherche.html",
@@ -208,9 +216,10 @@ def recherche():
         code=code,
         autre=autre,
         date=date,
+        lenDesc = lenDesc
     )
 
-@app.route("/document/<int:docu_id>")
+@app.route("/document/<int:docu_id>", methods=['GET', "POST"])
 def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
@@ -219,7 +228,7 @@ def document(docu_id):
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
     # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
-    tag_label = request.args.get("tag", None)
+    tag_label = request.form.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
 
     if tag_label:
@@ -310,3 +319,59 @@ def annuaire():
     return render_template(
         "pages/annuaire.html",
         resultats=resultats)
+
+@app.route('/user/<person_login>')
+@login_required
+def user(person_login):
+    """
+    Génération automatique d'une page de profile pour tous LOGIN (et non toute entrées dans la BDD) enregistré sur le site
+    :param person_login: login enregistré dans la base de données (Person.person_login)
+    :return: Page de profile qui correspond, dans l'URL, au Login demandé
+    """
+    user = Person.query.filter_by(person_login=person_login).first_or_404() #si le login demandé n'existe pas
+    return render_template('pages/profile.html', user=user)
+#permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
+# la base de données n'a pas de profil enregistré
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    """
+    Modification des données de l'utilisateur connecté
+    :return: Page d'édition du profile avec les information utilisateur + un formulaire de modification des données
+    """
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.person_login = form.person_login.data
+        current_user.person_email = form.person_email.data
+        current_user.person_name = form.person_name.data
+        current_user.person_firstName = form.person_firstName.data
+        current_user.person_promotion = form.person_promotion.data
+        current_user.person_git = form.person_git.data
+        current_user.person_linkedIn = form.person_linkedIn.data
+        current_user.person_description = form.person_description.data
+        db.session.commit()
+        flash('Changement(s) sauvegardé(s)')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        #Si le formulaire n'est pas soumis ni modifier, l'utilisateur verra ses données enregistrées dans la BDD
+        form.person_login.data = current_user.person_login
+        form.person_email.data = current_user.person_email
+        form.person_name.data = current_user.person_name
+        form.person_firstName.data = current_user.person_firstName
+        form.person_promotion.data = current_user.person_promotion
+        form.person_git.data = current_user.person_git
+        form.person_linkedIn.data = current_user.person_linkedIn
+        form.person_description.data = current_user.person_description
+    return render_template('pages/edit_profile.html', form=form)
+
+@app.before_request
+def before_request():
+    """
+    Récupérer la date et l'heure de connexion d'un utilisateur
+    :return: valeur date et heure UTC
+    """
+    if current_user.is_authenticated:
+        today = date.today()
+        current_user.person_last_seen = date.today()
+        db.session.commit()
