@@ -295,15 +295,6 @@ def extension_ok(nom_fichier=""):
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
-    # # # VALEURS À AFFICHER DANS LES SELECTS
-    docuMatiere = Document.document_teaching
-    matieres = Document.query.with_entities(docuMatiere).order_by(docuMatiere).distinct(docuMatiere)
-    matieres = [mat[0] for mat in matieres.all()]
-
-    docuFormat = Document.document_format
-    formats = Document.query.with_entities(docuFormat).order_by(docuFormat).distinct(docuFormat)
-    formats = [formt[0] for formt in formats.all()]
-
     # # # VALEURS RENSEIGNÉES PAR L'UTILISATEUR
     title = request.form.get("title", None)
     description = request.form.get("desc", None)
@@ -348,7 +339,7 @@ def upload():
     #         db.session.add(document)
     #         db.session.commit()
     #         flash('Document enregistré ! merci')
-    return render_template('pages/import.html', matieres=matieres, formats=formats) #, form=form)
+    return render_template('pages/import.html') #, form=form)
 
 @app.route("/upped/<nom>")
 def upped(nom):

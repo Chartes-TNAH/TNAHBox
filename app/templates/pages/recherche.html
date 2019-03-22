@@ -108,13 +108,13 @@
 
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                {% if found_document.document_format == "image" %}
+                                {% if found_document.document_format == "Image" %}
                                     <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
-                                {% elif found_document.document_format == "texte" %}
+                                {% elif found_document.document_format == "Texte" %}
                                     <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
-                                {% elif found_document.document_format == "code" %}
+                                {% elif found_document.document_format == "Code" %}
                                     <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
-                                {% elif found_document.document_format == "autre" %}
+                                {% elif found_document.document_format == "Autre" %}
                                     <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">
                                 {% else %}
                                     <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">

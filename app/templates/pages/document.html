@@ -10,13 +10,13 @@
 
             <div class="row" style="padding: 2em">
                 <div class="col-md-3">
-                    {% if docu.document_format == "image" %}
+                    {% if docu.document_format == "Image" %}
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
-                    {% elif docu.document_format == "texte" %}
+                    {% elif docu.document_format == "Texte" %}
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
-                    {% elif docu.document_format == "code" %}
+                    {% elif docu.document_format == "Code" %}
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
-                    {% elif docu.document_format == "autre" %}
+                    {% elif docu.document_format == "Autre" %}
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">
                     {% else %}
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier dans un format divers">
