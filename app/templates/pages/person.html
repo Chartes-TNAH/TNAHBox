@@ -76,12 +76,18 @@
             </div>
             <div class="row" style="padding: 2em">
                 <div class="col-md-5" style="margin-left: 10%">
-                    <dt style="margin-top: 0.5 em">Documents ajoutés :</dt>
-                    <dd>{{person.person_firstName}} {{person.person_name}} n'a ajouté aucun document à TNAHBox.</dd>
+                    {% if person.created_document %}
+                        <dt>Documents ajoutés par {{person.person_firstName}} {{person.person_name}}</dt>
+                            {% for document in person.created_document %}
+                                <dd><a href="{{url_for('document', docu_id = document.document_id)}}">{{document.document_title}}</a></dd>
+                            {% endfor %}
+                    {% else %}
+                        <dd>{{person.person_firstName}} {{person.person_name}} n'a ajouté aucun document à TNAHBox.</dd>
+                    {% endif %}
                 </div>
                 <div class="col-md-5 rounded" style="margin-left: 2%">
                     Dernière connexion :
-                    <span style="color: grey;">00/00/0000</span>
+
                 </div>
             </div>
 
