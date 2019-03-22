@@ -169,6 +169,19 @@ def recherche():
 
     resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
 
+    def lenDesc(desc):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
+        :param desc: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 60) ou 0 (si desc < 60)
+        '''
+        if len(desc) > 60:
+            lendesc = 1
+        else:
+            lendesc = 0
+
+        return lendesc
+
     return render_template(
         "pages/recherche.html",
         resultats=resultats,
@@ -181,6 +194,7 @@ def recherche():
         code=code,
         autre=autre,
         date=date,
+        lenDesc = lenDesc
     )
 
 @app.route("/document/<int:docu_id>", methods=['GET', "POST"])
