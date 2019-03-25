@@ -27,56 +27,90 @@
 -->
 
 
-<div class="row">
-  <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 12em; padding-left: 1em;">
-<!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
-    <div class="col-md-10">
-      <h1 class="display-4 font-italic">{{person.person_firstName}} {{person.person_name}}</h1>
-        <!-- affichage Prénom Nom -->
-      <p class="lead my-3">promotion : {{person.person_promotion}}</p>
-        {% if person.person_cv %}
-      <p class="lead mb-0 text-white font-weight-bold">{{person.person_cv}}</p>
-        {% else %}
-            <p>Le CV de {{person.person_firstName}} {{person.person_name}} n'a pas été rempli.</p>
-        {% endif %}
-    </div>
-  </div>
+<!-- design repris de la page document.html pour homognéité visuelle -->
+            <div class="row" style="padding: 2em">
+                <!-- Ici image, voir si on ajoute image pour les profils -->
+                <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 10%">
+                    <h2 class="display-5 font-italic" style="margin-top: 0.5em">{{person.person_firstName}} {{person.person_name}}</h2>
+                    <!-- affichage Prénom Nom -->
+                    <dt>Promotion</dt>
+                    {% if person.person_promotion %}
+                        <dd>{{person.person_promotion}}</dd>
+                    {% else %}
+                        <dd>Le promotion de {{person.person_firstName}} {{person.person_name}} n'a pas été renseignée.</dd>
+                    {% endif %}
+                    <dt>CV</dt>
+                    {% if person.person_cv %}
+                        <dd>{{person.person_cv}}</dd>
+                    {% else %}
+                        <dd>Le CV de {{person.person_firstName}} {{person.person_name}} n'a pas été rempli.</dd>
+                    {% endif %}
+
+                    <div class="row">
+                        <div style="margin-left: 1em"></div>
+
+                    </div>
+                </div>
+                    <div class="col-md-5 bg-light rounded" style="margin-left: 2%">
+                        <h4 class="font-italic" style="margin-top: 1em">Contact</h4>
+                        <ol class="list-unstyled">
+                        <li>GitHub :
+                        {% if person.person_git %}
+                            <span><a href="{{person.person_git}}">{{(person.person_git).replace("https://github.com/","")|safe}}</a></span>
+                        <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
+                        {% else %}
+                            <span style="color: grey;">Aucun compte GitHub n'a été renseigné.</span>
+                        {% endif %}
+                            </li>
+                        <li>LinkedIn :
+                        {% if person.person_linkedIn %}
+                            <span><a href="{{person.person_linkedIn}}">{{person.person_firstName}} {{person.person_name}}</a></span>
+                        {% else %}
+                            <span style="color: grey;">Aucun compte LinkedIn n'a été renseigné.</span>
+                        {% endif %}
+                            </li>
+                        <li>Adresse email :
+                         {% if person.person_email %}
+                            <span><a href="mailto:{{person.person_email}}">{{person.person_email}}</a></span>
+                         {% else %}
+                            <span style="color: grey;">Aucune adresse mail n'a été renseignée. <br>Essayez : <a href="mailto:{{person.person_email}}" style="text-transform: lowercase;">{{person.person_firstName}}.{{person.person_name}}@chartes.psl.eu</a></span>
+                         {% endif %}
+                        </li>
+                            <!-- Si aucune adresse mail n'a été renseignée, propose par défaut celle de l'ENC -->
+                        </ol>
+                    </div>
+            </div>
+            <div class="row" style="padding: 2em">
+                <div class="col-md-5 rounded" style="margin-left: 10%">
+                    <dt>Description : </dt>
+                    <!-- if person_description
+                    <p>{{person_description}}</p>
+                    else
+                    <span style="color: grey;">Aucune description n'a été renseignée.</span>
+                     endif  -->
+                </div>
+                <div class="col-md-5" style="margin-left: 2%">
+                    <dt style="margin-top: 0.5 em">Documents ajoutés :</dt>
+                    {% if person.created_document %}
+                        <p>{{person.person_firstName}} {{person.person_name}} a ajouté {{person.created_document.count(document)+1}} document(s) dans TNAHBox :</p>
+                    <!-- pour un document affiche 1 documents grâce à +1 ; voir si ça fonctionne avec plusieurs documents. -->
+                            {% for document in person.created_document %}
+                                <dd><a href="{{url_for('document', docu_id = document.document_id)}}">{{document.document_title}}</a></dd>
+                            {% endfor %}
+                    {% else %}
+                        <dd>{{person.person_firstName}} {{person.person_name}} n'a ajouté aucun document à TNAHBox.</dd>
+                    {% endif %}
+                </div>
+
+            </div>
 
 
-     <div class="col-md-4" style="margin-right: 12em; margin-botoom: 20em">
-          <div class="p-4 mb-3 bg-light rounded">
-            <h4 class="font-italic" style="text-align: center">Elsewhere</h4>
-            <ol class="list-unstyled">
-              <li>GitHub :
-                  {% if person.person_git %}
-                  <a href="{{person.person_git}}">{{(person.person_git).replace("https://github.com/","")|safe}}</a>
-                  <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
-                {% else %}
-                   <span style="color: grey;">Aucun compte GitHub n'a été renseigné.</span>
-                {% endif %}
-                </li>
-              <li>linkedIn :
-                  {% if person.person_linkedIn %}
-                  <a href="{{person.person_linkedIn}}">{{person.person_firstName}} {{person.person_name}}</a>
-                  {% else %}
-                   <span style="color: grey;">Aucun compte LinkedIn n'a été renseigné.</span>
-                {% endif %}
-                </li>
-                <li>adresse mail : <a href="mailto:{{person.person_email}}">{{person.person_email}}</a></li>
-            </ol>
-          </div>
-        </div>
- </div>
 
 
-
-
-
-
-<footer class="footer" style="margin-top: 8em; text-align: center">
-    <a href="{{url_for('accueil')}}" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Retour à l'accueil</a>
+<!-- Conserver cette ligne ??? Crée un bouton pour retour vers l'annuaire...
     <a href="{{url_for('annuaire')}}" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Retour à l'annuaire</a>
-</footer>
+    -->
 
-
+    {% include "partials/retour_accueil.html" %}
+    <!-- permet d'afficher le footer, appelle ici le fichier retour_accueil.html présent dans /templates/partial/ -->
 {% endblock %}
