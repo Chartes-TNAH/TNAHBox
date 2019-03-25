@@ -48,6 +48,7 @@ class EditProfileForm(FlaskForm):
     person_git = StringField('Compte GitHub (URL)')
     person_linkedIn= StringField('Compte LinkedIn (URL)')
     person_description = TextAreaField('Description')
+    person_is_admin = BooleanField('ADMIN TNAHBox')
     submit = SubmitField('Enregistrer les modifications')
 
 

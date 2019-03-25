@@ -412,6 +412,7 @@ def admin(person_login):
         user.person_git = form.person_git.data
         user.person_linkedIn = form.person_linkedIn.data
         user.person_description = form.person_description.data
+        user.person_is_admin = form.person_is_admin.data
         db.session.commit()
         return redirect(url_for('user', person_login = person_login))
     elif request.method == 'GET':
@@ -423,6 +424,7 @@ def admin(person_login):
         form.person_git.data = user.person_git
         form.person_linkedIn.data = user.person_linkedIn
         form.person_description.data = user.person_description
+        form.person_is_admin.data = user.person_is_admin
     return render_template('pages/admin.html', form=form)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
