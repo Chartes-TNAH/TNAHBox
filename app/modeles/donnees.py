@@ -204,6 +204,9 @@ class Person(UserMixin, db.Model):
     created_document = db.relationship("Document",
                     secondary=Authorship,
                     backref=db.backref("Person")) #, lazy='dynamic'))
+    faved_documents = db.relationship("Document",
+                    secondary=IsFav,
+                    backref=db.backref("Person"))
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
