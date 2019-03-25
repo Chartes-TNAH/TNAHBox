@@ -268,6 +268,7 @@ def document(docu_id):
     if unfav:
         Person.remove_docu_to_favorites(current_user, requested_docu)
 
+
     return render_template("pages/document.html",
                            docu = requested_docu,
                            auteur = auteur,
@@ -412,9 +413,37 @@ def user(person_login):
         if user in docu.loving_users:
             docus.append(docu)
 
+    def lenDesc(desc):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
+        :param desc: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 60) ou 0 (si desc < 60)
+        '''
+        if len(desc) > 60:
+            lendesc = 1
+        else:
+            lendesc = 0
+
+        return lendesc
+
+    def lenTitle(title):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 20 caractères
+        :param title: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 20) ou 0 (si desc < 20)
+        '''
+        if len(title) > 20:
+            lentitle = 1
+        else:
+            lentitle = 0
+
+        return lentitle
+
     return render_template('pages/profile.html',
                            user=user,
-                           docus = docus)
+                           docus = docus,
+                           lenTitle = lenTitle,
+                           lenDesc = lenDesc)
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
 
