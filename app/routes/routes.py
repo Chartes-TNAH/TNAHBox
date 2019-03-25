@@ -5,7 +5,6 @@ from werkzeug.urls import url_parse
 from werkzeug import secure_filename
 from app.modeles.donnees import Person, Document
 from app.modeles.utilisateurs import LoginForm, RegistrationForm, EditProfileForm
-from app.modeles.importer import ImportForm
 from datetime import date
 
 
@@ -202,19 +201,33 @@ def recherche():
 
         return lendesc
 
+    def lenTitle(title):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 20 caractères
+        :param title: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 20) ou 0 (si desc < 20)
+        '''
+        if len(title) > 20:
+            lentitle = 1
+        else:
+            lentitle = 0
+
+        return lentitle
+
     return render_template(
         "pages/recherche.html",
-        resultats=resultats,
-        titre=titre,
-        keyword=motclef,
-        matiere=matiere,
-        matieres=matieres,
-        img=img,
-        txt=txt,
-        code=code,
-        autre=autre,
-        date=date,
-        lenDesc = lenDesc
+        resultats = resultats,
+        titre = titre,
+        keyword = motclef,
+        matiere = matiere,
+        matieres = matieres,
+        img = img,
+        txt = txt,
+        code = code,
+        autre = autre,
+        date = date,
+        lenDesc = lenDesc,
+        lenTitle = lenTitle
     )
 
 @app.route("/document/<int:docu_id>", methods=['GET', "POST"])
@@ -225,6 +238,7 @@ def document(docu_id):
 
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
+
     # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
     tag_label = request.form.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
@@ -245,7 +259,21 @@ def document(docu_id):
     auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id)).first()
     # j'en récupère l'auteur
 
-    return render_template("pages/document.html", docu = requested_docu, auteur = auteur)
+    # # # AJOUT AUX FAVORIS DE L'UTILISATEUR CONNECTÉ
+    unfav = request.form.get("unfav", None)
+    fav = request.form.get("fav", None)
+
+    if fav:
+        Person.add_docu_to_favorites(current_user, requested_docu)
+    if unfav:
+        Person.remove_docu_to_favorites(current_user, requested_docu)
+
+
+    return render_template("pages/document.html",
+                           docu = requested_docu,
+                           auteur = auteur,
+                           current_user = current_user)
+
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
@@ -394,7 +422,45 @@ def user(person_login):
     :return: Page de profile qui correspond, dans l'URL, au Login demandé
     """
     user = Person.query.filter_by(person_login=person_login).first_or_404() #si le login demandé n'existe pas
-    return render_template('pages/profile.html', user=user)
+
+    # # # RÉCUPÉRATION DE LA LISTE DES DOCUMENTS MIS EN FAVORIS PAR L'UTILISATEUR
+    all_docu = Document.query.all()
+    docus = []
+    for docu in all_docu:
+        if user in docu.loving_users:
+            docus.append(docu)
+
+    def lenDesc(desc):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
+        :param desc: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 60) ou 0 (si desc < 60)
+        '''
+        if len(desc) > 60:
+            lendesc = 1
+        else:
+            lendesc = 0
+
+        return lendesc
+
+    def lenTitle(title):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 20 caractères
+        :param title: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 20) ou 0 (si desc < 20)
+        '''
+        if len(title) > 20:
+            lentitle = 1
+        else:
+            lentitle = 0
+
+        return lentitle
+
+    return render_template('pages/profile.html',
+                           user=user,
+                           docus = docus,
+                           lenTitle = lenTitle,
+                           lenDesc = lenDesc)
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
 

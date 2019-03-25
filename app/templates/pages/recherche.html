@@ -68,23 +68,23 @@
 
                 <div class="form-check" id="checkbox-form">
                     <div class="row">
-                        <label for="checkbox-form"><b>Format de document</b></label>
+                        <label for="checkbox-form"><b>Type de document</b></label>
                     </div>
                     <div style="margin-left: 15px" form="recherche-form">
                         <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="img" value="image" id="defaultCheck1">
+                            <input class="form-check-input" type="checkbox" type="search" name="img" value="Image" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">Image</label>
                         </div>
                         <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="txt" value="texte" id="defaultCheck2">
+                            <input class="form-check-input" type="checkbox" type="search" name="txt" value="Texte" id="defaultCheck2">
                             <label class="form-check-label" for="defaultCheck2">Texte</label>
                         </div>
                         <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="code" value="code" id="defaultCheck3">
+                            <input class="form-check-input" type="checkbox" type="search" name="code" value="Code" id="defaultCheck3">
                             <label class="form-check-label" for="defaultCheck3">Code</label>
                         </div>
                         <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="autre" value="autre" id="defaultCheck4">
+                            <input class="form-check-input" type="checkbox" type="search" name="autre" value="Autre" id="defaultCheck4">
                             <label class="form-check-label" for="defaultCheck4">Autre</label>
                         </div>
                     </div>
@@ -108,25 +108,31 @@
 
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                {% if found_document.document_format == "Image" %}
-                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
-                                {% elif found_document.document_format == "Texte" %}
-                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
-                                {% elif found_document.document_format == "Code" %}
-                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
-                                {% elif found_document.document_format == "Autre" %}
-                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
-                                {% else %}
-                                    <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
-                                {% endif %}
+                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">
+                                    {% if found_document.document_format == "Image" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
+                                    {% elif found_document.document_format == "Texte" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
+                                    {% elif found_document.document_format == "Code" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                                    {% elif found_document.document_format == "Autre" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                                    {% else %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                                    {% endif %}
+                                </a>
 
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                            {# création d'un lien donnant accès à page dudit document
-                                            docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                            cet id est récupéré du document trouvé dans la liste de résultats #}
+                                            {% if lenTitle(found_document.document_title) %}
+                                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title[0:17] + " …"}}</a>
+                                                {# création d'un lien donnant accès à page dudit document
+                                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                                cet id est récupéré du document trouvé dans la liste de résultats #}
+                                            {% else %}
+                                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                            {% endif %}
                                         </h4>
                                         <div class="col-md-4">
                                             {% if found_document.document_downloadLink %}
@@ -143,7 +149,8 @@
                                     <span class="badge badge-light">{{found_document.document_teaching}}</span>
                                     {% if found_document.document_description %}
                                         {% if lenDesc(found_document.document_description) %}
-                                            <p class="card-text" style="padding: 5px">{{found_document.document_description[0:59] + " …"}}</p>
+                                        {# Si la description fait plus de 60 caractères #}
+                                            <p class="card-text" style="padding: 5px">{{found_document.document_description[0:55] + " …"}}</p>
                                         {% else %}
                                             <p class="card-text" style="padding: 5px">{{found_document.document_description}}</p>
                                         {% endif %}

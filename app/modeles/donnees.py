@@ -11,6 +11,10 @@ HasTag = db.Table('HasTag',
     db.Column('hasTag_doc_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
     db.Column('hasTag_tag_id', db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True))
 
+IsFav = db.Table('IsFav',
+    db.Column('faved_docu_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
+    db.Column('loving_user_id', db.Integer, db.ForeignKey('Person.person_id'), primary_key=True))
+
 Authorship = db.Table('Authorship',
     db.Column('authorship_person_id', db.Integer, db.ForeignKey('Person.person_id'), primary_key=True),
     db.Column('authorship_document_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
@@ -28,6 +32,9 @@ class Document(db.Model):
     document_tag = db.relationship("Tag",
                     secondary=HasTag,
                     backref=db.backref("Document", lazy='dynamic'))
+    loving_users = db.relationship("Person",
+                    secondary=IsFav,
+                    backref=db.backref("Document"))
 
     def get_id(self):
         return(self.document_id)
@@ -82,8 +89,8 @@ class Document(db.Model):
         '''
         Fonction qui permet d'asssocier un user à un document et
         de créer un nouvel enregistrement dans Authorship
-        :param user_id: identifiant de l'auteur du document (int)
-        :param docu_id: identifiant du document importé par l'utilisateur (int)
+        :param user: auteur du document (entrée de la BDD)
+        :param docu: document importé par l'utilisateur (entrée de la BDD)
         :return: renvoie une liste d'erreurs s'il y en a
         '''
         erreurs = []
@@ -190,7 +197,7 @@ class Person(UserMixin, db.Model):
     person_email = db.Column(db.Text, nullable=False)
     person_login = db.Column(db.Text,unique=True, nullable=False)
     person_password = db.Column(db.Text, unique=True, nullable=False)
-    person_linkedIn = db.Column(db.Text,unique=True)
+    person_linkedIn = db.Column(db.Text, unique=True)
     person_cv = db.Column(db.Text)
     person_git = db.Column(db.Text, unique=True)
     person_promotion = db.Column(db.Text)
@@ -200,6 +207,63 @@ class Person(UserMixin, db.Model):
     created_document = db.relationship("Document",
                     secondary=Authorship,
                     backref=db.backref("Person")) #, lazy='dynamic'))
+
+    @staticmethod
+    def add_docu_to_favorites(user, docu):
+        '''
+        Fonction qui permet d'ajouter aux favoris de l'utilisateur
+        le document courant
+        :param user: auteur du document (entrée de la BDD)
+        :param docu: document importé par l'utilisateur (entrée de la BDD)
+        :return: liste d'erreurs d'il y en a
+        '''
+        erreurs = []
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à associer")
+        if not docu:
+            erreurs.append("Il n'y a pas de document à associer")
+
+        if user is None or docu is None:
+            # si les paramètres renseignés ne correspondent à rien, je ne fais rien
+            return
+
+        if user not in docu.loving_users:
+            # si le document n'est pas déjà dans la liste des documents favoris de l'utilisateur
+            docu.loving_users.append(user)
+            # je l'ajoute à cette liste
+
+        db.session.add(docu)
+        db.session.commit()
+
+        return erreurs
+
+    def remove_docu_to_favorites(user, docu):
+        '''
+        Fonction qui permet d'enlever aux favoris de l'utilisateur
+        le document courant
+        :param user: auteur du document (entrée de la BDD)
+        :param docu: document importé par l'utilisateur (entrée de la BDD)
+        :return: liste d'erreurs d'il y en a
+        '''
+        erreurs = []
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à dissocier")
+        if not docu:
+            erreurs.append("Il n'y a pas de document à dissocier")
+
+        if user is None or docu is None:
+            # si les paramètres renseignés ne correspondent à rien, je ne fais rien
+            return
+
+        if user in docu.loving_users:
+            # si le document est déjà dans la liste des documents favoris de l'utilisateur
+            docu.loving_users.remove(user)
+            # je le supprime de cette liste
+
+        db.session.add(docu)
+        db.session.commit()
+
+        return erreurs
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)

@@ -6,7 +6,7 @@
 A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e et reconnué-e -->
 
 {% block corps %}
-<div class="container card" style="background-color: #ecf7f9">
+<div class="container card" style="background-color: #ecf7f9; padding: 1em; margin-bottom: 3em">
     <h1>Choisissez un fichier à importer dans TNAH BOX :</h1>
 
 
@@ -56,7 +56,8 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
         <div class="form-group row" style="padding: 10px">
             <label class="col-md-2" for="select-matiere" style="font-size: 24px"><b>Matière</b></label>
             <select  id="select-matiere" form="file-form" name="matiere" class="form-control col-md-9">
-                <option value="">Sélectionner une matière</option>
+                <option value="Autre">Sélectionner une matière</option>
+                {# Si aucune matière n'est sélectionnée, par défaut la valeur est "Autre" #}
                 <option value="Autre"><i>– Autre –</i></option>
                 <option value="Anglais">Anglais</option>
                 <option value="Bash / Linux">Bash / Linux</option>
@@ -78,9 +79,10 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
         </div>
         <!-- IMPORT DU FORMAT (name = format) -->
         <div class="form-group row" style="padding: 10px">
-            <label class="col-md-2" for="select-format" style="font-size: 24px"><b>Format</b></label>
+            <label class="col-md-2" for="select-format" style="font-size: 24px"><b>Type</b></label>
             <select  id="select-format" form="file-form" name="format" class="form-control col-md-9">
-                <option value="">Sélectionner un format de document</option>
+                <option value="Autre">Sélectionner un type de document</option>
+                {# Si aucun type n'est sélectionné, par défaut la valeur est "Autre" #}
                 <option value="Texte">Texte</option>
                 <option value="Code">Code</option>
                 <option value="Image">Image</option>
@@ -93,7 +95,7 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
                 <label for="input-date" style="margin: auto; font-size: 24px"><b>Date</b></label>
                 <p style="font-size: 12px" class="text-muted">AAAA-MM-JJ</p>
             </div>
-            <input id="input-date" type='text' name="date" class="col-md-9 form-control form-control-lg" id='datepicker' style="font-size: 16px" placeholder="Il est possible de n'indiquer que l'année (AAAA) ou le mois (AAAA-MM)." data-date-format="yy-mm-dd"/>
+            <input id="input-date" type='text' name="date" class="col-md-10 form-control form-control-lg" id='datepicker' style="font-size: 16px" placeholder="Il est possible de n'indiquer que l'année (AAAA) ou le mois (AAAA-MM)." data-date-format="yy-mm-dd"/>
             <script type="text/javascript">
                 $(function () {
                     $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });

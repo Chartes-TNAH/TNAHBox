@@ -10,7 +10,9 @@ person_password TEXT NULL,
 person_linkedIn TEXT NULL,
 person_cv TEXT NULL,
 person_git TEXT NULL,
-person_is_admin INTEGER NULL
+person_is_admin INTEGER NULL,
+person_last_seen TEXT NULL,
+person_description TEXT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Document (
@@ -46,5 +48,15 @@ PRIMARY KEY (hasTag_tag_id, hasTag_doc_id),
 FOREIGN KEY (hasTag_tag_id) REFERENCES Tag(tag_id)
 ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (hasTag_doc_id) REFERENCES Document(document_id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS IsFav (
+faved_docu_id,
+loving_user_id,
+PRIMARY KEY (faved_docu_id, loving_user_id),
+FOREIGN KEY (faved_docu_id) REFERENCES Document(document_id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (loving_user_id) REFERENCES Person(person_id)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
