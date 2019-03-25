@@ -8,7 +8,7 @@
     <!-- conserver cette ligne ? correspond au premier code de la page <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p> -->
     <p class="lead text-muted container">Rendu final du cours de <a href="/personne/3">Thibaut Clérice</a> en M2 TNAH à l'ENC, <br>le projet TNAHBox a été développé grâce au langage de programmation python. Bienvenue sur la page d'accueil !</p>
 
-     {% if current_user.is_anonymous %}
+    {% if current_user.is_anonymous %}
 
     <p class="h3 mb-3 font-weight-normal container"><br>Ancien étudiant·e ou enseignant·e ?
         Inscrivez-vous et accédez aux documents enregistrés ou ajoutez-les et explorez l'annuaire du master !</p>
@@ -19,63 +19,64 @@
 </div>
 
 
-     <div class="container marketing" style="margin-top: 2em">
-         <!-- pour une raison que je n'explique pas, les boutons sont recouverts par les "ronds" svg des docs sans un petit margin-top-->
-         <h4>Voici les trois derniers documents ajoutés à la TNAHBox : </h4>
+<div class="container marketing" style="margin-top: 2em">
+    <!-- pour une raison que je n'explique pas, les boutons sont recouverts par les "ronds" svg des docs sans un petit margin-top-->
+    <h4 style="padding: 1em">Voici les trois derniers documents ajoutés à la TNAHBox : </h4>
     <div class="row">
-        {% for found_document in resultats %}
+            {% for found_document in resultats %}
 
-                        <div class="col-sm-4 col-xs-6 mb-2">
-                            <div class="card h-50 w-30">
-                                {% if found_document.document_format == "image" %}
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/img.png')}}">
-                                {% elif found_document.document_format == "texte" %}
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/txt.png')}}">
-                                {% elif found_document.document_format == "code" %}
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/code.png')}}">
-                                {% elif found_document.document_format == "autre" %}
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
-                                {% else %}
-                                <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
-                                {% endif %}
-                             <!-- ici : si le format correspond à , alors appliquer l'image choisie ; la boucle for au dessus permet itération facile -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title[0:20] + " ..."}}</a>
-                                        </h4>
-                                        <div><!-- pour question d'affichage et responsive design class="col-md-4"retiré balise div-->
-                                            <b>
-                                            {% if found_document.document_teaching %}
-                                            <p>{{found_document.document_teaching}}</p>
-                                              {% else %}
-                                              <p>Il n'y a pas de matière renseignée pour ce document</p>
-                                              <!-- Si la matière du document a été remplie dans la BDD, afficher sinon phrase -->
-                                              {% endif %}
-                                                </b>
-                                        </div>
-                                    </div>
-                                    <p class="card-text">{% if found_document.document_description %}
-                                        <p>{{found_document.document_description[0:59] + " …"}}</p>
-                                    <!-- permet de n'afficher que les 59 premiers caractères de la description, ainsi il n'y a pas de dépassement possible en dehors de la card -->
-                                          {% else %}
-                                          <p>Il n'y a pas de description pour ce document</p>
-                                          <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
-                                          {% endif %}
-                                    </p>
-                                </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    {% if found_document.document_format == "Image" %}
+                    <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/img.png')}}">
+                    {% elif found_document.document_format == "Texte" %}
+                    <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/txt.png')}}">
+                    {% elif found_document.document_format == "Code" %}
+                    <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/code.png')}}">
+                    {% elif found_document.document_format == "Autre" %}
+                    <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
+                    {% else %}
+                    <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
+                    {% endif %}
+                    <!-- ici : si le format correspond à , alors appliquer l'image choisie ; la boucle for au dessus permet itération facile -->
+                    <div class="card-body">
+                        <div class="row">
+                            <h4 class="card-title col-md-8">
+                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                            </h4>
+                            <div><!-- pour question d'affichage et responsive design class="col-md-4"retiré balise div-->
+                                <b>
+                                    {% if found_document.document_teaching %}
+                                    <span class="badge badge-light">{{found_document.document_teaching}}</span>
+                                    {% else %}
+                                    <p>Il n'y a pas de matière renseignée pour ce document</p>
+                                    <!-- Si la matière du document a été remplie dans la BDD, afficher sinon phrase -->
+                                    {% endif %}
+                                </b>
                             </div>
                         </div>
+                        {% if found_document.document_description %}
+                        <p>{{found_document.document_description}}</p>
+                        <!-- permet de n'afficher que les 59 premiers caractères de la description, ainsi il n'y a pas de dépassement possible en dehors de la card -->
+                        {% else %}
+                        <p>Il n'y a pas de description pour ce document</p>
+                        <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
 
 
-{% endfor %}
-
-          <!-- essayer : si personne connectée, donner accès à la page, sinon, envoyer un message "vous n'êtes pas connecté"
-          problème : idée que les documents ne sont accessibles si l'user est logué-->
+        <!-- essayer : si personne connectée, donner accès à la page, sinon, envoyer un message "vous n'êtes pas connecté"
+        problème : idée que les documents ne sont accessibles si l'user est logué-->
 
         <!-- design repris depuis page recherche avec les card de bootstrap -->
     </div>
-    </div>
+</div>
 </body>
- {% include "partials/footer_accueil.html" %}
+{% include "partials/footer_accueil.html" %}
 {% endblock %}
