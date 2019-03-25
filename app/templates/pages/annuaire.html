@@ -8,7 +8,10 @@
   <body>
 
 <main role="main">
-
+{% if current_user.is_anonymous %}
+    <h1 class="starter-template">Vous devez être connecté pour accéder à l'annuaire.
+        <br>Vous pouvez vous inscrire <a href="{{url_for('register')}}">ici</a>.</h1>
+{% else %}
   <section class="jumbotron text-center">
     <div class="container">
       <h1 class="jumbotron-heading">Annuaire du master TNAH de l'École nationale des chartes</h1>
@@ -84,6 +87,8 @@
       </div>
     </div>
   </div>
+
+{% endif %}
 
 </main>
 
