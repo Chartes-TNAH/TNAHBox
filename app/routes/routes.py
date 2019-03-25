@@ -404,7 +404,17 @@ def user(person_login):
     :return: Page de profile qui correspond, dans l'URL, au Login demandé
     """
     user = Person.query.filter_by(person_login=person_login).first_or_404() #si le login demandé n'existe pas
-    return render_template('pages/profile.html', user=user)
+
+    # # # RÉCUPÉRATION DE LA LISTE DES DOCUMENTS MIS EN FAVORIS PAR L'UTILISATEUR
+    all_docu = Document.query.all()
+    docus = []
+    for docu in all_docu:
+        if user in docu.loving_users:
+            docus.append(docu)
+
+    return render_template('pages/profile.html',
+                           user=user,
+                           docus = docus)
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
 

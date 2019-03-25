@@ -22,45 +22,51 @@
 <div class="col"><p class="lead my-3">Dernière connexion : {{user.person_last_seen}}</p></div>
 
 
-<div class="col-md-8">
-          <div class="p-4 mb-3 bg-transparent rounded">
+    <div class="col-md-8">
+        <div class="p-4 mb-3 bg-transparent rounded">
             <h4 class="font-italic">Informations :</h4>
-              <hr>
-              <div class="row">
-              <div class="col-md-4">
-            <ol class="list-unstyled">
-                <li>{{user.person_firstName}}</li>
-                <li>{{user.person_name}}</li>
-                <li>Promotion {{user.person_promotion}}</li>
-            </ol>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <ol class="list-unstyled">
+                        <li>{{user.person_firstName}}</li>
+                        <li>{{user.person_name}}</li>
+                        <li>Promotion {{user.person_promotion}}</li>
+                    </ol>
                 </div>
                 <div class="col-md-7">
                     <ol class="list-unstyled">
                         <li>Mail : {{user.person_email}}</li>
                         <li>Compte GitHub : {% if user.person_git %}
-                  <a href="{{user.person_git}}">{{(user.person_git).replace("https://github.com/","")|safe}}</a>
-                  <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
-                {% else %}
-                   <span style="color: grey;">Aucun compte GitHub enregistré</span>
-                {% endif %}</li>
+                            <a href="{{user.person_git}}">{{(user.person_git).replace("https://github.com/","")|safe}}</a>
+                            <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
+                        {% else %}
+                            <span style="color: grey;">Aucun compte GitHub enregistré</span>
+                        {% endif %}</li>
 
                         <li>LinkedIn :
-                  {% if user.person_linkedIn %}
-                  <a href="{{user.person_linkedIn}}">{{user.person_firstName}} {{user.person_name}}</a>
-                  {% else %}
-                   <span style="color: grey;">Aucun compte LinkedIn enregistré</span>
-                {% endif %}
+                            {% if user.person_linkedIn %}
+                                <a href="{{user.person_linkedIn}}">{{user.person_firstName}} {{user.person_name}}</a>
+                            {% else %}
+                                <span style="color: grey;">Aucun compte LinkedIn enregistré</span>
+                            {% endif %}
                         </li>
-
                     </ol>
                 </div>
-
-            </ol>
-          </div>
+            </div>
+        {% if docus %}
+            <h4 class="font-italic">Fichiers favoris :</h4>
+            <hr>
+            <div class="row">
+                {% for docu in docus %}
+                    <a href="{{url_for('document', docu_id = docu.document_id)}}">{{docu.document_title}}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
         </div>
 
 
-{% if user == current_user %}
+        {% if user == current_user %}
 <a href="{{ url_for('edit_profile') }}"><button type="button" class="btn btn-danger" >Mondifier mon profil</button></a>
 {% endif %}
 
