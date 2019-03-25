@@ -231,7 +231,6 @@ def recherche():
     )
 
 @app.route("/document/<int:docu_id>", methods=['GET', "POST"])
-@login_required
 def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
@@ -239,8 +238,6 @@ def document(docu_id):
 
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
-    if not current_user.is_authenticated:
-        return redirect('/connectez-vous')
 
     # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
     tag_label = request.form.get("tag", None)
@@ -277,9 +274,6 @@ def document(docu_id):
                            auteur = auteur,
                            current_user = current_user)
 
-@app.route('/connectez-vous')
-def connectez_vous():
-    return render_template('pages/connection_required.html')
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
