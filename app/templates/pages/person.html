@@ -83,11 +83,11 @@
             <div class="row" style="padding: 2em">
                 <div class="col-md-5 rounded" style="margin-left: 10%">
                     <dt>Description : </dt>
-                    <!-- if person_description
+                    {% if person_description %}
                     <p>{{person_description}}</p>
-                    else
+                    {% else %}
                     <span style="color: grey;">Aucune description n'a été renseignée.</span>
-                     endif  -->
+                    {% endif %}
                 </div>
                 <div class="col-md-5" style="margin-left: 2%">
                     <dt style="margin-top: 0.5 em">Documents ajoutés :</dt>
