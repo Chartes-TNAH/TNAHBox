@@ -27,10 +27,17 @@
                     <h2 class="col-md-10" style="padding: 10px">{{docu.document_title}}</h2>
                     <div class="col-md-2">
                         <button type="button" class="btn btn-light">
+                            {# {% if docu is faved by current user %} #}
+{#                            <img class="img-fluid rounded mb-3 mb-md-0"#}
+{#                                 style="height: 45px;"#}
+{#                                 src="{{url_for("static", filename="img/coeur.png")}}"#}
+{#                                 alt="Document déjà ajouté aux favoris">#}
+{#                            {% else %}#}
                             <img class="img-fluid rounded mb-3 mb-md-0"
                                  style="height: 45px;"
                                  src="{{url_for("static", filename="img/no_coeur.png")}}"
                                  alt="Appuyer pour ajouter aux favoris">
+{#                            {% endif %}#}
                         </button>
                     </div>
                 </div>

@@ -86,8 +86,8 @@ class Document(db.Model):
         '''
         Fonction qui permet d'asssocier un user à un document et
         de créer un nouvel enregistrement dans Authorship
-        :param user_id: identifiant de l'auteur du document (int)
-        :param docu_id: identifiant du document importé par l'utilisateur (int)
+        :param user: auteur du document (entrée de la BDD)
+        :param docu: document importé par l'utilisateur (entrée de la BDD)
         :return: renvoie une liste d'erreurs s'il y en a
         '''
         erreurs = []
@@ -207,6 +207,35 @@ class Person(UserMixin, db.Model):
     faved_documents = db.relationship("Document",
                     secondary=IsFav,
                     backref=db.backref("Person"))
+
+    @staticmethod
+    def add_docu_to_favorites(user, docu):
+        '''
+        Fonction qui permet d'ajouter aux favoris de l'utilisateur
+        le document courant
+        :param user: auteur du document (entrée de la BDD)
+        :param docu: document importé par l'utilisateur (entrée de la BDD)
+        :return: liste d'erreurs d'il y en a
+        '''
+        erreurs = []
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à associer")
+        if not docu:
+            erreurs.append("Il n'y a pas de document à associer")
+
+        if user is None or docu is None:
+            # si les paramètres renseignés ne correspondent à rien, je ne fais rien
+            return
+
+        if docu not in user.faved_document:
+            # si le document n'est pas déjà dans la liste des documents favoris de l'utilisateur
+            user.faved_document.append(docu)
+            # je l'ajoute à cette liste
+
+        db.session.add(user)
+        db.session.commit()
+
+        return erreurs
 
     def __repr__(self):
         return '<User {}>'.format(self.person_login)
