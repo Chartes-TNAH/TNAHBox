@@ -399,7 +399,7 @@ def user(person_login):
 @app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
 @login_required
 def admin(person_login):
-    user = Person.query.filter_by(person_login=person_login)
+    user = Person.query.filter_by(person_login=person_login).first()
     form = EditProfileForm()
     if form.validate_on_submit():
         user.person_login = form.person_login.data
