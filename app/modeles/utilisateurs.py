@@ -26,6 +26,7 @@ class RegistrationForm(FlaskForm):
     person_git = StringField('Compte Github (URL)')
     person_linkedIn = StringField('Compte LinkedIn (URL)')
     person_promotion = StringField('Promotion TNAH (année du diplôme)')
+    person_is_teacher = BooleanField('Je suis enseignant·e')
     submit = SubmitField('S\'enregistrer')
 
     def validate_username(self, person_login):
@@ -38,6 +39,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Adresse mail déjà enregistrée')
 
 class EditProfileForm(FlaskForm):
+    #formulaire pour la modification des infos utilisateur
     person_login = StringField('Nom d\'utilisateur', validators=[DataRequired()])
     person_email = StringField('Email', validators=[DataRequired(), Email()])
     person_name = StringField('Nom', validators=[DataRequired()])
@@ -46,6 +48,7 @@ class EditProfileForm(FlaskForm):
     person_git = StringField('Compte GitHub (URL)')
     person_linkedIn= StringField('Compte LinkedIn (URL)')
     person_description = TextAreaField('Description')
+    person_is_admin = BooleanField('ADMIN TNAHBox')
     submit = SubmitField('Enregistrer les modifications')
 
 
