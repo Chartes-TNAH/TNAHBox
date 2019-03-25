@@ -6,21 +6,23 @@
 <body>
 <div style="text-align: center">
     <!-- conserver cette ligne ? correspond au premier code de la page <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p> -->
-    <h1 class="h3 mb-3 font-weight-normal">Bienvenue sur la page d'accueil du projet TNAHBox !</h1>
-    <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
-    <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
+    <p class="lead text-muted container">Rendu final du cours de <a href="/personne/3">Thibaut Clérice</a> en M2 TNAH à l'ENC, <br>le projet TNAHBox a été développé grâce au langage de programmation python. Bienvenue sur la page d'accueil !</p>
+        <p class="h3 mb-3 font-weight-normal container"><br>Ancien étudiant·e ou enseignant·e ?
+        Inscrivez-vous et accédez aux documents enregistrés ou ajoutez-les et explorez l'annuaire du master !</p>
+    <a href="{{url_for('register')}}" class="btn btn-dark btn-md active" role="button" aria-pressed="true" style="margin-right: 0.5em">Inscription</a>
+    <a href="{{url_for('login')}}" class="btn btn-dark btn-md active" role="button" aria-pressed="true" style="margin-right: 0.5em">Connexion</a>
     <!-- deux boutons menant aux pages inscription et description -->
 </div>
 
 
      <div class="container marketing" style="margin-top: 2em">
          <!-- pour une raison que je n'explique pas, les boutons sont recouverts par les "ronds" svg des docs sans un petit margin-top-->
-         <h4>Voici les trois derniers documents ajoutés à la base : </h4>
+         <h4>Voici les trois derniers documents ajoutés à la TNAHBox : </h4>
     <div class="row">
         {% for found_document in resultats %}
 
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
+                        <div class="col-sm-4 col-xs-6 mb-2">
+                            <div class="card h-50 w-30">
                                 {% if found_document.document_format == "image" %}
                                 <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/img.png')}}">
                                 {% elif found_document.document_format == "texte" %}
@@ -36,9 +38,9 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <h4 class="card-title col-md-8">
-                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title[0:20] + " ..."}}</a>
                                         </h4>
-                                        <div class="col-md-4">
+                                        <div><!-- pour question d'affichage et responsive design class="col-md-4"retiré balise div-->
                                             <b>
                                             {% if found_document.document_teaching %}
                                             <p>{{found_document.document_teaching}}</p>
@@ -50,7 +52,8 @@
                                         </div>
                                     </div>
                                     <p class="card-text">{% if found_document.document_description %}
-                                        <p>{{found_document.document_description}}</p>
+                                        <p>{{found_document.document_description[0:59] + " …"}}</p>
+                                    <!-- permet de n'afficher que les 59 premiers caractères de la description, ainsi il n'y a pas de dépassement possible en dehors de la card -->
                                           {% else %}
                                           <p>Il n'y a pas de description pour ce document</p>
                                           <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
@@ -70,4 +73,5 @@
     </div>
     </div>
 </body>
+ {% include "partials/footer_accueil.html" %}
 {% endblock %}
