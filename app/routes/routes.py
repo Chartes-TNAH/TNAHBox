@@ -281,7 +281,8 @@ def register():
                       person_firstName=form.person_firstName.data,
                       person_git=form.person_git.data,
                       person_linkedIn=form.person_linkedIn.data,
-                      person_promotion=form.person_promotion.data)
+                      person_promotion=form.person_promotion.data,
+                      person_last_seen= date.today())
         user.set_password(form.person_password.data)
         db.session.add(user)
         db.session.commit()
