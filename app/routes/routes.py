@@ -5,7 +5,6 @@ from werkzeug.urls import url_parse
 from werkzeug import secure_filename
 from app.modeles.donnees import Person, Document
 from app.modeles.utilisateurs import LoginForm, RegistrationForm, EditProfileForm
-from app.modeles.importer import ImportForm
 from datetime import date
 
 
@@ -202,19 +201,33 @@ def recherche():
 
         return lendesc
 
+    def lenTitle(title):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 20 caractères
+        :param title: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 20) ou 0 (si desc < 20)
+        '''
+        if len(title) > 20:
+            lentitle = 1
+        else:
+            lentitle = 0
+
+        return lentitle
+
     return render_template(
         "pages/recherche.html",
-        resultats=resultats,
-        titre=titre,
-        keyword=motclef,
-        matiere=matiere,
-        matieres=matieres,
-        img=img,
-        txt=txt,
-        code=code,
-        autre=autre,
-        date=date,
-        lenDesc = lenDesc
+        resultats = resultats,
+        titre = titre,
+        keyword = motclef,
+        matiere = matiere,
+        matieres = matieres,
+        img = img,
+        txt = txt,
+        code = code,
+        autre = autre,
+        date = date,
+        lenDesc = lenDesc,
+        lenTitle = lenTitle
     )
 
 @app.route("/document/<int:docu_id>", methods=['GET', "POST"])
