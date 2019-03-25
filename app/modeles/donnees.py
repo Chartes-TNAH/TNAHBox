@@ -197,7 +197,7 @@ class Person(UserMixin, db.Model):
     person_email = db.Column(db.Text, nullable=False)
     person_login = db.Column(db.Text,unique=True, nullable=False)
     person_password = db.Column(db.Text, unique=True, nullable=False)
-    person_linkedIn = db.Column(db.Text,unique=True)
+    person_linkedIn = db.Column(db.Text, unique=True)
     person_cv = db.Column(db.Text)
     person_git = db.Column(db.Text, unique=True)
     person_promotion = db.Column(db.Text)
@@ -227,12 +227,12 @@ class Person(UserMixin, db.Model):
             # si les paramètres renseignés ne correspondent à rien, je ne fais rien
             return
 
-        if docu not in user.faved_document:
+        if user not in docu.loving_users:
             # si le document n'est pas déjà dans la liste des documents favoris de l'utilisateur
-            user.faved_document.append(docu)
+            docu.loving_users.append(user)
             # je l'ajoute à cette liste
 
-        db.session.add(user)
+        db.session.add(docu)
         db.session.commit()
 
         return erreurs
@@ -255,12 +255,12 @@ class Person(UserMixin, db.Model):
             # si les paramètres renseignés ne correspondent à rien, je ne fais rien
             return
 
-        if docu in user.faved_document:
+        if user in docu.loving_users:
             # si le document est déjà dans la liste des documents favoris de l'utilisateur
-            user.faved_document.remove(docu)
+            docu.loving_users.remove(user)
             # je le supprime de cette liste
 
-        db.session.add(user)
+        db.session.add(docu)
         db.session.commit()
 
         return erreurs

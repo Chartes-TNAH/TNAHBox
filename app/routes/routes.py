@@ -231,6 +231,7 @@ def recherche():
     )
 
 @app.route("/document/<int:docu_id>", methods=['GET', "POST"])
+@login_required
 def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
@@ -258,7 +259,19 @@ def document(docu_id):
     auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id)).first()
     # j'en récupère l'auteur
 
-    return render_template("pages/document.html", docu = requested_docu, auteur = auteur)
+    # # # AJOUT AUX FAVORIS DE L'UTILISATEUR CONNECTÉ
+    unfav = request.form.get("unfav", None)
+    fav = request.form.get("fav", None)
+
+    if fav:
+        Person.add_docu_to_favorites(current_user, requested_docu)
+    if unfav:
+        Person.remove_docu_to_favorites(current_user, requested_docu)
+
+    return render_template("pages/document.html",
+                           docu = requested_docu,
+                           auteur = auteur,
+                           current_user = current_user)
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
