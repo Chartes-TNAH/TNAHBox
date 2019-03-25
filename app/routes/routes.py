@@ -444,7 +444,7 @@ def edit_profile():
         current_user.person_description = form.person_description.data
         db.session.commit()
         flash('Changement(s) sauvegardé(s)')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('user', person_login=current_user.person_login))
     elif request.method == 'GET':
         #Si le formulaire n'est pas soumis ni modifier, l'utilisateur verra ses données enregistrées dans la BDD
         form.person_login.data = current_user.person_login
