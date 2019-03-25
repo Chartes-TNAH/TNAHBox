@@ -33,6 +33,76 @@ class Document(db.Model):
         return(self.document_id)
 
 
+    @staticmethod
+    def add_doc(title, description, format, date, matiere, downloadlink):
+        """
+        Fonction qui permet d'ajouter un nouveau document dans la BDD
+        :param title: titre donné au document (str)
+        :param description: courte présentation sur le doc (str)
+        :param format: "image", "texte", "code" ou "autre" (str)
+        :param date: date du cours rentrée par utilisateur (str)
+        :param matiere: matière de l'enseignement (str)
+        :param downloadLink: lien de téléchargement du document (str)
+        :return:
+        """
+        erreurs = []
+        if not title:
+            erreurs.append("Veuillez renseigner un titre pour ce document.")
+        if not description:
+            erreurs.append("Veuillez renseigner une description pour ce document.")
+        if not format:
+            erreurs.append("Veuillez renseigner un format pour ce document.")
+        if not date:
+            erreurs.append("Veuillez renseigner une date pour ce document.")
+        if not matiere:
+            erreurs.append("Veuillez renseigner une matière pour ce document.")
+        if not downloadlink:
+             erreurs.append("Aucun lien de téléchargement pour ce document.")
+
+        docu = Document(document_title=title,
+                        document_description=description,
+                        document_format=format,
+                        document_date=date,
+                        document_teaching=matiere,
+                        document_downloadLink=downloadlink)
+        # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
+
+        try:
+            # On essaie d'ajouter le document à la BDD
+            db.session.add(docu)
+            db.session.commit()
+
+            return docu
+        except Exception as erreur:
+            return False, [str(erreur)]
+
+
+    @staticmethod
+    def associate_docu_and_user(user, docu):
+        '''
+        Fonction qui permet d'asssocier un user à un document et
+        de créer un nouvel enregistrement dans Authorship
+        :param user_id: identifiant de l'auteur du document (int)
+        :param docu_id: identifiant du document importé par l'utilisateur (int)
+        :return: renvoie une liste d'erreurs s'il y en a
+        '''
+        erreurs = []
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à associer")
+        if not docu:
+            erreurs.append("Il n'y a pas de document à associer")
+
+        if user is None or docu is None:
+            return
+
+        if docu not in user.created_document:
+            # si le document n'est pas dans la liste de document créés par cet utilisateur
+            user.created_document.append(docu)
+
+        db.session.add(user)
+        db.session.commit()
+
+
 class Tag(db.Model):
     __tablename__ = "Tag"
     tag_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
@@ -87,9 +157,9 @@ class Tag(db.Model):
         '''
         erreurs = []
         if not tag_id:
-            erreurs.append("Il n'y a pas de tag à asssocier")
+            erreurs.append("Il n'y a pas de tag à associer")
         if not docu_id:
-            erreurs.append("Il n'y a pas de document à asssocier")
+            erreurs.append("Il n'y a pas de document à associer")
 
         tag = Tag.query.filter(Tag.tag_id == tag_id).first()
         # je récupère le tag correspondant à l'id

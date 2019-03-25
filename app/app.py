@@ -11,6 +11,8 @@ templates = os.path.join(chemin_actuel, "templates")
 # on stocke le chemin vers les templates
 statics = os.path.join(chemin_actuel, "static")
 # on stocke le chemin vers les statics
+uploads = os.path.join(chemin_actuel, "uploads")
+# on stocke le chemin vers le dossier où stocker les fichiers uploadés
 
 db = SQLAlchemy()
 # on initie l'objet SQLAlchemy
@@ -22,7 +24,7 @@ app = Flask(
     __name__,
     template_folder=templates,
     static_folder=statics
-)
+    )
 # on initie l'app où le nom __name__ sera précisé dans la configuration (config_app())
 # et on définit les dossiers contenants les templates et les statics
 
