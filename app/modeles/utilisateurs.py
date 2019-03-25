@@ -26,6 +26,7 @@ class RegistrationForm(FlaskForm):
     person_git = StringField('Compte Github (URL)')
     person_linkedIn = StringField('Compte LinkedIn (URL)')
     person_promotion = StringField('Promotion TNAH (année du diplôme)')
+    person_is_teacher = BooleanField('Je suis un·e enseignant·e')
     submit = SubmitField('S\'enregistrer')
 
     def validate_username(self, person_login):

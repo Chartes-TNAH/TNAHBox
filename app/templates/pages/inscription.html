@@ -57,6 +57,12 @@
                     {% endfor %}
             </div>
         </div>
+    <div class="row">
+        <div class="col-5">
+            <br>
+            {{ form.person_is_teacher.label }} : {{form.person_is_teacher}}
+        </div>
+    </div>
         <div class="row">
             <div class="col-2"><br>
                 {{ form.submit() }}
