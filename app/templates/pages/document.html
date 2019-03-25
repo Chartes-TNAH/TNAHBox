@@ -28,19 +28,19 @@
                     <div class="col-md-2">
                         {% if current_user in docu.loving_users %}
                             <form method="post" id="unfav" action="{{url_for('document', docu_id = docu.document_id)}}">
-                            <button type="submit" form="unfav" class="btn btn-light" name="unfav" value="1">
+                            <button type="submit" form="unfav" class="btn btn-light" style="background-color: white" name="unfav" value="1">
                                 <img class="img-fluid rounded mb-3 mb-md-0"
                                      style="height: 45px;"
-                                     src="{{url_for("static", filename="img/coeur.png")}}"
+                                     src="{{url_for("static", filename="img/faved.png")}}"
                                      alt="Document déjà ajouté aux favoris">
                             </button>
                             </form>
                         {% else %}
                             <form method="post" id="fav" action="{{url_for('document', docu_id = docu.document_id)}}">
-                            <button type="submit" form="fav" class="btn btn-light" name="fav" value="1">
+                            <button type="submit" form="fav" class="btn btn-light" style="background-color: white" name="fav" value="1">
                                 <img class="img-fluid rounded mb-3 mb-md-0"
                                      style="height: 45px;"
-                                     src="{{url_for("static", filename="img/no_coeur.png")}}"
+                                     src="{{url_for("static", filename="img/unfaved.png")}}"
                                      alt="Appuyer pour ajouter aux favoris">
                             </button>
                             </form>
