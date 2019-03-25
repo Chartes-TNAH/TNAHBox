@@ -69,8 +69,14 @@
                             <span style="color: grey;">Aucun compte LinkedIn n'a été renseigné.</span>
                         {% endif %}
                             </li>
-                        <li>Adresse email : <a href="mailto:{{person.person_email}}">{{person.person_email}}</a>
+                        <li>Adresse email :
+                         {% if person.person_email %}
+                            <span><a href="mailto:{{person.person_email}}">{{person.person_email}}</a></span>
+                         {% else %}
+                            <span style="color: grey;">Aucune adresse mail n'a été renseignée. <br>Essayez : <a href="mailto:{{person.person_email}}" style="text-transform: lowercase;">{{person.person_firstName}}.{{person.person_name}}@chartes.psl.eu</a></span>
+                         {% endif %}
                         </li>
+                            <!-- Si aucune adresse mail n'a été renseignée, propose par défaut celle de l'ENC -->
                         </ol>
                     </div>
             </div>
