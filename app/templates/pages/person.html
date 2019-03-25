@@ -29,8 +29,17 @@
 
 <!-- design repris de la page document.html pour homognéité visuelle -->
 {% if current_user.is_anonymous %}
-    <h1 class="starter-template">Vous devez être connecté·e pour accéder à cette page.
-        <br>Vous pouvez vous inscrire <a href="{{url_for('register')}}">ici</a>.</h1>
+<div class="starter-template container" style="text-align: center">
+
+        <img src="/static/img/not_person.gif">
+        <h1 class="lead">Vous devez être connecté·e pour accéder à cette page.</h1> <br>
+
+    <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
+    <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
+    <!-- deux boutons menant aux pages inscription et description -->
+
+
+        </div>
 <!-- même si la page d'une personne n'est accessible en théorie que si on est passé par l'annuaire qui exige connexion, ceinture et bretelles comme on dit -->
 {% else %}
             <div class="row" style="padding: 2em">
