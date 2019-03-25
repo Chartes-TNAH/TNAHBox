@@ -88,6 +88,13 @@
                     {% else %}
                     <span style="color: grey;">Aucune description n'a été renseignée.</span>
                     {% endif %}
+                    <!-- BUT ajout d'un lien pour aller sur la page profil, si la personne est un utilisateur et a une page profil -->
+                    {% if person.person_login %}
+                    <!-- si la personne a un login, est forcément un utilisateur, donc afficher son profil avec un lien vers sa page profil. -->
+                    <dt>Profil : </dt>
+                    <span><a href="{{url_for('user', person_login=person.person_login)}}">{{person.person_login}}</a></span>
+                    <!-- Afficher son profil avec redirection vers page -->
+                    {% endif %}
                 </div>
                 <div class="col-md-5" style="margin-left: 2%">
                     <dt style="margin-top: 0.5 em">Documents ajoutés :</dt>
