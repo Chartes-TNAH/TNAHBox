@@ -396,6 +396,33 @@ def user(person_login):
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
 
+@app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
+@login_required
+def admin(person_login):
+    user = Person.query.filter_by(person_login=person_login)
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        user.person_login = form.person_login.data
+        user.person_email = form.person_email.data
+        user.person_name = form.person_name.data
+        user.person_firstName = form.person_firstName.data
+        user.person_promotion = form.person_promotion.data
+        user.person_git = form.person_git.data
+        user.person_linkedIn = form.person_linkedIn.data
+        user.person_description = form.person_description.data
+        db.session.commit()
+        return redirect(url_for('/user/<person_login>'))
+    elif request.method == 'GET':
+        form.person_login.data = user.person_login
+        form.person_email.data = user.person_email
+        form.person_name.data = user.person_name
+        form.person_firstName.data = user.person_firstName
+        form.person_promotion.data = user.person_promotion
+        form.person_git.data = user.person_git
+        form.person_linkedIn.data = user.person_linkedIn
+        form.person_description.data = user.person_description
+    return render_template('pages/admin.html', form=form)
+
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
