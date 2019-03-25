@@ -11,6 +11,10 @@ HasTag = db.Table('HasTag',
     db.Column('hasTag_doc_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
     db.Column('hasTag_tag_id', db.Integer, db.ForeignKey('Tag.tag_id'), primary_key=True))
 
+IsFav = db.Table('IsFav',
+    db.Column('faved_docu_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),
+    db.Column('loving_user_id', db.Integer, db.ForeignKey('Person.person_id'), primary_key=True))
+
 Authorship = db.Table('Authorship',
     db.Column('authorship_person_id', db.Integer, db.ForeignKey('Person.person_id'), primary_key=True),
     db.Column('authorship_document_id', db.Integer, db.ForeignKey('Document.document_id'), primary_key=True),

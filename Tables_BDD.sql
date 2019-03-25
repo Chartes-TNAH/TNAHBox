@@ -48,3 +48,13 @@ ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (hasTag_doc_id) REFERENCES Document(document_id)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS IsFav (
+faved_docu_id,
+loving_user_id,
+PRIMARY KEY (faved_docu_id, loving_user_id),
+FOREIGN KEY (faved_docu_id) REFERENCES Document(document_id)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (loving_user_id) REFERENCES Person(person_id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
