@@ -209,6 +209,8 @@ def person(person_id):
         person=requested_person)
 
 
+
+
 @app.route("/annuaire")
 def annuaire():
     page = request.args.get("page", 1)

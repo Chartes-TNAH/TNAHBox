@@ -82,14 +82,18 @@
             </div>
             <div class="row" style="padding: 2em">
                 <div class="col-md-5 rounded" style="margin-left: 10%">
-                    <dt>Dernière connexion :</dt>
-                    <!-- ligne commentaire test  ; je voudrais utiliser last_seen pour user. à voir...-->
+                    <dt>Description : </dt>
+                    <!-- if person_description
+                    <p>{{person_description}}</p>
+                    else
+                    <span style="color: grey;">Aucune description n'a été renseignée.</span>
+                     endif  -->
                 </div>
                 <div class="col-md-5" style="margin-left: 2%">
                     <dt style="margin-top: 0.5 em">Documents ajoutés :</dt>
                     {% if person.created_document %}
-                        <p>{{person.person_firstName}} {{person.person_name}} a ajouté {{person.created_document.total}} documents dans TNAHBox :</p>
-                    <!-- je ne comprends pas pourquoi .total ne fonctionne pas. BAD :( -->
+                        <p>{{person.person_firstName}} {{person.person_name}} a ajouté {{person.created_document.count(document)+1}} document(s) dans TNAHBox :</p>
+                    <!-- pour un document affiche 1 documents grâce à +1 ; voir si ça fonctionne avec plusieurs documents. -->
                             {% for document in person.created_document %}
                                 <dd><a href="{{url_for('document', docu_id = document.document_id)}}">{{document.document_title}}</a></dd>
                             {% endfor %}
