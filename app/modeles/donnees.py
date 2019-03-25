@@ -32,6 +32,9 @@ class Document(db.Model):
     document_tag = db.relationship("Tag",
                     secondary=HasTag,
                     backref=db.backref("Document", lazy='dynamic'))
+    loving_users = db.relationship("Person",
+                    secondary=IsFav,
+                    backref=db.backref("Document"))
 
     def get_id(self):
         return(self.document_id)
@@ -204,9 +207,6 @@ class Person(UserMixin, db.Model):
     created_document = db.relationship("Document",
                     secondary=Authorship,
                     backref=db.backref("Person")) #, lazy='dynamic'))
-    faved_documents = db.relationship("Document",
-                    secondary=IsFav,
-                    backref=db.backref("Person"))
 
     @staticmethod
     def add_docu_to_favorites(user, docu):

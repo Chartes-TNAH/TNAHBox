@@ -10,7 +10,9 @@ person_password TEXT NULL,
 person_linkedIn TEXT NULL,
 person_cv TEXT NULL,
 person_git TEXT NULL,
-person_is_admin INTEGER NULL
+person_is_admin INTEGER NULL,
+person_last_seen TEXT NULL,
+person_description TEXT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Document (

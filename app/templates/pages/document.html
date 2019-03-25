@@ -91,7 +91,7 @@
                                 <span class="badge badge-light">{{tag}}</span>
                             {% endfor %}
                         </dd>
-                        <form class="form" id="recherche-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="POST">
+                        <form class="form" id="tag-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="POST">
                             <div class="input-group">
                                 <input type="text" name="tag" class="form-control form-control-lg" placeholder="Ajouter un tag …">
                                 <span class="input-group-btn">
