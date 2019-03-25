@@ -28,6 +28,7 @@
 
 
 <!-- design repris de la page document.html pour homognéité visuelle -->
+
 {% if current_user.is_anonymous %}
 <div class="starter-template container" style="text-align: center">
 
@@ -42,6 +43,7 @@
         </div>
 <!-- même si la page d'une personne n'est accessible en théorie que si on est passé par l'annuaire qui exige connexion, ceinture et bretelles comme on dit -->
 {% else %}
+
             <div class="row" style="padding: 2em">
                 <!-- Ici image, voir si on ajoute image pour les profils -->
                 <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 10%">
@@ -97,6 +99,7 @@
             <div class="row" style="padding: 2em">
                 <div class="col-md-5 rounded" style="margin-left: 10%">
                     <dt>Description : </dt>
+
                     {% if person_description %}
                     <p>{{person_description}}</p>
                     {% else %}
@@ -109,6 +112,12 @@
                     <span><a href="{{url_for('user', person_login=person.person_login)}}">{{person.person_login}}</a></span>
                     <!-- Afficher son profil avec redirection vers page -->
                     {% endif %}
+
+                    <!-- if person_description
+                    <p>{{person_description}}</p>
+                    else
+                    <span style="color: grey;">Aucune description n'a été renseignée.</span>
+                     endif  -->
                 </div>
                 <div class="col-md-5" style="margin-left: 2%">
                     <dt style="margin-top: 0.5 em">Documents ajoutés :</dt>
@@ -126,6 +135,7 @@
             </div>
 
 {% endif %}
+
 
 
 <!-- Conserver cette ligne ??? Crée un bouton pour retour vers l'annuaire...

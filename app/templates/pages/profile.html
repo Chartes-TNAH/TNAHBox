@@ -15,7 +15,12 @@
   <div class="col-md-8 text-white rounded bg-secondary">
 <!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
     <div class="col-md-12">
-      <p class="lead my-3">{{user.person_description}}</p>
+      <p class="lead my-3">
+          {% if user.person_description %}
+          {{user.person_description}}
+          {% else %}
+          <i>Aucune desciption...</i>
+      {% endif %}</p>
     </div>
   </div>
 </div>
@@ -55,19 +60,77 @@
                 </div>
             </div>
         {% if docus %}
-            <h4 class="font-italic">Fichiers favoris :</h4>
+            <h4 class="font-italic">Documents favoris :</h4>
             <hr>
             <div class="row">
                 {% for docu in docus %}
-                    <a href="{{url_for('document', docu_id = docu.document_id)}}">{{docu.document_title}}</a>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="{{url_for('document', docu_id = docu.document_id)}}">
+                                    {% if docu.document_format == "Image" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
+                                    {% elif docu.document_format == "Texte" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
+                                    {% elif docu.document_format == "Code" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                                    {% elif docu.document_format == "Autre" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                                    {% else %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                                    {% endif %}
+                                </a>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <h4 class="card-title col-md-8">
+                                            {% if lenTitle(docu.document_title) %}
+                                                <a href="{{url_for('document', docu_id = docu.document_id)}}">{{docu.document_title[0:17] + " …"}}</a>
+                                                {# création d'un lien donnant accès à page dudit document
+                                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                                cet id est récupéré du document trouvé dans la liste de résultats #}
+                                            {% else %}
+                                                <a href="{{url_for('document', docu_id = docu.document_id)}}">{{docu.document_title}}</a>
+                                            {% endif %}
+                                        </h4>
+                                        <div class="col-md-4">
+                                            {% if docu.document_downloadLink %}
+                                                <a style="text-align: right" href="{{ docu.document_downloadLink }}" download>
+                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
+                                                </a>
+                                            {% else %}
+                                                <a style="text-align: right" href="">
+                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/no_download_picto.png")}}" alt="Icone de téléchargement">
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-light">{{docu.document_teaching}}</span>
+                                    {% if docu.document_description %}
+                                        {% if lenDesc(docu.document_description) %}
+                                        {# Si la description fait plus de 60 caractères #}
+                                            <p class="card-text" style="padding: 5px">{{docu.document_description[0:55] + " …"}}</p>
+                                        {% else %}
+                                            <p class="card-text" style="padding: 5px">{{docu.document_description}}</p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="card-text" style="padding: 5px">Aucune description</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                 {% endfor %}
             </div>
         {% endif %}
         </div>
 
 
-        {% if user == current_user %}
-<a href="{{ url_for('edit_profile') }}"><button type="button" class="btn btn-danger" >Mondifier mon profil</button></a>
+
+{% if user == current_user%}
+<a href="{{ url_for('edit_profile') }}"><button type="button" class="btn btn-danger" >Modifier mon profil</button></a>
 {% endif %}
+
+    {% if current_user.person_is_admin == True %}
+    <a href="{{ url_for('admin',person_login=user.person_login)}}"><button type="button" class="btn btn-danger" >[ADMIN] Modifier le profil</button></a>
+    {% endif %}
 
 {% endblock %}

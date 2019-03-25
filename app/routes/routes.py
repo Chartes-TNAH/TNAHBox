@@ -231,7 +231,6 @@ def recherche():
     )
 
 @app.route("/document/<int:docu_id>", methods=['GET', "POST"])
-@login_required
 def document(docu_id):
     """
     Route permettant l'affichage d'une notice affichant les métadonnées relatives
@@ -239,6 +238,7 @@ def document(docu_id):
 
     :param docu_id: Identifiant d'un document de la base de données (int)
     """
+
     # # # AJOUT D'UN NOUVEAU TAG AU DOCUMENT COURANT
     tag_label = request.form.get("tag", None)
     # on stocke le label du tag donné par l'utilisateur
@@ -268,13 +268,19 @@ def document(docu_id):
     if unfav:
         Person.remove_docu_to_favorites(current_user, requested_docu)
 
+
     return render_template("pages/document.html",
                            docu = requested_docu,
                            auteur = auteur,
                            current_user = current_user)
 
+
 @app.route('/login', methods=['GET', "POST"])
 def login():
+    """
+    Formulaire de connexion
+    :return: template de la page de connexion (connexion.html) avec le formulaire
+    """
     if current_user.is_authenticated:
         return redirect('/')
     form = LoginForm()
@@ -292,11 +298,19 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """
+    Déconnexion
+    :return: redirige à la racine = page d'accueil
+    """
     logout_user()
     return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Engregistrer une nouvelle entrée dans la table Person de la BDD qui correspond à un utilisateur du site
+    :return: page html "register" avec le formulaire d'inscription
+    """
     if current_user.is_authenticated:
         return redirect('/')
     form = RegistrationForm()
@@ -307,7 +321,9 @@ def register():
                       person_firstName=form.person_firstName.data,
                       person_git=form.person_git.data,
                       person_linkedIn=form.person_linkedIn.data,
-                      person_promotion=form.person_promotion.data)
+                      person_promotion=form.person_promotion.data,
+                      person_last_seen= date.today(),
+                      person_is_teacher=form.person_is_teacher.data)
         user.set_password(form.person_password.data)
         db.session.add(user)
         db.session.commit()
@@ -414,11 +430,68 @@ def user(person_login):
         if user in docu.loving_users:
             docus.append(docu)
 
+    def lenDesc(desc):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
+        :param desc: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 60) ou 0 (si desc < 60)
+        '''
+        if len(desc) > 60:
+            lendesc = 1
+        else:
+            lendesc = 0
+
+        return lendesc
+
+    def lenTitle(title):
+        '''
+        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 20 caractères
+        :param title: chaine de caractère à mesurer (str)
+        :return: 1 (si desc > 20) ou 0 (si desc < 20)
+        '''
+        if len(title) > 20:
+            lentitle = 1
+        else:
+            lentitle = 0
+
+        return lentitle
+
     return render_template('pages/profile.html',
                            user=user,
-                           docus = docus)
+                           docus = docus,
+                           lenTitle = lenTitle,
+                           lenDesc = lenDesc)
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
+
+@app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
+@login_required
+def admin(person_login):
+    user = Person.query.filter_by(person_login=person_login).first()
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        user.person_login = form.person_login.data
+        user.person_email = form.person_email.data
+        user.person_name = form.person_name.data
+        user.person_firstName = form.person_firstName.data
+        user.person_promotion = form.person_promotion.data
+        user.person_git = form.person_git.data
+        user.person_linkedIn = form.person_linkedIn.data
+        user.person_description = form.person_description.data
+        user.person_is_admin = form.person_is_admin.data
+        db.session.commit()
+        return redirect(url_for('user', person_login = person_login))
+    elif request.method == 'GET':
+        form.person_login.data = user.person_login
+        form.person_email.data = user.person_email
+        form.person_name.data = user.person_name
+        form.person_firstName.data = user.person_firstName
+        form.person_promotion.data = user.person_promotion
+        form.person_git.data = user.person_git
+        form.person_linkedIn.data = user.person_linkedIn
+        form.person_description.data = user.person_description
+        form.person_is_admin.data = user.person_is_admin
+    return render_template('pages/admin.html', form=form)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -439,7 +512,7 @@ def edit_profile():
         current_user.person_description = form.person_description.data
         db.session.commit()
         flash('Changement(s) sauvegardé(s)')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('user', person_login=current_user.person_login))
     elif request.method == 'GET':
         #Si le formulaire n'est pas soumis ni modifier, l'utilisateur verra ses données enregistrées dans la BDD
         form.person_login.data = current_user.person_login
