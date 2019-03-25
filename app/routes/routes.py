@@ -413,7 +413,7 @@ def admin(person_login):
         user.person_linkedIn = form.person_linkedIn.data
         user.person_description = form.person_description.data
         db.session.commit()
-        return redirect(url_for('/user/<person_login>'))
+        return redirect(url_for('user', person_login = person_login))
     elif request.method == 'GET':
         form.person_login.data = user.person_login
         form.person_email.data = user.person_email
