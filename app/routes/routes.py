@@ -249,6 +249,10 @@ def document(docu_id):
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
+    """
+    Formulaire de connexion
+    :return: template de la page de connexion (connexion.html) avec le formulaire
+    """
     if current_user.is_authenticated:
         return redirect('/')
     form = LoginForm()
@@ -266,11 +270,19 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """
+    Déconnexion
+    :return: redirige à la racine = page d'accueil
+    """
     logout_user()
     return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Engregistrer une nouvelle entrée dans la table Person de la BDD qui correspond à un utilisateur du site
+    :return: page html "register" avec le formulaire d'inscription
+    """
     if current_user.is_authenticated:
         return redirect('/')
     form = RegistrationForm()

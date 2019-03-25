@@ -39,6 +39,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Adresse mail déjà enregistrée')
 
 class EditProfileForm(FlaskForm):
+    #formulaire pour la modification des infos utilisateur
     person_login = StringField('Nom d\'utilisateur', validators=[DataRequired()])
     person_email = StringField('Email', validators=[DataRequired(), Email()])
     person_name = StringField('Nom', validators=[DataRequired()])
