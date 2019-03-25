@@ -1,16 +1,20 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, send_file
 from sqlalchemy import and_, or_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+from werkzeug import secure_filename
+from app.modeles.donnees import Person, Document
 from app.modeles.utilisateurs import LoginForm, RegistrationForm, EditProfileForm
+from app.modeles.importer import ImportForm
 from datetime import date
+
 
 
 from ..app import app, db
 # on importe l'application provenant du fichier app.py un niveau au dessus dans l'arborescence des dossiers
 
 
-from ..constantes import RESULTS_PER_PAGE
+from ..constantes import RESULTS_PER_PAGE, DOSSIER_UPLOAD
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
 from ..modeles.donnees import Document, Authorship, Person, Tag, HasTag
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
@@ -31,12 +35,6 @@ def accueil():
     return render_template(
         "pages/accueil.html",
         resultats=resultats)
-
-#def accueil ():
-#    resultats = []
-#    query = Document.query
-#    resultats = query.all()
-#    return render_template("pages/accueil.html", title="Accueil", resultats=resultats)
 
 
 
@@ -291,7 +289,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('pages/inscription.html', form=form)
 
-
 @app.route("/personne/<int:person_id>")
 def person(person_id):
     requested_person = Person.query.get(person_id)
@@ -319,6 +316,58 @@ def annuaire():
     return render_template(
         "pages/annuaire.html",
         resultats=resultats)
+
+
+def extension_ok(nom_fichier=""):
+    """ Renvoie True si le fichier possède une extension valide. """
+    return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('txt', 'pdf', 'csv', 'doc', 'jpg', 'json',
+                                                          'jpeg', 'gif', 'bmp', 'png', 'word', 'xml', 'py', 'odt')
+
+@app.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+    # # # VALEURS RENSEIGNÉES PAR L'UTILISATEUR
+    title = request.form.get("title", None)
+    description = request.form.get("desc", None)
+    format = request.form.get("format", None)
+    date = request.form.get("date", None)
+    matiere = request.form.get("matiere", None)
+
+    # # # IMPORT DE FICHIER
+    if request.method == 'POST':
+        f = request.files['file']
+        # dans f, on stocke le fichier uploadé
+        if f:  # on vérifie qu'un fichier a bien été envoyé
+            if extension_ok(f.filename):  # on vérifie que son extension est valide
+                nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
+                f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier d'upload
+
+                downloadlink = url_for('static', filename = "uploads/" + nom)
+                # on stocke le lien de stockage sur le serveur du fichier uploadé
+                docu = Document.add_doc(title, description, format, date, matiere, downloadlink)
+                # on ajoute le document à la BDD
+                Document.associate_docu_and_user(current_user, docu)
+                # on l'associe à l'user connecté dans la table Authorship
+                return redirect(url_for('upped'))
+                # flash(u'Fichier envoyé ! Voici <a href="{lien}">son lien</a>.'.format(lien=url_for('upped', nom=nom)),
+                #       'suc')
+            else:
+                flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
+        else:
+            flash(u'Vous avez oublié le fichier !', 'error')
+
+
+    return render_template('pages/import.html') #, form=form)
+
+@app.route("/upped")
+def upped():
+    """
+    Route pour la page à afficher après avoir importé un nouveau document dans la BDD
+
+    """
+
+    return render_template("pages/upped.html")
+
 
 @app.route('/user/<person_login>')
 @login_required
@@ -375,3 +424,4 @@ def before_request():
         today = date.today()
         current_user.person_last_seen = date.today()
         db.session.commit()
+
