@@ -277,6 +277,10 @@ def document(docu_id):
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
+    """
+    Formulaire de connexion
+    :return: template de la page de connexion (connexion.html) avec le formulaire
+    """
     if current_user.is_authenticated:
         return redirect('/')
     form = LoginForm()
@@ -294,11 +298,19 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """
+    Déconnexion
+    :return: redirige à la racine = page d'accueil
+    """
     logout_user()
     return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Engregistrer une nouvelle entrée dans la table Person de la BDD qui correspond à un utilisateur du site
+    :return: page html "register" avec le formulaire d'inscription
+    """
     if current_user.is_authenticated:
         return redirect('/')
     form = RegistrationForm()
@@ -309,7 +321,9 @@ def register():
                       person_firstName=form.person_firstName.data,
                       person_git=form.person_git.data,
                       person_linkedIn=form.person_linkedIn.data,
-                      person_promotion=form.person_promotion.data)
+                      person_promotion=form.person_promotion.data,
+                      person_last_seen= date.today(),
+                      person_is_teacher=form.person_is_teacher.data)
         user.set_password(form.person_password.data)
         db.session.add(user)
         db.session.commit()
@@ -324,6 +338,8 @@ def person(person_id):
     return render_template(
         "pages/person.html",
         person=requested_person)
+
+
 
 
 @app.route("/annuaire")
@@ -448,6 +464,35 @@ def user(person_login):
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
 
+@app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
+@login_required
+def admin(person_login):
+    user = Person.query.filter_by(person_login=person_login).first()
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        user.person_login = form.person_login.data
+        user.person_email = form.person_email.data
+        user.person_name = form.person_name.data
+        user.person_firstName = form.person_firstName.data
+        user.person_promotion = form.person_promotion.data
+        user.person_git = form.person_git.data
+        user.person_linkedIn = form.person_linkedIn.data
+        user.person_description = form.person_description.data
+        user.person_is_admin = form.person_is_admin.data
+        db.session.commit()
+        return redirect(url_for('user', person_login = person_login))
+    elif request.method == 'GET':
+        form.person_login.data = user.person_login
+        form.person_email.data = user.person_email
+        form.person_name.data = user.person_name
+        form.person_firstName.data = user.person_firstName
+        form.person_promotion.data = user.person_promotion
+        form.person_git.data = user.person_git
+        form.person_linkedIn.data = user.person_linkedIn
+        form.person_description.data = user.person_description
+        form.person_is_admin.data = user.person_is_admin
+    return render_template('pages/admin.html', form=form)
+
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -467,7 +512,7 @@ def edit_profile():
         current_user.person_description = form.person_description.data
         db.session.commit()
         flash('Changement(s) sauvegardé(s)')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('user', person_login=current_user.person_login))
     elif request.method == 'GET':
         #Si le formulaire n'est pas soumis ni modifier, l'utilisateur verra ses données enregistrées dans la BDD
         form.person_login.data = current_user.person_login

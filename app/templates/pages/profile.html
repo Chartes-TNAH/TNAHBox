@@ -15,7 +15,12 @@
   <div class="col-md-8 text-white rounded bg-secondary">
 <!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
     <div class="col-md-12">
-      <p class="lead my-3">{{user.person_description}}</p>
+      <p class="lead my-3">
+          {% if user.person_description %}
+          {{user.person_description}}
+          {% else %}
+          <i>Aucune desciption...</i>
+      {% endif %}</p>
     </div>
   </div>
 </div>
@@ -119,8 +124,13 @@
         </div>
 
 
-        {% if user == current_user %}
-<a href="{{ url_for('edit_profile') }}"><button type="button" class="btn btn-danger" >Mondifier mon profil</button></a>
+
+{% if user == current_user%}
+<a href="{{ url_for('edit_profile') }}"><button type="button" class="btn btn-danger" >Modifier mon profil</button></a>
 {% endif %}
+
+    {% if current_user.person_is_admin == True %}
+    <a href="{{ url_for('admin',person_login=user.person_login)}}"><button type="button" class="btn btn-danger" >[ADMIN] Modifier le profil</button></a>
+    {% endif %}
 
 {% endblock %}
