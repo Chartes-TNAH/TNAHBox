@@ -56,7 +56,8 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
         <div class="form-group row" style="padding: 10px">
             <label class="col-md-2" for="select-matiere" style="font-size: 24px"><b>Matière</b></label>
             <select  id="select-matiere" form="file-form" name="matiere" class="form-control col-md-9">
-                <option value="">Sélectionner une matière</option>
+                <option value="Autre">Sélectionner une matière</option>
+                {# Si aucune matière n'est sélectionnée, par défaut la valeur est "Autre" #}
                 <option value="Autre"><i>– Autre –</i></option>
                 <option value="Anglais">Anglais</option>
                 <option value="Bash / Linux">Bash / Linux</option>
@@ -80,7 +81,8 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
         <div class="form-group row" style="padding: 10px">
             <label class="col-md-2" for="select-format" style="font-size: 24px"><b>Type</b></label>
             <select  id="select-format" form="file-form" name="format" class="form-control col-md-9">
-                <option value="">Sélectionner un type de document</option>
+                <option value="Autre">Sélectionner un type de document</option>
+                {# Si aucun type n'est sélectionné, par défaut la valeur est "Autre" #}
                 <option value="Texte">Texte</option>
                 <option value="Code">Code</option>
                 <option value="Image">Image</option>
