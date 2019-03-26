@@ -43,49 +43,88 @@
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
                     {% endif %}
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="row">
-                        <h2 class="col-md-10" style="padding: 10px">{{docu.document_title}}</h2>
-                        <div class="col-md-2" style="text-align: center">
+                        <h2 class="col-md-8" style="padding: 10px">{{docu.document_title}}</h2>
+                        <div class="col-md-2" style="text-align: center; margin-right: -50px">
                             {% if current_user in docu.loving_users %}
                                 <form method="post" id="unfav" action="{{url_for('document', docu_id = docu.document_id)}}">
                                     <button type="submit" form="unfav" class="btn btn-light" style="background-color: white" name="unfav" value="1">
-                                        <img class="img-fluid rounded mb-3 mb-md-0"
+                                        <img class="img-fluid"
                                              style="height: 45px;"
                                              src="{{url_for("static", filename="img/faved.png")}}"
                                              alt="Document déjà ajouté aux favoris">
                                     </button>
-                                    <span class="text-muted" style="font-size: 14px">Retirer des favoris</span>
+                                    <span class="text-muted" style="font-size: 16px">Retirer des favoris</span>
                                 </form>
                             {% else %}
                                 <form method="post" id="fav" action="{{url_for('document', docu_id = docu.document_id)}}">
                                     <button type="submit" form="fav" class="btn btn-light" style="background-color: white" name="fav" value="1">
-                                        <img class="img-fluid rounded mb-3 mb-md-0"
+                                        <img class="img-fluid"
                                              style="height: 45px;"
                                              src="{{url_for("static", filename="img/unfaved.png")}}"
                                              alt="Appuyer pour ajouter aux favoris">
                                     </button>
-                                    <span class="text-muted" style="font-size: 14px">Ajouter aux favoris</span>
+                                    <span class="text-muted" style="font-size: 16px">Ajouter aux favoris</span>
                                 </form>
                             {% endif %}
-                            <style>
-                                #fav span {
-                                    visibility: hidden;
-                                }
-
-                                #fav button:hover + span {
-                                    visibility: visible;
-                                }
-
-                                #unfav span {
-                                    visibility: hidden;
-                                }
-
-                                #unfav button:hover + span {
-                                    visibility: visible;
-                                }
-                            </style>
                         </div>
+                        <div class="col-md-2" style="text-align: center">
+                            {% if current_user.person_cv == docu.document_downloadLink %}
+                                <form method="post" id="no_cv" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                    <button type="submit" form="no_cv" class="btn btn-light" style="background-color: white" name="no_cv" value="1">
+                                        <img class="img-fluid"
+                                             style="height: 45px;"
+                                             src="{{url_for("static", filename="img/cv.png")}}"
+                                             alt="Document déjà ajouté en tant que cv">
+                                    </button>
+                                    <span class="text-muted" style="font-size: 16px">Enlever en tant que CV</span>
+                                </form>
+                            {% else %}
+                                <form method="post" id="cv" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                    <button type="submit" form="cv" class="btn btn-light" style="background-color: white" name="cv" value="1">
+                                        <img class="img-fluid"
+                                             style="height: 45px;"
+                                             src="{{url_for("static", filename="img/no_cv.png")}}"
+                                             alt="Appuyer pour ajouter ce document en tant que CV">
+                                    </button>
+                                    <span class="text-muted" style="font-size: 16px">Ajouter en tant que CV</span>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <style>
+                            #fav span {
+                                visibility: hidden;
+                            }
+
+                            #fav button:hover + span {
+                                visibility: visible;
+                            }
+
+                            #unfav span {
+                                visibility: hidden;
+                            }
+
+                            #unfav button:hover + span {
+                                visibility: visible;
+                            }
+
+                            #cv span {
+                                visibility: hidden;
+                            }
+
+                            #cv button:hover + span {
+                                visibility: visible;
+                            }
+
+                            #no_cv span {
+                                visibility: hidden;
+                            }
+
+                            #no_cv button:hover + span {
+                                visibility: visible;
+                            }
+                        </style>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
