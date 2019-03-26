@@ -7,8 +7,6 @@ from app.modeles.donnees import Person, Document
 from app.modeles.utilisateurs import LoginForm, RegistrationForm, EditProfileForm
 from datetime import date
 
-
-
 from ..app import app, db
 # on importe l'application provenant du fichier app.py un niveau au dessus dans l'arborescence des dossiers
 
@@ -16,6 +14,8 @@ from ..app import app, db
 from ..constantes import RESULTS_PER_PAGE, DOSSIER_UPLOAD
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
 from ..modeles.donnees import Document, Authorship, Person, Tag, HasTag
+
+
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 @app.route('/')
@@ -34,7 +34,6 @@ def accueil():
     return render_template(
         "pages/accueil.html",
         resultats=resultats)
-
 
 
 @app.route("/recherche")
@@ -185,7 +184,6 @@ def recherche():
     if date:
         query = Document.query.filter(Document.document_date.like("%{}%".format(date)))
 
-
     resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
 
     def lenDesc(desc):
@@ -216,19 +214,20 @@ def recherche():
 
     return render_template(
         "pages/recherche.html",
-        resultats = resultats,
-        titre = titre,
-        keyword = motclef,
-        matiere = matiere,
-        matieres = matieres,
-        img = img,
-        txt = txt,
-        code = code,
-        autre = autre,
-        date = date,
-        lenDesc = lenDesc,
-        lenTitle = lenTitle
+        resultats=resultats,
+        titre=titre,
+        keyword=motclef,
+        matiere=matiere,
+        matieres=matieres,
+        img=img,
+        txt=txt,
+        code=code,
+        autre=autre,
+        date=date,
+        lenDesc=lenDesc,
+        lenTitle=lenTitle
     )
+
 
 @app.route("/document/<int:docu_id>", methods=['GET', "POST"])
 def document(docu_id):
@@ -270,6 +269,7 @@ def document(docu_id):
     if unfav:
         Person.remove_docu_to_favorites(current_user, requested_docu)
 
+<<<<<<< HEAD
 
     # # # AJOUT DU DOCUMENT EN TANT QUE CV
     nocv = request.form.get("no_cv", None)
@@ -280,10 +280,12 @@ def document(docu_id):
     if nocv:
         Person.remove_cv(current_user)
 
+=======
+>>>>>>> master
     return render_template("pages/document.html",
-                           docu = requested_docu,
-                           auteur = auteur,
-                           current_user = current_user)
+                           docu=requested_docu,
+                           auteur=auteur,
+                           current_user=current_user)
 
 
 @app.route('/login', methods=['GET', "POST"])
@@ -307,6 +309,7 @@ def login():
         return redirect(next_page)
     return render_template('pages/connexion.html', form=form)
 
+
 @app.route('/logout')
 def logout():
     """
@@ -315,6 +318,7 @@ def logout():
     """
     logout_user()
     return redirect('/')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -333,7 +337,7 @@ def register():
                       person_git=form.person_git.data,
                       person_linkedIn=form.person_linkedIn.data,
                       person_promotion=form.person_promotion.data,
-                      person_last_seen= date.today(),
+                      person_last_seen=date.today(),
                       person_is_teacher=form.person_is_teacher.data)
         user.set_password(form.person_password.data)
         db.session.add(user)
@@ -341,6 +345,7 @@ def register():
         flash('Inscription enregistrée. Bienvenue !')
         return redirect(url_for('login'))
     return render_template('pages/inscription.html', form=form)
+
 
 @app.route("/personne/<int:person_id>")
 def person(person_id):
@@ -358,13 +363,12 @@ def annuaire():
         page = int(page)
     else:
         page = 1
-        # reprise dans les 4 dernières lignes de code du code utilisé pour la page recherche ; permet à la fonction
-        # paginate de fonctionner
+        # fonction paginate permet de paginer car l'annuaire comptera plusieurs entrées
 
     resultats = []
-    resultats = Person.query.order_by(Person.person_name.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
-        # idée : création d'une liste vide, résultats dans laquelle se trouvent toutes les entrées person, requêtées par query
-        # les résultats seront affichés par ordre alphabtique, grâce à order by et asc
+    resultats = Person.query.order_by(Person.person_name.asc()).all()
+    # création d'une liste vide, resultats dans laquelle se trouvent toutes les entrées person, requêtées par query
+    # les résultats seront affichés par ordre alphabtique, grâce à order by et asc
 
     return render_template(
         "pages/annuaire.html",
@@ -374,7 +378,9 @@ def annuaire():
 def extension_ok(nom_fichier=""):
     """ Renvoie True si le fichier possède une extension valide. """
     return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('txt', 'pdf', 'csv', 'doc', 'jpg', 'json',
-                                                          'jpeg', 'gif', 'bmp', 'png', 'word', 'xml', 'py', 'odt')
+                                                                    'jpeg', 'gif', 'bmp', 'png', 'word', 'xml', 'py',
+                                                                    'odt')
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
@@ -396,9 +402,16 @@ def upload():
         # dans f, on stocke le fichier uploadé
         if f:  # on vérifie qu'un fichier a bien été envoyé
             if extension_ok(f.filename):  # on vérifie que son extension est valide
+<<<<<<< HEAD
                 nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
                 f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier d'upload
                 downloadlink = url_for('static', filename = "uploads/" + nom)
+=======
+                nom = secure_filename(f.filename)  # on stocke le nom de fichier dans nom
+                f.save(DOSSIER_UPLOAD + nom)  # et on l'enregistre dans le dossier d'upload
+
+                downloadlink = url_for('static', filename="uploads/" + nom)
+>>>>>>> master
                 # on stocke le lien de stockage sur le serveur du fichier uploadé
                 if downloadlink in doc_links:
                     # Si le document est déjà présent sur le serveur
@@ -414,8 +427,8 @@ def upload():
         else:
             flash(u'Vous avez oublié le fichier !', 'error')
 
+    return render_template('pages/import.html')  # , form=form)
 
-    return render_template('pages/import.html') #, form=form)
 
 @app.route("/upped")
 def upped():
@@ -444,7 +457,7 @@ def user(person_login):
     :param person_login: login enregistré dans la base de données (Person.person_login)
     :return: Page de profile qui correspond, dans l'URL, au Login demandé
     """
-    user = Person.query.filter_by(person_login=person_login).first_or_404() #si le login demandé n'existe pas
+    user = Person.query.filter_by(person_login=person_login).first_or_404()  # si le login demandé n'existe pas
 
     # # # RÉCUPÉRATION DE LA LISTE DES DOCUMENTS MIS EN FAVORIS PAR L'UTILISATEUR
     all_docu = Document.query.all()
@@ -484,11 +497,20 @@ def user(person_login):
 
     return render_template('pages/profile.html',
                            user=user,
+<<<<<<< HEAD
                            docus = docus,
                            lenTitle = lenTitle,
                            lenDesc = lenDesc,
                            docu_cv = docu_cv)
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
+=======
+                           docus=docus,
+                           lenTitle=lenTitle,
+                           lenDesc=lenDesc)
+
+
+# permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
+>>>>>>> master
 # la base de données n'a pas de profil enregistré
 
 @app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
@@ -507,7 +529,7 @@ def admin(person_login):
         user.person_description = form.person_description.data
         user.person_is_admin = form.person_is_admin.data
         db.session.commit()
-        return redirect(url_for('user', person_login = person_login))
+        return redirect(url_for('user', person_login=person_login))
     elif request.method == 'GET':
         form.person_login.data = user.person_login
         form.person_email.data = user.person_email
@@ -519,6 +541,7 @@ def admin(person_login):
         form.person_description.data = user.person_description
         form.person_is_admin.data = user.person_is_admin
     return render_template('pages/admin.html', form=form)
+
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -541,7 +564,7 @@ def edit_profile():
         flash('Changement(s) sauvegardé(s)')
         return redirect(url_for('user', person_login=current_user.person_login))
     elif request.method == 'GET':
-        #Si le formulaire n'est pas soumis ni modifier, l'utilisateur verra ses données enregistrées dans la BDD
+        # Si le formulaire n'est pas soumis ni modifier, l'utilisateur verra ses données enregistrées dans la BDD
         form.person_login.data = current_user.person_login
         form.person_email.data = current_user.person_email
         form.person_name.data = current_user.person_name
@@ -551,6 +574,7 @@ def edit_profile():
         form.person_linkedIn.data = current_user.person_linkedIn
         form.person_description.data = current_user.person_description
     return render_template('pages/edit_profile.html', form=form)
+
 
 @app.before_request
 def before_request():
@@ -562,4 +586,3 @@ def before_request():
         today = date.today()
         current_user.person_last_seen = date.today()
         db.session.commit()
-
