@@ -1,17 +1,17 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if docu %}| Document téléchargé {% endif %}
+    {%if docu %}| Oups {% endif %}
 {% endblock %}
 
 {% block corps %}
     <div class="container" style="text-align: center">
-        <h1>Le document a bien été ajouté à la base de donnée</h1>
+        <h1>Le document a déjà été ajouté au serveur !</h1>
 
         <div class="row" style="text-align: center">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <p>Merci pour votre contribution !</p>
+                <p>Merci de choisir un autre fichier ou de renommer le vôtre.</p>
             </div>
             <div class="col-md-2"></div>
         </div>
@@ -19,7 +19,7 @@
         <div class="row" style="text-align: center">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <img src="{{url_for('static', filename='img/bmo_dancing.gif')}}">
+                <img src="{{url_for('static', filename='img/bmo_butt.gif')}}">
             </div>
             <div class="col-md-2"></div>
         </div>
@@ -28,7 +28,7 @@
             <div class="col-md-2"></div>
             <div class="col-md-8">
                 <a class="btn btn-info"
-                   href="{{url_for('recherche')}}">Parcourir l'ensemble des documents de TNAH Box</a>
+                   href="{{url_for('upload')}}">Retourner aux imports</a>
             </div>
             <div class="col-md-2"></div>
         </div>

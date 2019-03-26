@@ -4,6 +4,7 @@ from flask_login import UserMixin
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
+from sqlalchemy import update
 
 from .. app import db
 
@@ -261,6 +262,49 @@ class Person(UserMixin, db.Model):
             # je le supprime de cette liste
 
         db.session.add(docu)
+        db.session.commit()
+
+        return erreurs
+
+    @staticmethod
+    def add_cv(user, docu):
+        '''
+        Fonction qui ajoute le lien d'un document sur le serveur à l'attribut "person_cv" d'un utilisateur
+        :param user: utilisateur auquel ajouter le lien du document en tant que CV (entrée de la BDD)
+        :param docu: document à associer (entrée de la BDD)
+        :return: liste d'erreurs d'il y en a
+        '''
+        erreurs = []
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à associer")
+        if not docu:
+            erreurs.append("Il n'y a pas de document à associer")
+
+        if user is None or docu is None:
+            # si les paramètres renseignés ne correspondent à rien, je ne fais rien
+            return
+
+        user.person_cv = docu.document_downloadLink
+        db.session.commit()
+
+        return erreurs
+
+    @staticmethod
+    def remove_cv(user):
+        '''
+        Fonction qui retire le lien d'un document sur le serveur à l'attribut "person_cv" d'un utilisateur
+        :param user: utilisateur auquel retirer le lien du document en tant que CV (entrée de la BDD)
+        :return: liste d'erreurs d'il y en a
+        '''
+        erreurs = []
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à dissocier")
+
+        if user is None:
+            # si le paramètre renseigné ne correspond à rien, je ne fais rien
+            return
+
+        user.person_cv = ""
         db.session.commit()
 
         return erreurs

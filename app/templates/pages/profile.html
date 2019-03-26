@@ -56,6 +56,9 @@
                                 <span style="color: grey;">Aucun compte LinkedIn enregistré</span>
                             {% endif %}
                         </li>
+                        {% if user.person_cv %}
+                            <li>Lien vers le CV : <a href="{{url_for('document', docu_id = docu_cv.document_id)}}">{{ docu_cv.document_title }}</a></li>
+                        {% endif %}
                     </ol>
                 </div>
             </div>
