@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, redirect, url_for, send_file
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, update
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug import secure_filename
@@ -276,7 +276,9 @@ def document(docu_id):
     cv = request.form.get("cv", None)
 
     if cv:
-        Person.add_cv(current_user, requested_docu)
+        Document.add_cv(current_user,requested_docu)
+    if nocv:
+        pass
 
     return render_template("pages/document.html",
                            docu = requested_docu,

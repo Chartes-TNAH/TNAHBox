@@ -4,6 +4,7 @@ from flask_login import UserMixin
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
+from sqlalchemy import update
 
 from .. app import db
 
@@ -108,6 +109,29 @@ class Document(db.Model):
 
         db.session.add(user)
         db.session.commit()
+
+    @staticmethod
+    def add_cv(user, docu):
+        '''
+        Fonction qui ajoute le lien d'un document sur le serveur à l'attribut "person_cv" d'un utilisateur
+        :param user: utilisateur auquel ajouter le lien du document en tant que CV (entrée de la BDD)
+        :param docu: document à associer (entrée de la BDD)
+        :return: liste d'erreurs d'il y en a
+        '''
+        erreurs = []
+        if not user:
+            erreurs.append("Il n'y a pas d'utilisateur à associer")
+        if not docu:
+            erreurs.append("Il n'y a pas de document à associer")
+
+        if user is None or docu is None:
+            # si les paramètres renseignés ne correspondent à rien, je ne fais rien
+            return
+
+        user.person_cv = docu.document_downloadLink
+        db.session.commit()
+
+        return erreurs
 
 
 class Tag(db.Model):
@@ -262,29 +286,6 @@ class Person(UserMixin, db.Model):
 
         db.session.add(docu)
         db.session.commit()
-
-        return erreurs
-
-    @staticmethod
-    def add_cv(user, docu):
-        '''
-        Fonction qui ajoute le lien d'un document sur le serveur à l'attribut "person_cv" d'un utilisateur
-        :param user: utilisateur auquel ajouter le lien du document en tant que CV (entrée de la BDD)
-        :param docu: document à associer (entrée de la BDD)
-        :return: liste d'erreurs d'il y en a
-        '''
-        erreurs = []
-        if not user:
-            erreurs.append("Il n'y a pas d'utilisateur à associer")
-        if not docu:
-            erreurs.append("Il n'y a pas de document à associer")
-
-        if user is None or docu is None:
-            # si les paramètres renseignés ne correspondent à rien, je ne fais rien
-            return
-
-        lien_cv = docu.document_downloadLink
-        user.person_cv = lien_cv
 
         return erreurs
 

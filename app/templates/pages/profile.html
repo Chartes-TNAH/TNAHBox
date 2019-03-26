@@ -37,6 +37,9 @@
                         <li>{{user.person_firstName}}</li>
                         <li>{{user.person_name}}</li>
                         <li>Promotion {{user.person_promotion}}</li>
+                        {% if user.person_cv %}
+                            <li><a href="{{user.person_cv}}">Lien vers le CV</a></li>
+                        {% endif %}
                     </ol>
                 </div>
                 <div class="col-md-7">
