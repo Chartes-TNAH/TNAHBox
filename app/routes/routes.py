@@ -386,6 +386,10 @@ def upload():
     date = request.form.get("date", None)
     matiere = request.form.get("matiere", None)
 
+    # # # LISTE DE TOUS LES LIENS VERS LES DOCUMENTS DÉJÀ EXISTANTS SUR LE SERVEUR
+    doc_links = Document.query.with_entities(Document.document_downloadLink)
+    doc_links = [link[0] for link in doc_links.all()]
+
     # # # IMPORT DE FICHIER
     if request.method == 'POST':
         f = request.files['file']
@@ -394,16 +398,17 @@ def upload():
             if extension_ok(f.filename):  # on vérifie que son extension est valide
                 nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
                 f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier d'upload
-
                 downloadlink = url_for('static', filename = "uploads/" + nom)
                 # on stocke le lien de stockage sur le serveur du fichier uploadé
-                docu = Document.add_doc(title, description, format, date, matiere, downloadlink)
-                # on ajoute le document à la BDD
-                Document.associate_docu_and_user(current_user, docu)
-                # on l'associe à l'user connecté dans la table Authorship
-                return redirect(url_for('upped'))
-                # flash(u'Fichier envoyé ! Voici <a href="{lien}">son lien</a>.'.format(lien=url_for('upped', nom=nom)),
-                #       'suc')
+                if downloadlink in doc_links:
+                    # Si le document est déjà présent sur le serveur
+                    return redirect(url_for('oups'))
+                else:
+                    docu = Document.add_doc(title, description, format, date, matiere, downloadlink)
+                    # on ajoute le document à la BDD
+                    Document.associate_docu_and_user(current_user, docu)
+                    # on l'associe à l'user connecté dans la table Authorship
+                    return redirect(url_for('upped'))
             else:
                 flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
         else:
@@ -420,6 +425,15 @@ def upped():
     """
 
     return render_template("pages/upped.html")
+
+@app.route("/oups")
+def oups():
+    """
+    Route pour la page à afficher si le fichier à importer est déjà sur le serveur
+
+    """
+
+    return render_template("pages/oups.html")
 
 
 @app.route('/user/<person_login>')
