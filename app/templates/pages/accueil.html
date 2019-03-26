@@ -5,7 +5,9 @@
 {% block corps %}
 <body>
 <div style="text-align: center">
-    <p class="lead text-muted container">Rendu final du cours de <a href="/personne/3">Thibaut Clérice</a> en M2 TNAH à l'ENC, <br>le projet TNAHBox a été développé grâce au langage de programmation python. Bienvenue sur la page d'accueil !</p>
+    <p class="lead text-muted container">Rendu final du cours de <a href="/personne/3">Thibaut Clérice</a> en M2 TNAH à l'ENC,
+        <br>le projet TNAHBox a été développé grâce au langage de programmation python.
+        <br/> Bienvenue sur la page d'accueil !</p>
 
     {% if current_user.is_anonymous %}
     <!-- cette partie n'est accessible que si l'utilisat.eur.rice est connecté.e -->
@@ -17,12 +19,12 @@
     {% endif %}
 </div>
 
-<div class="container marketing" style="margin-top: 2em">
+<div class="container marketing" style="margin-top: 2em; text-align: center">
     <!-- pour une raison que je n'explique pas, les boutons sont recouverts par les "ronds" svg des docs sans un petit margin-top-->
     <h4 style="padding: 1em">Voici les trois derniers documents ajoutés à la TNAHBox : </h4>
-    <div class="row">
+    <div class="row" style="place-content: center">
             {% for found_document in resultats %}
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="card h-100">
                     {% if found_document.document_format == "Image" %}
                     <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/img.png')}}">
@@ -36,24 +38,20 @@
                     <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
                     {% endif %}
                     <!-- ici : si le format correspond à txt, alors appliquer l'image txt, etc. ; la boucle for permet itération -->
-                    <div class="card-body">
-                        <div class="row">
-                            <h4 class="card-title col-md-8">
-                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                            </h4>
-                            <div><!-- pour question d'affichage et responsive design class="col-md-4"retiré balise div-->
-                                <b>
-                                    {% if found_document.document_teaching %}
-                                    <span class="badge badge-light">{{found_document.document_teaching}}</span>
-                                    {% else %}
-                                    <span>Il n'y a pas de matière renseignée pour ce document</span>
-                                    <!-- Si la matière du document a été remplie dans la BDD, afficher sinon phrase -->
-                                    {% endif %}
-                                </b>
-                            </div>
-                        </div>
+                    <div class="card-body" style="text-align: left;">
+                        <h4 class="card-title">
+                            <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                        </h4>
+                        <b>
+                            {% if found_document.document_teaching %}
+                                <span class="badge badge-light" style="margin-bottom: 5px">{{found_document.document_teaching}}</span>
+                            {% else %}
+                                <span>Il n'y a pas de matière renseignée pour ce document</span>
+                                <!-- Si la matière du document a été remplie dans la BDD, afficher sinon phrase -->
+                            {% endif %}
+                        </b>
                         {% if found_document.document_description %}
-                        <p>{{found_document.document_description}}</p>
+                            <p>{{found_document.document_description}}</p>
                         {% else %}
                         <p>Il n'y a pas de description pour ce document</p>
                         <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
