@@ -1,144 +1,125 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-         {%if person %}| Personne : {{person.person_name}} {% endif %}
+    {%if person %}| Personne : {{person.person_name}} {% endif %}
 {% endblock %}
 
 <!-- design grâce à : view-source:https://getbootstrap.com/docs/4.3/examples/blog/ -->
 
 {% block corps %}
 
-<!-- Premier code :
-        {% if person %}
-            <h1>{{person.person_name}} {{person.person_firstName}} ({{person.person_promotion}})</h1>
+    <!-- design repris de la page document.html pour homognéité visuelle -->
 
-            <dl>
+    {% if current_user.is_anonymous %}
+        <div class="starter-template container" style="text-align: center">
 
-                <dt>adresse mail :</dt><dd>{{person.person_email}}</dd>
-                <dt>linkedIn :</dt><dd>{{person.person_linkedIn}}</dd>
-                <dt>CV :</dt><dd>{{person.person_cv}}</dd>
-                <dt>git :</dt><dd>{{person.person_git}}</dd>
-                <dt>promotion :</dt><dd>{{person.person_promotion}}</dd>
-            </dl>
-        {% else %}
-            <p>La base de données est en cours de constitution : n'hésitez pas à vous inscrire !</p>
-        {% endif %}
-        <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
--->
+            <img src="/static/img/not_person.gif">
+            <h1 class="lead">Vous devez être connecté·e pour accéder à cette page.</h1> <br>
 
-
-<!-- design repris de la page document.html pour homognéité visuelle -->
-
-{% if current_user.is_anonymous %}
-<div class="starter-template container" style="text-align: center">
-
-        <img src="/static/img/not_person.gif">
-        <h1 class="lead">Vous devez être connecté·e pour accéder à cette page.</h1> <br>
-
-    <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
-    <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
-    <!-- deux boutons menant aux pages inscription et description -->
+            <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
+            <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
+            <!-- deux boutons menant aux pages inscription et description -->
 
 
         </div>
-<!-- même si la page d'une personne n'est accessible en théorie que si on est passé par l'annuaire qui exige connexion, ceinture et bretelles comme on dit -->
-{% else %}
+        <!-- même si la page d'une personne n'est accessible en théorie que si on est passé par l'annuaire qui exige connexion, ceinture et bretelles comme on dit -->
+    {% else %}
 
-            <div class="row" style="padding: 2em">
-                <!-- Ici image, voir si on ajoute image pour les profils -->
-                <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 10%">
-                    <h2 class="display-5 font-italic" style="margin-top: 0.5em">{{person.person_firstName}} {{person.person_name}}</h2>
-                    <!-- affichage Prénom Nom -->
-                    <dt>Promotion</dt>
-                    {% if person.person_promotion %}
-                        <dd>{{person.person_promotion}}</dd>
-                    {% else %}
-                        <dd>Le promotion de {{person.person_firstName}} {{person.person_name}} n'a pas été renseignée.</dd>
-                    {% endif %}
-                    <dt>CV</dt>
-                    {% if person.person_cv %}
-                        <dd>{{person.person_cv}}</dd>
-                    {% else %}
-                        <dd>Le CV de {{person.person_firstName}} {{person.person_name}} n'a pas été rempli.</dd>
-                    {% endif %}
+        <div class="row" style="padding: 2em">
+            <!-- Ici image, voir si on ajoute image pour les profils -->
+            <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 10%">
+                <h2 class="display-5 font-italic" style="margin-top: 0.5em">{{person.person_firstName}} {{person.person_name}}</h2>
+                <!-- affichage Prénom Nom -->
+                <dt>Promotion</dt>
+                {% if person.person_promotion %}
+                    <dd>{{person.person_promotion}}</dd>
+                {% else %}
+                    <dd>Le promotion de {{person.person_firstName}} {{person.person_name}} n'a pas été renseignée.</dd>
+                {% endif %}
+                <dt>CV</dt>
+                {% if person.person_cv %}
+                    <dd>{{person.person_cv}}</dd>
+                {% else %}
+                    <dd>Le CV de {{person.person_firstName}} {{person.person_name}} n'a pas été rempli.</dd>
+                {% endif %}
 
-                    <div class="row">
-                        <div style="margin-left: 1em"></div>
+                <div class="row">
+                    <div style="margin-left: 1em"></div>
 
-                    </div>
                 </div>
-                    <div class="col-md-5 bg-light rounded" style="margin-left: 2%">
-                        <h4 class="font-italic" style="margin-top: 1em">Contact</h4>
-                        <ol class="list-unstyled">
-                        <li>GitHub :
+            </div>
+            <div class="col-md-5 bg-light rounded" style="margin-left: 2%">
+                <h4 class="font-italic" style="margin-top: 1em">Contact</h4>
+                <ol class="list-unstyled">
+                    <li>GitHub :
                         {% if person.person_git %}
                             <span><a href="{{person.person_git}}">{{(person.person_git).replace("https://github.com/","")|safe}}</a></span>
-                        <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
+                            <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
                         {% else %}
                             <span style="color: grey;">Aucun compte GitHub n'a été renseigné.</span>
                         {% endif %}
-                            </li>
-                        <li>LinkedIn :
+                    </li>
+                    <li>LinkedIn :
                         {% if person.person_linkedIn %}
                             <span><a href="{{person.person_linkedIn}}">{{person.person_firstName}} {{person.person_name}}</a></span>
                         {% else %}
                             <span style="color: grey;">Aucun compte LinkedIn n'a été renseigné.</span>
                         {% endif %}
-                            </li>
-                        <li>Adresse email :
-                         {% if person.person_email %}
+                    </li>
+                    <li>Adresse email :
+                        {% if person.person_email %}
                             <span><a href="mailto:{{person.person_email}}">{{person.person_email}}</a></span>
-                         {% else %}
-                            <span style="color: grey;">Aucune adresse mail n'a été renseignée. <br>Essayez : <a href="mailto:{{person.person_email}}" style="text-transform: lowercase;">{{person.person_firstName}}.{{person.person_name}}@chartes.psl.eu</a></span>
-                         {% endif %}
-                        </li>
-                            <!-- Si aucune adresse mail n'a été renseignée, propose par défaut celle de l'ENC -->
-                        </ol>
-                    </div>
+                        {% else %}
+                            <span style="color: grey;">Aucune adresse mail n'a été renseignée. <br>Essayez : <a href="mailto:{{person.person_firstName}}.{{person.person_name}}@chartes.psl.eu" style="text-transform: lowercase;">{{person.person_firstName}}.{{person.person_name}}@chartes.psl.eu</a></span>
+                        {% endif %}
+                    </li>
+                    <!-- Si aucune adresse mail n'a été renseignée, propose par défaut celle de l'ENC -->
+                </ol>
             </div>
-            <div class="row" style="padding: 2em">
-                <div class="col-md-5 rounded" style="margin-left: 10%">
-                    <dt>Description : </dt>
+        </div>
+        <div class="row" style="padding: 2em">
+            <div class="col-md-5 rounded" style="margin-left: 10%">
+                <dt>Description : </dt>
 
-                    {% if person_description %}
+                {% if person_description %}
                     <p>{{person_description}}</p>
-                    {% else %}
+                {% else %}
                     <span style="color: grey;">Aucune description n'a été renseignée.</span>
-                    {% endif %}
-                    <!-- BUT ajout d'un lien pour aller sur la page profil, si la personne est un utilisateur et a une page profil -->
-                    {% if person.person_login %}
+                {% endif %}
+                <!-- BUT ajout d'un lien pour aller sur la page profil, si la personne est un utilisateur et a une page profil -->
+                {% if person.person_login %}
                     <!-- si la personne a un login, est forcément un utilisateur, donc afficher son profil avec un lien vers sa page profil. -->
                     <dt>Profil : </dt>
                     <span><a href="{{url_for('user', person_login=person.person_login)}}">{{person.person_login}}</a></span>
                     <!-- Afficher son profil avec redirection vers page -->
-                    {% endif %}
+                {% endif %}
 
-                    <!-- if person_description
+                <!-- if person_description
                     <p>{{person_description}}</p>
                     else
                     <span style="color: grey;">Aucune description n'a été renseignée.</span>
                      endif  -->
-                </div>
-                <div class="col-md-5" style="margin-left: 2%">
-                    <dt style="margin-top: 0.5 em">Documents ajoutés :</dt>
-                    {% if person.created_document %}
-                        <p>{{person.person_firstName}} {{person.person_name}} a ajouté {{person.created_document.count(document)+1}} document(s) dans TNAHBox :</p>
+            </div>
+            <div class="col-md-5" style="margin-left: 2%">
+                <dt>Documents ajoutés :</dt>
+                {% if person.created_document %}
+                    <p>{{person.person_firstName}} {{person.person_name}} a ajouté {{person.created_document|length}} document(s) dans TNAHBox :</p>
                     <!-- pour un document affiche 1 documents grâce à +1 ; voir si ça fonctionne avec plusieurs documents. -->
-                            {% for document in person.created_document %}
-                                <dd><a href="{{url_for('document', docu_id = document.document_id)}}">{{document.document_title}}</a></dd>
-                            {% endfor %}
-                    {% else %}
-                        <dd>{{person.person_firstName}} {{person.person_name}} n'a ajouté aucun document à TNAHBox.</dd>
-                    {% endif %}
-                </div>
-
+                    {% for document in person.created_document %}
+                        <dd><a href="{{url_for('document', docu_id = document.document_id)}}">{{document.document_title}}</a></dd>
+                    {% endfor %}
+                {% else %}
+                    <dd>{{person.person_firstName}} {{person.person_name}} n'a ajouté aucun document à TNAHBox.</dd>
+                {% endif %}
             </div>
 
-{% endif %}
+        </div>
+
+    {% endif %}
 
 
 
-<!-- Conserver cette ligne ??? Crée un bouton pour retour vers l'annuaire...
+    <!-- Conserver cette ligne ??? Crée un bouton pour retour vers l'annuaire...
     <a href="{{url_for('annuaire')}}" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Retour à l'annuaire</a>
     -->
 

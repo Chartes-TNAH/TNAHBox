@@ -353,7 +353,7 @@ def annuaire():
         # paginate de fonctionner
 
     resultats = []
-    resultats = Person.query.order_by(Person.person_name.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
+    resultats = Person.query.order_by(Person.person_name.asc()).all()
         # idée : création d'une liste vide, résultats dans laquelle se trouvent toutes les entrées person, requêtées par query
         # les résultats seront affichés par ordre alphabtique, grâce à order by et asc
 

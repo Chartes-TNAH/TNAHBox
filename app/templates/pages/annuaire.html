@@ -24,8 +24,7 @@
     <div class="container">
       <h1 class="jumbotron-heading">Annuaire du master TNAH de l'École nationale des chartes</h1>
       <p class="lead text-muted">Retrouvez les informations de contact des étudiant·e·s du Master TNAH inscrit·e·s sur TNAHBox.</p>
-         <p style="padding-left: 20px">Il y a {{resultats.total}} personnes inscrites sur l'annuaire TNAH :</p>
-          <button type="button" class="btn btn-lg btn-outline-light" style="color: #55595c" disabled><b>Étudiant·e·s</b></button>
+<p style="padding-left: 20px">Il y a {{resultats|length}} personnes inscrites sur l'annuaire TNAH :</p>          <button type="button" class="btn btn-lg btn-outline-light" style="color: #55595c" disabled><b>Étudiant·e·s</b></button>
           <button type="button" class="btn btn-lg btn-outline-light" style="color: #BD052D" disabled><b>Enseignant·e·s</b></button>
 
 
@@ -68,7 +67,7 @@
                     {% if found_person.person_git %}
                     <a href="{{found_person.person_git}}" class="btn btn-sm btn-dark" role="button" aria-disabled="true">gitHub</a>
                     {% else %}
-                    <button type="button" class="btn btn-sm btn-light" disabled>gitHub</button>
+                    <button type="button" class="btn btn-sm btn-light" disabled>GitHub</button>
                     {% endif %}
                     {% if found_person.person_linkedIn %}
                     <a href="{{found_person.person_linkedIn}}" class="btn btn-sm btn-dark" role="button" aria-disabled="true">LinkedIn</a>
