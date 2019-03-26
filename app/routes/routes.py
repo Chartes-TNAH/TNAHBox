@@ -253,11 +253,13 @@ def document(docu_id):
         Tag.associate_tag_and_docu(tag_id, docu_id)
         # j'associe ce tag au document de la page courante
 
+
     # # # AFFICHAGE DE L'AUTEUR DU DOCUMENT
     requested_docu = Document.query.get(docu_id)
     # je récupère le document dont l'id correspond à l'URL de la page
     auteur = Person.query.filter(Person.created_document.any(Document.document_id == docu_id)).first()
     # j'en récupère l'auteur
+
 
     # # # AJOUT AUX FAVORIS DE L'UTILISATEUR CONNECTÉ
     unfav = request.form.get("unfav", None)
@@ -268,6 +270,14 @@ def document(docu_id):
     if unfav:
         Person.remove_docu_to_favorites(current_user, requested_docu)
 
+
+    # # # AJOUT DU DOCUMENT EN TANT QUE CV
+    nocv = request.form.get("no_cv", None)
+    cv = request.form.get("cv", None)
+
+    if cv:
+        Person.add_cv(current_user, requested_docu)
+    print(current_user.person_cv)
 
     return render_template("pages/document.html",
                            docu = requested_docu,
