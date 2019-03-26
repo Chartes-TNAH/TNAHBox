@@ -37,9 +37,6 @@
                         <li>{{user.person_firstName}}</li>
                         <li>{{user.person_name}}</li>
                         <li>Promotion {{user.person_promotion}}</li>
-                        {% if user.person_cv %}
-                            <li><a href="{{user.person_cv}}">Lien vers le CV</a></li>
-                        {% endif %}
                     </ol>
                 </div>
                 <div class="col-md-7">
@@ -59,6 +56,9 @@
                                 <span style="color: grey;">Aucun compte LinkedIn enregistré</span>
                             {% endif %}
                         </li>
+                        {% if user.person_cv %}
+                            <li>Lien vers le CV : <a href="{{url_for('document', docu_id = docu_cv.document_id)}}">{{ docu_cv.document_title }}</a></li>
+                        {% endif %}
                     </ol>
                 </div>
             </div>

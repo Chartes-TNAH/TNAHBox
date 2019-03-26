@@ -351,8 +351,6 @@ def person(person_id):
         person=requested_person)
 
 
-
-
 @app.route("/annuaire")
 def annuaire():
     page = request.args.get("page", 1)
@@ -441,6 +439,8 @@ def user(person_login):
         if user in docu.loving_users:
             docus.append(docu)
 
+    docu_cv = Document.query.filter(Document.document_downloadLink == user.person_cv).first()
+
     def lenDesc(desc):
         '''
         Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
@@ -471,7 +471,8 @@ def user(person_login):
                            user=user,
                            docus = docus,
                            lenTitle = lenTitle,
-                           lenDesc = lenDesc)
+                           lenDesc = lenDesc,
+                           docu_cv = docu_cv)
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
 
