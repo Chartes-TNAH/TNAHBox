@@ -10,15 +10,20 @@
         {{ form.hidden_tag() }}
         <div class="container">
             <div class="row">
-                <div class="col-6"><h1 style="color: #2e7e76;"><i>Connexion</i></h1><hr></div>
+                <div class="col-6">
+                    <h1 style="color: #2e7e76;">
+                        <i>Connexion</i>
+                    </h1>
+                    <hr>
+                </div>
             </div>
             <div class="row">
                 <div class="col-6">
                     {{ form.person_login.label }}<br>
                     {{ form.person_login(size=42) }}<br>
-                        {% for error in form.person_login.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
+                    {% for error in form.person_login.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
                     <br>
                 </div>
             </div>
@@ -26,23 +31,20 @@
                 <div class="col-6">
                     {{ form.person_password.label }}<br>
                     {{ form.person_password(size=42) }}<br>
-                        {% for error in form.person_password.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
+                    {% for error in form.person_password.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
 
+                </div>
             </div>
-
-
-
-
-
-        </div>
             <br>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
-        <p>
-            <a href="{{ url_for('register') }}" class="text-secondary">Pas encore enregistré(e) ? Inscrivez-vous !</a>
-        </p>
-     </form>
+            <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+            <p>{{ form.submit() }}</p>
+
+            <p>
+                <a href="{{ url_for('register') }}" class="text-secondary">Pas encore enregistré(e) ? Inscrivez-vous !</a>
+            </p>
+        </div>
+    </form>
 
 {% endblock %}
