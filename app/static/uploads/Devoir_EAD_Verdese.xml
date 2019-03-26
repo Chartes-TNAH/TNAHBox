@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    
+    Abréviations
+    IR : instrument de recherche
+    
+    Remarques générales
+    
+    Je n'ai ici donné qu'un exemple de l'encodage qui était possible de réaliser, ce qui implique que d'autres options sont tout aussi valables.
+
+    La création de liens internes est correcte, toutefois je ne l'estime pas indispensable dans une rétroconversion stricte à part dans les cas où des notes sont présentes.
+
+    Si une inforamation est encodée dans le frontmatter, il n'y a pas besoin de la répéter autre part. Dans cet IR, je n'ai pas estimé avoir besoin d'utiliser cet élément, qui est facultatif et que est à utiliser qu'en cas de derniers recours. 
+
+    Attention aux rajouts d'informations qui ne comparaissent pas dans la version papier de l'IR. Cette démarche est à justifier quand elle est faite, pour qu'on puisse identifier les changements apportés par rapport à la version originale de l'IR.
+
+    L'indexation au niveau du <eadheader> est correcte, mais doit répondre à des besoin de recherche spécifique. Dans ce cas, je ne l'ai pas considérée utile, et je n'ai indexé que quelques termes au niveau du <archdesc>.
+
+    Quand cela est possible dans EAD, il est conseillé de garder la disposition originale des informations.
+
+    Les éléments vides ne doivent pas être encodés.
+-->
+<!DOCTYPE ead SYSTEM "ead.dtd">
+<!-- Si possible insérer toujours le parcours relatif. -->
+<ead>
+    <eadheader>
+        <eadid>CR/7866</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>COMITÉ D'ORGANISATION DES ENTREPRISES DE SPECTACLES (COES)</titleproper>
+                <subtitle>F21 8127-8262 1941-1947</subtitle>
+                <author>A. Callu et C. Obert</author>
+            </titlestmt>
+            <publicationstmt>
+                <date>1997</date>
+            </publicationstmt>
+        </filedesc>
+        <profiledesc>
+            <creation>Instrument de recherche encodé manuellement avec le logiciel Oxygen XML Editor.</creation>
+        </profiledesc>
+    </eadheader>
+    <archdesc level="fonds">
+        <did>
+            <unittitle>COMITÉ D'ORGANISATION DES ENTREPRISES DE SPECTACLES (COES)</unittitle>
+            <unitid>F21 8127-8262</unitid>
+            <unitdate normal="1941/1947">1941-1947</unitdate>
+            <origination>
+                <corpname normal="France. Comité d'organisation des entreprises de spectacles (1941-1946)">Comité d'organisation des entreprises de spectacle</corpname>
+            </origination>
+            <!-- Cette information est présente de façon implicite dans la version "papier de l'IR", je peux la reporter sans besoin de me justifier. -->
+        </did>
+        <custodhist>
+            <p>Le Comité d'organisation des entreprises de spectacles (COES), dissous le 30 octobre 1946, voit une partie de ses archives rétrocédées par l'organisme liquidateur à la Direction générale des Arts et Lettres du ministère de l'Education nationale en 1947. </p>
+        </custodhist>
+        <acqinfo>
+            <p>Ce n'est que vingt ans plus tard, en 1967, que le fonds, depuis enrichi, est versé aux Archives nationales à la Section contemporaine. Aujourd'hui, près de trente après, ces documents, soit 150 liasses originelles, font l'objet du présent inventaire rédigé par Mlle Agnès Callu et Mme Caroline Obert.</p>
+        </acqinfo>
+        <bioghist>
+            <p>Le COES, à l'instar des autres comités d'organisation créés par la loi du 16 août 1940, est institué par décret, le 7 juillet 1941 <ref target="note1">1</ref> . Dirigé par un "président responsable", René Rocher, alors directeur du théâtre national de l'Odéon, il est composé de sept membres, désignés par le Secrétaire d'Etat à l'Education nationale et à la Jeunesse, représentants les catégories professionnelles suivantes : 1 0) les théâtres de Paris, 20) les théâtres de province; 3 0) les concerts symphoniques; 40) les tournées et les théâtres démontables; 5 0) les spectacles forains, les spectacles de curiosités, les music-halls et les cirques, 60) les metteurs en scène; 70) les professions se rattachant aux théâtres (les peintres de décor, les fabricants d'accessoires et les costumiers). À la tête de ces groupes, sont respectivement nommés, par arrêté du 15 juillet 1942, Sacha Guitry, René Chauvet, Eugène Bigot, Raoul Audier, Paul Derval, Gaston Baty et Émile Bertin.</p>
+            <p>Pour agir, le Comité use de décisions notifiées au commissaire du gouvernement, à l'époque Louis Hautecoeur, Secrétaire général des Beaux-Arts. Il dispose d'une structure administrative pour l'épauler dans ses tâches quotidiennes. Ainsi, cinq services fonctionnent dès septembre 1942 : le secrétariat du président responsable, celui du Secrétaire général (en l'occurrence, Edouard Reynaud), le service de la comptabilité et du contrôle de perception, celui de la statistique et du recensement, celui enfin du matériel et des matières premières. Enfin, il sait coordonner son action sur l'ensemble du territoire : en 1942, un "service de zone non occupée" est installé à Lyon et confié à Charles Gantillon, le dispositif étant complété un an plus tard par la mise en place de contrôleurs régionaux.</p>
+            <note id="note1">
+                <p>Ce texte est modifié le 24 mai 1942.</p>
+            </note>
+        </bioghist>
+        <scopecontent>
+            <p>Lorsque les archives du Comité parviennent aux Archives nationales, elles sont déjà organisées selon six grandes rubriques, correspondant à des entités administratives existantes. Cette architecture de départ a été conservée dans le présent instrument de recherche.</p>
+            <p>La première partie, centrale, correspond au Secrétariat général. Un certain nombre de dossiers d'ensemble relatifs notamment à la création, au fonctionnement (comptes rendus de réunions et décisions) et à la dissolution du COES figurent en tête, suivis par des notes et de la correspondance témoignant des relations entretenues avec les ministres et secrétaires d'Etat, les comités d'organisation, les associations professionnelles et les diverses entreprises de spectacle. De plus, elle englobe deux minces dossiers se rapportant au service de répartition des matières premières (cf. supra) et au service social, organe qui semble avoir fonctionné de 1943 à 1947.</p>
+            <p>La seconde, dénommée "service général du classement", est une juxtaposition de correspondances classées par thèmes, organismes ou selon l'ordre alphabétique et chronologique, couvrant l'ensemble de la période.</p>
+            <p>La troisième se compose de petits dossiers thématiques examinés par le service juridique, les plus nourris traitant des amateurs et sociétés d'amateurs.</p>
+            <p>La quatrième, fort dense, est consacrée au "service des tournées" et propose essentiellement, après des documents d'intérêt général (notes, circulaires ou correspondance), des itinéraires et le relevé exhaustif des avis favorables et défavorables émis par le COES.</p>
+            <p>La cinquième, celle du recensement des entreprises, est inévitable pour disposer d'un bilan à jour des entreprises sédentaires, non sédentaires et de celles se rattachant aux spectacles, soit au total 1558 établissements en juillet 1944, selon Serge Added.</p>
+            <p>La sixième, rassemblant les archives du "service de la licence", déborde très largement sur la période postérieure puisqu'elle présente l'intégralité des licences accordées de 1945 à 1960.</p>
+            <p>A mentionner enfin, l'existence d'un fichier des entreprises de spectacles très utile pour toute identification de détail.</p>
+            <p>Il est assez aisé de constater les carences d'un tel fonds d'archives. En effet, hormis les services du classement, des tournées, du recensement et de la licence qui constituent des sections homogènes et, autant qu'elles puissent l'être, "complètes", les autres domaines d'action du COES ne sont malheureusement évoqués que de façon fugace. Aussi, la cruelle gestion de la pénurie n'est-elle perceptible qu'au travers d'un unique dossier (cf F21 8131, dossiers 1-2); la question des billets corporatifs, pourtant d'actualité, n'est qu'entr'aperçue au fil de listes et notes sommaires (cf. F218199, dossier 5). Quant au service de la carte professionnelle d'artistes ou bien encore celui de la comptabilité et du contrôle de perception, ils sont tout bonnement inexistants. En outre, les incidences du système sont peut-être davantage perceptibles à Paris, les correspondances échangées avec les contrôleurs régionaux, trop souvent lacunaires et par définition ponctuelles, n'offrant qu'un tableau infidèle et flou des résonances provinciales. Enfin, un repérage global des dossiers thématiques, nombreux et diffus, s'avère instructif pour l'étude de questions parfois périphériques, et jugées à tort marginales, telles celles des cours de danse, des bals ou bien encore des cirques. Pourtant, l'exploitation positive d'un tel fonds est claire : au delà d'une approche institutionnelle des mécanismes d'une structure de pouvoir, elle sait mettre à jour les fonctionnalités des grands théâtres parisiens tout comme celles d'établissements de moindre envergure.</p>
+            <p>A. Callu Février 1997.</p>
+        </scopecontent>
+        <processinfo>
+            <p>Mme Caroline Obert a classé et inventorié les archives du Secrétariat général et du courrier (F21 8127-8197).</p>
+            <p>Mlle Agnès Callu, celles du service juridigue, des tournées, du recensement et de la licence (F 21 8198-8262</p>
+        </processinfo>
+        <bibliography>
+            <bibref>Serge Added, "Le succès du théâtre dans Paris occupé", dans Politiques et pratiques culturelles dans la France de Vichy, Cahiers de I'IHTP, nos, juin 1988, p. 207-229.</bibref>
+            <bibref>Id., "La vie littéraire, intellectuelle et artistique en France", dans Bulletin de I'IHTP, n035, mars 1989, p. 37-58.</bibref>
+            <bibref>Id., Le théâtre dans les années Vichy, 1940-1944, Paris, 1992.</bibref>
+            <bibref>Louis Hautecoeur, Les Beaux-Arts en France, Paris, 1948 René Rocher, "Les théâtres sous l'Occupation", dans La vie de la France sous l'Occupation (1940-1944), Institut Hoover, 1957, t.ll, p. 965-972.</bibref>
+            <bibref>Henry Rousso, "Les comités d'organisation, aspects structurels et économiques", mémoire de maîtrise, Paris, 1976.</bibref>
+            <bibref>Voir aussi l'Officiel du spectacle, mensuel, organe du COES ( à partir de septembre 1942) 1</bibref>
+        </bibliography>
+        <arrangement>
+            <!-- Plusieurs d'entre vous n'ont pas encodé la partie ci-dessous en disant qu'elle pouvait être récupée de façon dynamique. Cela est vrai, mais dans ce cas à mon avis la structure du fonds a été écrite "en dur" pour donner une vision globale de ce qui était décrit.
+                 La forme des intitulés, parfois légèrement différente de celle qui est dans le corps de l'IR, me semble attester de cette volonté. -->
+            <list>
+                <item>Secrétariat général F21 8127-8150
+                    <list>
+                        <item>F21 8127-8130. Création, fonctionnement et dissolution du COES</item>
+                        <item>F21 8131. Service de répartition des matières premières et service social</item>
+                        <item>F21 8132-8145. Relations extérieures du COES
+                            <list>
+                                <item>F21 8132 : avec les ministères et les secrétariats généraux</item>
+                                <item> F21 8133: avec le secrétariat général des Beaux-arts</item>
+                                <item>F21 8134: avec divers organismes</item>
+                                <item>F21 8135-8138 : avec les théâtres de Paris</item>
+                                <item>F21 8139-8140 : avec les music-halls, les casinos et les cirques</item>
+                                <item>F21 8141 : avec les cabarets</item>
+                                <item>F21 8142: avec les marionnettistes, les sociétés de concerts, les théâtres et spectacles de province</item>
+                                <item>F21 8143-8144 : avec les comités d'organisation et les associations professionnelles</item>
+                                <item>F21 8145 : avec les contrôleurs régionaux</item>
+                            </list>
+                        
+                        </item>                        
+                        <item>F21 8146-8150. Dossiers thématiques</item>
+                    </list>
+                
+                </item>
+                <item>Service du courrier F21 8151-8197
+                    <list>
+                        <item>F21 8151-8154. Enregistrement du courrier "arrivée"</item>
+                        <item>F21 8155-8163. Courrier "départ" classé numériquement</item>
+                        <item>F21 8164-8169. Courrier "départ" classé dans l'ordre alphabétique des destinataires</item>
+                        <item>F21 8170-8181. Courrier "départ" classé thématiquement</item>
+                        <item>F21 8182-8185. Correspondance relative aux contrôleurs régionaux</item>
+                        <item>F21 8186-8197. Correspondance relative aux différents groupes</item>
+                    </list>
+                
+                </item>
+                <item>Service juridique F21 8198-8200</item>
+                <item>Service des tournées F21 8201-8222</item>
+                <item>Service du recensement et des statistiques F218223-8244</item>
+                <item>Service de la licence F I 8245-8261</item>
+                <item>Fichier des entreprises de spectacles F21 8262</item>
+            </list>
+        </arrangement>
+        <controlaccess>
+            <!-- Ces entrées n'existent pas sur la version originale de l'IR, je les ai rajoutées pour mieux faire remonter l'IR dans un moteur de recherche. -->
+            <corpname>France. Comité d'organisation des entreprises de spectacles (1941-1946)</corpname>
+            <persname>Rocher, René (1890-1970)</persname>
+            <persname>Hautecoeur, Louis (1884-1973)</persname>
+        </controlaccess>
+        <dsc>
+            <c level="subfonds" id="c-1">
+                <!-- Je peux renseigner la valeur sous-fonds car la subdivision du producteur est bien mise en valeur. Pour les niveaux inférieurs, nous sommes en présence pour moi d'une subdivision classique en série et sous-série pour aller jusqu'au dossier. -->
+                <did>
+                    <unittitle>Secrétariat général</unittitle>
+                    <unitid>F21 8127-8150</unitid>
+                </did>
+                <c level="series">
+                    <did>
+                        <unittitle>Création, fonctionnement et dissolution du COES.</unittitle>
+                        <unitid>F21 8127-8130</unitid>
+                    </did>
+                    <c level="subseries">
+                        <did>
+                            <unitid>F21 8127</unitid>
+                        </did>
+                        <c level="file">
+                            <did>
+                                <unitid>Dossier 1</unitid>
+                                <unittitle>Création et constitution du COES</unittitle>
+                                <unitdate normal="1941/1943">1941-1943</unitdate>
+                            </did>
+                            <scopecontent>
+                                <p>Désignation des contrôleurs régionaux, des conseillers techniques, du contrôleur financier : textes législatifs et réglementaires, organigramme, plan de documentation.</p>
+                            </scopecontent>
+                        </c>
+                        <c level="file">
+                            <did>
+                                <unitid>Dossier 2</unitid>
+                                <unittitle>Dissolution et liquidation du COES</unittitle>
+                                <unitdate normal="1944/1946">1944-1946</unitdate>
+                            </did>
+                            <scopecontent>
+                                <p>Administration provisoire, 1944 1946, comité consultatif paritaire, novembre 1944-octobre 1946, projet de décret instituant un office du spectacle, janvier-juillet 1945 notes, rapports et correspondances.</p>
+                            </scopecontent>
+                        </c>
+                        <c level="file">
+                            <did>
+                                <unitid>Dossier 3</unitid>
+                                <unittitle>Épuration</unittitle>
+                                <unitdate normal="1944-08/1947-07">Août 1944-juillet 1947</unitdate>
+                            </did>
+                            <scopecontent>
+                                <p>Comité national d'épuration des professions d'artistes dramatiques, lyriques et de musiciens exécutants : listes des artistes sanctionnés, 1945. Comité national d'épuration des gens de lettres, auteurs et compositeurs . listes des artistes sanctionnés, 1945. Commission centrale de l'épuration de la Radiodiffusion française : listes des artistes sanctionnés, août 1945. Comission nationale interprofessionnelle d'épuration correspondance, 1945-1945. Notifications des sanctions : correspondance, novembre 1944-mai 1945. Divers . listes de personnes sanctionnées, correspondance, lettre manuscrite d'Alfred Cortot, 1944-1946.</p>
+                            </scopecontent>
+                        </c>
+                    </c>
+                </c>
+            </c>
+
+            
+            <c level="subfonds" id="c-2">
+                <did>
+                    <unittitle>Service du courrier</unittitle>
+                    <unitid>F21 8151-8197</unitid>
+                </did>
+            </c>
+            <c level="subfonds" id="c-3">
+                <did>
+                    <unittitle>Service juridique</unittitle>
+                    <unitid>F21 8198-8200</unitid>
+                </did>
+            </c>
+            <c level="subfonds" id="c-4">
+                <did>
+                    <unittitle>Service des tournées</unittitle>
+                    <unitid>F21 8201-8222</unitid>
+                </did>
+            </c>
+            <c level="subfonds" id="c-5">
+                <did>
+                    <unittitle>Service du recensement et des statistiques</unittitle>
+                    <unitid>F218223-8244</unitid>
+                </did>
+            </c>
+            <c level="subfonds" id="c-6">
+                <did>
+                    <unittitle>Service de la licence</unittitle>
+                    <unitid>F I 8245-8261</unitid>
+                </did>
+            </c>
+            
+        </dsc>
+    </archdesc>
+</ead>

@@ -5,16 +5,138 @@
 {% endblock %}
 
 {% block corps %}
-    {% if docu %}
-        <h1>{{docu.document_title}}</h1>
-        <dl>
-            <dt>Matière</dt><dd>{{docu.document_teaching}}</dd>
-            <dt>Description</dt><dd>{{docu.document_description}}</dd>
-            <dt>Format</dt><dd>{{docu.document_format}}</dd>
-            <dt>Date</dt><dd>{{docu.document_date}}</dd>
-        </dl>
+    {% if current_user.is_anonymous %}
+        <div class="container">
+            <div class="row" style="text-align: center">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h2 style="padding-bottom: 1em">Merci de vous connecter pour accéder au contenu des documents.</h2>
+                    <a href="{{url_for('register')}}" class="btn btn-info btn-lg active" role="button" aria-pressed="true">Inscription</a>
+                    <a href="{{url_for('login')}}" class="btn btn-info btn-lg active" role="button" aria-pressed="true">Connexion</a>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <div class="row" style="text-align: center">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <img style="padding: 2em" class="rounded" src="{{url_for('static', filename='img/awe.gif')}}">
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
     {% else %}
-        <p>La base de données est en cours de constitution</p>
+        <h1 style="margin-left: 2em">Galerie de document</h1>
+        {% if docu %}
+
+            <div class="row" style="padding: 2em">
+                <div class="col-md-3">
+                    {% if docu.document_format == "Image" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
+                    {% elif docu.document_format == "Texte" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
+                    {% elif docu.document_format == "Code" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                    {% elif docu.document_format == "Autre" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                    {% else %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <h2 class="col-md-10" style="padding: 10px">{{docu.document_title}}</h2>
+                        <div class="col-md-2">
+                            {% if current_user in docu.loving_users %}
+                                <form method="post" id="unfav" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                <button type="submit" form="unfav" class="btn btn-light" style="background-color: white" name="unfav" value="1">
+                                    <img class="img-fluid rounded mb-3 mb-md-0"
+                                         style="height: 45px;"
+                                         src="{{url_for("static", filename="img/faved.png")}}"
+                                         alt="Document déjà ajouté aux favoris">
+                                </button>
+                                </form>
+                            {% else %}
+                                <form method="post" id="fav" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                <button type="submit" form="fav" class="btn btn-light" style="background-color: white" name="fav" value="1">
+                                    <img class="img-fluid rounded mb-3 mb-md-0"
+                                         style="height: 45px;"
+                                         src="{{url_for("static", filename="img/unfaved.png")}}"
+                                         alt="Appuyer pour ajouter aux favoris">
+                                </button>
+                                </form>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dt>Matière</dt><dd>{{docu.document_teaching}}</dd>
+                            <dt>Description</dt>
+                            {% if docu.document_description %}
+                                <dd>{{docu.document_description}}</dd>
+                            {% else %}
+                                <dd>Il n'y a pas de description renseignée pour ce document dans la base.</dd>
+                            {% endif %}
+                            <dt>Type</dt><dd>{{docu.document_format}}</dd>
+                            <div class="row">
+                                <div style="margin-left: 1em"></div>
+                                {% if docu.document_downloadLink %}
+                                    <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="{{ docu.document_downloadLink }}" download>
+                                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/download_picto_clear.png")}}" alt="Icone de téléchargement">
+                                    </a>
+                                    <div style="margin-left: 1em"></div>
+                                    <a class="btn btn-lg" style="background-color: #70b7c2; width: 8em" href="{{ docu.document_downloadLink }}">
+                                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/preview_picto_clear.png")}}" alt="Icone de prévisualisation">
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-lg" style="background-color: #b8dbe0; width: 8em">
+                                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/no_download_picto.png")}}" alt="Icone d'absence de téléchargement">
+                                    </a>
+                                    <div style="margin-left: 1em"></div>
+                                    <a class="btn btn-lg" style="background-color: #b8dbe0; width: 8em">
+                                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 50px" src="{{url_for("static", filename="img/no_preview_picto.png")}}" alt="Icone d'absence de prévisualisation">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <dt>Date</dt>
+                            {% if docu.document_date %}
+                                <dd>{{docu.document_date}}</dd>
+                            {% else %}
+                                <dd>Il n'y a pas de date renseignée pour ce document dans la base.</dd>
+                            {% endif %}
+                            <dt>Auteur</dt>
+                            {% if auteur.person_name %}
+                                <dd>{{auteur.person_firstName}} {{auteur.person_name}}</dd>
+                            {% else %}
+                                <dd>Il n'y a pas d'auteur renseigné pour ce document dans la base.</dd>
+                            {% endif %}
+                            <dt>Tag</dt>
+                            <dd>
+                                {% for tag in docu.document_tag %}
+                                    <span class="badge badge-light">{{tag}}</span>
+                                {% endfor %}
+                            </dd>
+                            <form class="form" id="tag-form" action="{{url_for('document', docu_id = docu.document_id)}}" method="POST">
+                                <div class="input-group">
+                                    <input type="text" form="tag-form" name="tag" class="form-control form-control-lg" placeholder="Ajouter un tag …">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-lg" style="background-color: #70b7c2; color: #e4edee" role="button">Insérer</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="container"><p>Aucun document ne correspond à l'identifiant renseigné.</p></div>
+        {% endif %}
     {% endif %}
-    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
+
+    {% include "partials/retour_accueil.html" %}
 {% endblock %}
+

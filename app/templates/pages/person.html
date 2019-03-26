@@ -1,82 +1,119 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-         {%if person %}| Personne : {{person.person_name}} {% endif %}
+    {%if person %}| Personne : {{person.person_name}} {% endif %}
 {% endblock %}
 
-<!-- design grâce à : view-source:https://getbootstrap.com/docs/4.3/examples/blog/ -->
 
 {% block corps %}
 
-<!-- Premier code :
-        {% if person %}
-            <h1>{{person.person_name}} {{person.person_firstName}} ({{person.person_promotion}})</h1>
+    <!-- design repris de la page document.html pour homognéité visuelle et bootstrap-->
 
-            <dl>
-
-                <dt>adresse mail :</dt><dd>{{person.person_email}}</dd>
-                <dt>linkedIn :</dt><dd>{{person.person_linkedIn}}</dd>
-                <dt>CV :</dt><dd>{{person.person_cv}}</dd>
-                <dt>git :</dt><dd>{{person.person_git}}</dd>
-                <dt>promotion :</dt><dd>{{person.person_promotion}}</dd>
-            </dl>
-        {% else %}
-            <p>La base de données est en cours de constitution : n'hésitez pas à vous inscrire !</p>
-        {% endif %}
-        <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
--->
-
-
-<div class="row">
-  <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 12em; padding-left: 1em;">
-<!-- avant modifications : <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark"> -->
-    <div class="col-md-10">
-      <h1 class="display-4 font-italic">{{person.person_firstName}} {{person.person_name}}</h1>
-        <!-- affichage Prénom Nom -->
-      <p class="lead my-3">promotion : {{person.person_promotion}}</p>
-        {% if person.person_cv %}
-      <p class="lead mb-0 text-white font-weight-bold">{{person.person_cv}}</p>
-        {% else %}
-            <p>Le CV de {{person.person_firstName}} {{person.person_name}} n'a pas été rempli.</p>
-        {% endif %}
-    </div>
-  </div>
-
-
-     <div class="col-md-4" style="margin-right: 12em; margin-botoom: 20em">
-          <div class="p-4 mb-3 bg-light rounded">
-            <h4 class="font-italic" style="text-align: center">Elsewhere</h4>
-            <ol class="list-unstyled">
-              <li>GitHub :
-                  {% if person.person_git %}
-                  <a href="{{person.person_git}}">{{(person.person_git).replace("https://github.com/","")|safe}}</a>
-                  <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever.-->
-                {% else %}
-                   <span style="color: grey;">Aucun compte GitHub n'a été renseigné.</span>
-                {% endif %}
-                </li>
-              <li>linkedIn :
-                  {% if person.person_linkedIn %}
-                  <a href="{{person.person_linkedIn}}">{{person.person_firstName}} {{person.person_name}}</a>
-                  {% else %}
-                   <span style="color: grey;">Aucun compte LinkedIn n'a été renseigné.</span>
-                {% endif %}
-                </li>
-                <li>adresse mail : <a href="mailto:{{person.person_email}}">{{person.person_email}}</a></li>
-            </ol>
-          </div>
+    {% if current_user.is_anonymous %}
+        <div class="starter-template container" style="text-align: center">
+            <img src="/static/img/not_person.gif">
+            <h1 class="lead">Vous devez être connecté·e pour accéder à cette page.</h1> <br>
+            <a href="{{url_for('register')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Inscription</a>
+            <a href="{{url_for('login')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Connexion</a>
+            <!-- deux boutons menant aux pages inscription et description, repris page d'accueil, incitation à l'inscription ou connexion + sécurité -->
         </div>
- </div>
+        <!-- même si la page d'une personne n'est accessible en théorie que si on est passé par l'annuaire qui exige connexion, la page d'une personne n'est accessible que si l'utilisateur est connecté, sécurité -->
+    {% else %}
+
+        <div class="row" style="padding: 2em">
+            <!-- Si on décidait d'ajouter image pour personne inscrite dans l'annuaire, pourrait se faire ici -->
+            <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 10%">
+                <h2 class="display-5 font-italic" style="margin-top: 0.5em">{{person.person_firstName}} {{person.person_name}}</h2>
+                <!-- affichage Prénom Nom -->
+                {% if person.person_promotion %}
+                <dt>Promotion : </dt>
+                    <dd>{{person.person_promotion}}</dd>
+                <!-- si la personne a renseigné sa promotion, afficher sinon rien-->
+                {% endif %}
+
+                {% if person_description %}
+                <dt>Description : </dt>
+                    <span>{{person_description}}</span>
+                {% else %}
+                    <span style="color: grey;">Aucune description n'a été renseignée.</span>
+                {% endif %}
+                <!-- Le decription est remplie sur la page d'édition du profil ; si la personne en a rempli une, elle sera affichée, sinon en grisé "aucune etc." -->
+
+                {% if person.person_login %}
+                    <!-- si la personne a un login, est forcément un utilisateur, donc afficher son profil avec un lien vers sa page profil. -->
+                <dt>Profil : </dt>
+                <dd><a href="{{url_for('user', person_login=person.person_login)}}">{{person.person_login}}</a></dd>
+                    <!-- Afficher son profil avec redirection vers page -->
+                {% endif %}
+
+                <div class="row">
+                    <div style="margin-left: 1em"></div>
+                </div>
+            </div>
+            <div class="col-md-5 bg-light rounded" style="margin-left: 2%">
+                <h4 class="font-italic" style="margin-top: 1em">Contact</h4>
+                <ol class="list-unstyled">
+                    <li>GitHub :
+                        {% if person.person_git %}
+                            <span><a href="{{person.person_git}}">{{(person.person_git).replace("https://github.com/","")|safe}}</a></span>
+                            <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever. |safe permet de dire à html : c'est une string-->
+                        {% else %}
+                            <span style="color: grey;">Aucun compte GitHub n'a été renseigné.</span>
+                        {% endif %}
+                    </li>
+                    <li>LinkedIn :
+                        {% if person.person_linkedIn %}
+                            <span><a href="{{person.person_linkedIn}}">{{person.person_firstName}} {{person.person_name}}</a></span>
+                        {% else %}
+                            <span style="color: grey;">Aucun compte LinkedIn n'a été renseigné.</span>
+                        {% endif %}
+                    </li>
+                    <li>Adresse email :
+                        {% if person.person_email %}
+                            <span><a href="mailto:{{person.person_email}}">{{person.person_email}}</a></span>
+                        {% else %}
+                            <span style="color: grey;">Aucune adresse mail n'a été renseignée. <br>Essayez : <a href="mailto:{{person.person_firstName}}.{{person.person_name}}@chartes.psl.eu" style="text-transform: lowercase;">{{person.person_firstName}}.{{person.person_name}}@chartes.psl.eu</a></span>
+                        {% endif %}
+                    </li>
+                    <!-- Si aucune adresse mail n'a été renseignée, propose par défaut celle de l'ENC, problème avec les accents et noms composés mais c'est une proposition -->
+                </ol>
+            </div>
+        </div>
+        <div class="row" style="padding: 2em">
+            <div class="col-md-5 rounded" style="margin-left: 10%">
+                 <dt>CV : </dt>
+                {% if person.person_cv %}
+                    <dd><a href="{{url_for('person.person_cv')}}">CV de {{person.person_firstName}} {{person.person_name}}</a></dd>
+                <!-- Si la personne a importé un CV, il sera disponible grâce au lien, sinon affichera ligne suivante -->
+                {% else %}
+                    <dd>Le CV de {{person.person_firstName}} {{person.person_name}} n'est pas disponible.</dd>
+                {% endif %}
+            </div>
+
+            <div class="col-md-5" style="margin-left: 2%">
+                <dt>Documents ajoutés : </dt>
+                {% if person.created_document %}
+                    <p>{{person.person_firstName}} {{person.person_name}} a ajouté {{person.created_document|length}} document(s) dans TNAHBox :</p>
+                    <!-- length permet de dire le nombre de documents ajoutés par la personne. -->
+                    {% for document in person.created_document %}
+                        <dd><a href="{{url_for('document', docu_id = document.document_id)}}">{{document.document_title}}</a></dd>
+                    {% endfor %}
+                    <!-- itération sur chaque document ajouté par Untel -->
+                {% else %}
+                    <dd>{{person.person_firstName}} {{person.person_name}} n'a ajouté aucun document à TNAHBox.</dd>
+                {% endif %}
+            </div>
+
+        </div>
+
+    {% endif %}
 
 
 
-
-
-
-<footer class="footer" style="margin-top: 8em; text-align: center">
-    <a href="{{url_for('accueil')}}" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Retour à l'accueil</a>
+    <!-- Conserver cette ligne ??? Crée un bouton pour retour vers l'annuaire...
     <a href="{{url_for('annuaire')}}" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Retour à l'annuaire</a>
-</footer>
+    -->
 
-
+    {% include "partials/retour_accueil.html" %}
+    <!-- permet d'afficher le footer, appelle ici le fichier retour_accueil.html présent dans /templates/partial/ -->
 {% endblock %}

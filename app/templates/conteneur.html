@@ -26,25 +26,31 @@
 
             <ul class="navbar-nav mr-auto">
                 {% if current_user.is_anonymous %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('login')}}">Connexion</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('register')}}">S'enregistrer</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('login')}}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('register')}}">S'enregistrer</a>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('logout')}}">Déconnexion</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('user', person_login=current_user.person_login )}}">Mon profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('logout')}}">Déconnexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('recherche')}}">Recherche avancée</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('annuaire')}}">Annuaire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('upload')}}">Ajouter un document</a>
+                    </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for("recherche")}}">Recherche avancée</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('annuaire')}}">Annuaire</a>
-                </li>
             </ul>
-            <form class="form-inline" action="{{url_for("recherche")}}" method="GET">
+            <form class="form-inline" action="{{url_for('recherche')}}"method="GET">
                 <input class="form-control" name="keyword" type="search" placeholder="Recherche rapide" aria-label="Recherche">
                 <button class="btn btn-info" type="submit">Rechercher</button>
             </form>

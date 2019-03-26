@@ -1,18 +1,26 @@
 {% extends "conteneur.html" %}
 
-{% block titre %}| S'enregistrer{%endblock%}
+{% block titre %}| Modifier mon profil{%endblock%}
 
 {% block corps %}
+{% if current_user.person_is_admin == True %}
+
     <form action="" method="post">
         {{ form.hidden_tag() }}
 <div class="container">
         <div class="row">
             <div class="col-9">
-                <h1 style="color: #2e7e76;"><i>Inscription</i></h1>
+                <h2 style="color: #2e7e76;"><i>Informations utilisateur</i></h2>
                 <hr>
             </div>
         </div>
+        <div class="row">
+            <div class="col-3">
+                {{ form.person_is_admin }} {{ form.person_is_admin.label }}
+                <hr>
 
+            </div>
+        </div>
         <div class="row">
             <div class="col-5">
                 {{ form.person_firstName.label }}<br>
@@ -40,35 +48,41 @@
                     {% endfor %}
             </div>
         </div>
+</div>
+        <br>
+        <br>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-9">
+        <h2 style="color: #2e7e76;"><i>Informations pour l'annuaire</i></h2>
+                    <hr>
+                </div>
+            </div>
+        <p>
+            {{ form.person_promotion.label }}<br>
+            {{ form.person_promotion(size=4) }}<br>
+        </p>
 
-        <div class="row">
-            <div class="col-5"><br>
-                {{ form.person_password.label }}<br>
-                {{ form.person_password(size=35) }}<br>
-                    {% for error in form.person_password.errors %}
-                        <span style="color: #b21e1e;">[{{ error }}]</span>
-                    {% endfor %}
-            </div>
-            <div class="col-5"><br>
-                {{ form.password2.label }}<br>
-                {{ form.password2(size=35) }}<br>
-                    {% for error in form.password2.errors %}
-                        <span style="color: #b21e1e;">[{{ error }}]</span>
-                    {% endfor %}
-            </div>
-        </div>
-    <div class="row">
-        <div class="col-5">
-            <br>
-            {{form.person_is_teacher}} {{ form.person_is_teacher.label }}
-        </div>
-    </div>
-        <div class="row">
-            <div class="col-2"><br>
-                {{ form.submit() }}
-            </div>
-        </div>
-        <p><span style="color: #b21e1e;">*</span> champs obligatoires</p>
-    </div>
+        <p>
+            {{ form.person_git.label }}<br>
+            {{ form.person_git(size=50) }}<br>
+        </p>
+
+        <p>
+            {{ form.person_linkedIn.label }}<br>
+            {{ form.person_linkedIn(size=50) }}<br>
+        </p>
+
+        <p>
+            {{ form.person_description.label }}<br>
+            {{ form.person_description(cols=70, rows=5) }}<br>
+        </p>
+            <p>{{ form.submit() }}</p>
+</div>
+
     </form>
+{% else %}
+<p align='center'>PAGE ADMINISTRATEUR</p>
+{% endif %}
 {% endblock %}
