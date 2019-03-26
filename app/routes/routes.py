@@ -269,8 +269,6 @@ def document(docu_id):
     if unfav:
         Person.remove_docu_to_favorites(current_user, requested_docu)
 
-<<<<<<< HEAD
-
     # # # AJOUT DU DOCUMENT EN TANT QUE CV
     nocv = request.form.get("no_cv", None)
     cv = request.form.get("cv", None)
@@ -280,8 +278,6 @@ def document(docu_id):
     if nocv:
         Person.remove_cv(current_user)
 
-=======
->>>>>>> master
     return render_template("pages/document.html",
                            docu=requested_docu,
                            auteur=auteur,
@@ -402,16 +398,10 @@ def upload():
         # dans f, on stocke le fichier uploadé
         if f:  # on vérifie qu'un fichier a bien été envoyé
             if extension_ok(f.filename):  # on vérifie que son extension est valide
-<<<<<<< HEAD
                 nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
                 f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier d'upload
                 downloadlink = url_for('static', filename = "uploads/" + nom)
-=======
-                nom = secure_filename(f.filename)  # on stocke le nom de fichier dans nom
-                f.save(DOSSIER_UPLOAD + nom)  # et on l'enregistre dans le dossier d'upload
 
-                downloadlink = url_for('static', filename="uploads/" + nom)
->>>>>>> master
                 # on stocke le lien de stockage sur le serveur du fichier uploadé
                 if downloadlink in doc_links:
                     # Si le document est déjà présent sur le serveur
@@ -497,20 +487,12 @@ def user(person_login):
 
     return render_template('pages/profile.html',
                            user=user,
-<<<<<<< HEAD
                            docus = docus,
                            lenTitle = lenTitle,
                            lenDesc = lenDesc,
                            docu_cv = docu_cv)
 #permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
-=======
-                           docus=docus,
-                           lenTitle=lenTitle,
-                           lenDesc=lenDesc)
 
-
-# permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
->>>>>>> master
 # la base de données n'a pas de profil enregistré
 
 @app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
