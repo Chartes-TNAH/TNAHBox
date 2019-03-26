@@ -48,13 +48,15 @@ def recherche():
     matiere = request.args.get("matiere", None)
     # on récupère la valeur matiere dans les arguments correspondant au choix de l'utilisateur
     img = request.args.get("img", None)
-    # on récupère image si l'utilisateur a coché la case image
+    # on récupère Image si l'utilisateur a coché la case image
     txt = request.args.get("txt", None)
-    # on récupère texte si l'utilisateur a coché la case txt
+    # on récupère Texte si l'utilisateur a coché la case txt
     code = request.args.get("code", None)
-    # on récupère code si l'utilisateur a coché la case code
+    # on récupère Code si l'utilisateur a coché la case code
+    cv = request.args.get("cv", None)
+    # on récupère CV si l'utilisateur a coché la case code
     autre = request.args.get("autre", None)
-    # on récupère autre si l'utilisateur a coché la case autre
+    # on récupère Autre si l'utilisateur a coché la case autre
     date = request.args.get("date", None)
     # on récupère la date indiquée par l'utilisateur sous forme JJ-MM-AAAA
 
@@ -98,86 +100,187 @@ def recherche():
         titre = titre + " pour la matière " + matiere
 
     # # # REQUÊTAGE EN FONCTION DES CHECKBOXES
-    if img or txt or code or autre:
+    if img or txt or code or cv or autre:
         # si une case format est cochée
-        if img and txt and code and autre:
-            titre = titre + " pour tous les formats"
+        if img and txt and code and cv and autre:
+            titre = titre + " pour tous les types"
+        elif img and txt and code and cv:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt,
+                Document.document_format == code,
+                Document.document_format == cv,
+            ))
+            titre = titre + " pour les types " + img + ", " + txt + "," + cv + " et " + code
         elif img and txt and code:
             query = query.filter(or_(
                 Document.document_format == img,
                 Document.document_format == txt,
                 Document.document_format == code,
             ))
-            titre = titre + " pour les formats " + img + ", " + txt + " et " + code
+            titre = titre + " pour les types " + img + ", " + txt + " et " + code
+        elif img and txt and autre and cv:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt,
+                Document.document_format == autre,
+                Document.document_format == cv,
+            ))
+            titre = titre + " pour les types " + img + ", " + txt + "," + cv + " ou " + autre
         elif img and txt and autre:
             query = query.filter(or_(
                 Document.document_format == img,
                 Document.document_format == txt,
                 Document.document_format == autre,
             ))
-            titre = titre + " pour les formats " + img + ", " + txt + " ou " + autre
+            titre = titre + " pour les types " + img + ", " + txt + " ou " + autre
+        elif img and code and autre and cv:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == code,
+                Document.document_format == autre,
+                Document.document_format == cv,
+            ))
+            titre = titre + " pour les types " + img + ", " + code + "," + cv + " ou " + autre
         elif img and code and autre:
             query = query.filter(or_(
                 Document.document_format == img,
                 Document.document_format == code,
                 Document.document_format == autre,
             ))
-            titre = titre + " pour les formats " + img + ", " + code + " ou " + autre
+            titre = titre + " pour les types " + img + ", " + code + " ou " + autre
+        elif txt and code and autre and cv:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == code,
+                Document.document_format == autre,
+                Document.document_format == cv,
+            ))
+            titre = titre + " pour les types " + txt + ", " + code + "," + cv + " ou " + autre
         elif txt and code and autre:
             query = query.filter(or_(
                 Document.document_format == txt,
                 Document.document_format == code,
                 Document.document_format == autre,
             ))
-            titre = titre + " pour les formats " + txt + ", " + code + " ou " + autre
+            titre = titre + " pour les types " + txt + ", " + code + " ou " + autre
+        elif img and txt and cv:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == txt,
+                Document.document_format == cv,
+                ))
+            titre = titre + " pour les types " + img + "," + cv + " et " + txt
         elif img and txt:
             query = query.filter(or_(
                 Document.document_format == img,
                 Document.document_format == txt
             ))
-            titre = titre + " pour les formats " + img + " et " + txt
+            titre = titre + " pour les types " + img + " et " + txt
+        elif img and code and cv:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == code,
+                Document.document_format == cv,
+                ))
+            titre = titre + " pour les types " + img + "," + cv + " et " + code
         elif img and code:
             query = query.filter(or_(
                 Document.document_format == img,
                 Document.document_format == code
-            ))
-            titre = titre + " pour les formats " + img + " et " + code
+                ))
+            titre = titre + " pour les types " + img + " et " + code
+        elif img and autre and cv:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == autre,
+                Document.document_format == cv,
+                ))
+            titre = titre + " pour les types " + img + "," + cv + " et " + autre
         elif img and autre:
             query = query.filter(or_(
                 Document.document_format == img,
                 Document.document_format == autre
-            ))
-            titre = titre + " pour les formats " + img + " et " + autre
+                ))
+            titre = titre + " pour les types " + img + " et " + autre
+        elif txt and code and cv:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == code,
+                Document.document_format == cv,
+                ))
+            titre = titre + " pour les types " + txt + "," + cv + " et " + code
         elif txt and code:
             query = query.filter(or_(
                 Document.document_format == txt,
                 Document.document_format == code
-            ))
-            titre = titre + " pour les formats " + txt + " et " + code
+                ))
+            titre = titre + " pour les types " + txt + " et " + code
+        elif txt and autre and cv:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == autre,
+                Document.document_format == cv,
+                ))
+            titre = titre + " pour les types " + txt + "," + cv + " et " + autre
         elif txt and autre:
             query = query.filter(or_(
                 Document.document_format == txt,
                 Document.document_format == autre
-            ))
-            titre = titre + " pour les formats " + txt + " et " + autre
+                ))
+            titre = titre + " pour les types " + txt + " et " + autre
+        elif code and autre and cv:
+            query = query.filter(or_(
+                Document.document_format == code,
+                Document.document_format == autre,
+                Document.document_format == cv,
+                ))
+            titre = titre + " pour les types " + code + "," + cv + " et " + autre
         elif code and autre:
             query = query.filter(or_(
                 Document.document_format == code,
                 Document.document_format == autre
-            ))
-            titre = titre + " pour les formats " + code + " et " + autre
+                ))
+            titre = titre + " pour les types " + code + " et " + autre
+        elif img and cv:
+            query = query.filter(or_(
+                Document.document_format == img,
+                Document.document_format == cv
+                ))
+            titre = titre + " pour les types " + img + "et" + cv
         elif img:
             query = query.filter(Document.document_format == img)
-            titre = titre + " pour le format " + img
+            titre = titre + " pour le type " + img
+        elif txt and cv:
+            query = query.filter(or_(
+                Document.document_format == txt,
+                Document.document_format == cv
+                ))
+            titre = titre + " pour les types " + txt + "et" + cv
         elif txt:
             query = query.filter(Document.document_format == txt)
-            titre = titre + " pour le format " + txt
+            titre = titre + " pour le type " + txt
+        elif code and cv:
+            query = query.filter(or_(
+                Document.document_format == code,
+                Document.document_format == cv
+            ))
+            titre = titre + " pour les types " + code + "et" + cv
         elif code:
             query = query.filter(Document.document_format == code)
-            titre = titre + " pour le format " + code
+            titre = titre + " pour le type " + code
+        elif autre and cv:
+            query = query.filter(or_(
+                Document.document_format == autre,
+                Document.document_format == cv
+            ))
+            titre = titre + " pour les types " + autre + "et" + cv
         elif autre:
             query = query.filter(Document.document_format == autre)
-            titre = titre + " pour le format " + autre
+            titre = titre + " pour le type " + autre
+        elif cv:
+            query = query.filter(Document.document_format == cv)
+            titre = titre + " pour le type " + cv
         else:
             pass
 
@@ -222,6 +325,7 @@ def recherche():
         img=img,
         txt=txt,
         code=code,
+        cv=cv,
         autre=autre,
         date=date,
         lenDesc=lenDesc,

@@ -76,6 +76,8 @@
                                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
                                     {% elif docu.document_format == "Code" %}
                                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                                    {% elif docu.document_format == "CV" %}
+                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/pict_cv.png')}}" alt="curriculum vitae">
                                     {% elif docu.document_format == "Autre" %}
                                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
                                     {% else %}
