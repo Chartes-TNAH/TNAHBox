@@ -5,11 +5,10 @@
 {% block corps %}
 <body>
 <div style="text-align: center">
-    <!-- conserver cette ligne ? correspond au premier code de la page <p><a href="{{url_for('recherche')}}">Lien vers la page de recherche parmi les documents</a></p> -->
     <p class="lead text-muted container">Rendu final du cours de <a href="/personne/3">Thibaut Clérice</a> en M2 TNAH à l'ENC, <br>le projet TNAHBox a été développé grâce au langage de programmation python. Bienvenue sur la page d'accueil !</p>
 
     {% if current_user.is_anonymous %}
-
+    <!-- cette partie n'est accessible que si l'utilisat.eur.rice est connecté.e -->
     <p class="h3 mb-3 font-weight-normal container"><br>Ancien étudiant·e ou enseignant·e ?
         Inscrivez-vous et accédez aux documents enregistrés ou ajoutez-les et explorez l'annuaire du master !</p>
     <a href="{{url_for('register')}}" class="btn btn-dark btn-md active" role="button" aria-pressed="true" style="margin-right: 0.5em">Inscription</a>
@@ -18,13 +17,11 @@
     {% endif %}
 </div>
 
-
 <div class="container marketing" style="margin-top: 2em">
     <!-- pour une raison que je n'explique pas, les boutons sont recouverts par les "ronds" svg des docs sans un petit margin-top-->
     <h4 style="padding: 1em">Voici les trois derniers documents ajoutés à la TNAHBox : </h4>
     <div class="row">
             {% for found_document in resultats %}
-
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
                     {% if found_document.document_format == "Image" %}
@@ -38,7 +35,7 @@
                     {% else %}
                     <img class="bd-placeholder-img card-img-top" src="{{url_for('static', filename='img/autre.png')}}">
                     {% endif %}
-                    <!-- ici : si le format correspond à , alors appliquer l'image choisie ; la boucle for au dessus permet itération facile -->
+                    <!-- ici : si le format correspond à txt, alors appliquer l'image txt, etc. ; la boucle for permet itération -->
                     <div class="card-body">
                         <div class="row">
                             <h4 class="card-title col-md-8">
@@ -49,7 +46,7 @@
                                     {% if found_document.document_teaching %}
                                     <span class="badge badge-light">{{found_document.document_teaching}}</span>
                                     {% else %}
-                                    <p>Il n'y a pas de matière renseignée pour ce document</p>
+                                    <span>Il n'y a pas de matière renseignée pour ce document</span>
                                     <!-- Si la matière du document a été remplie dans la BDD, afficher sinon phrase -->
                                     {% endif %}
                                 </b>
@@ -57,7 +54,6 @@
                         </div>
                         {% if found_document.document_description %}
                         <p>{{found_document.document_description}}</p>
-                        <!-- permet de n'afficher que les 59 premiers caractères de la description, ainsi il n'y a pas de dépassement possible en dehors de la card -->
                         {% else %}
                         <p>Il n'y a pas de description pour ce document</p>
                         <!-- Si la description du document a été remplie dans la BDD, afficher sinon phrase -->
@@ -68,11 +64,7 @@
             </div>
 
             {% endfor %}
-        </div>
 
-
-        <!-- essayer : si personne connectée, donner accès à la page, sinon, envoyer un message "vous n'êtes pas connecté"
-        problème : idée que les documents ne sont accessibles si l'user est logué-->
 
         <!-- design repris depuis page recherche avec les card de bootstrap -->
     </div>
