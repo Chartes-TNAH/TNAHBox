@@ -1,3 +1,6 @@
+# BASE DE DONNÉES
+db.sqlite
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
