@@ -32,11 +32,6 @@ def accueil():
         "pages/accueil.html",
         resultats=resultats)
 
-#def accueil ():
-#    resultats = []
-#    query = Document.query
-#    resultats = query.all()
-#    return render_template("pages/accueil.html", title="Accueil", resultats=resultats)
 
 
 
