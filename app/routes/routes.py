@@ -439,6 +439,7 @@ def user(person_login):
         if user in docu.loving_users:
             docus.append(docu)
 
+    # # # RÉCUPÉRATION DU CV SÉLECTIONNÉ PAR L'UTILISATEUR
     docu_cv = Document.query.filter(Document.document_downloadLink == user.person_cv).first()
 
     def lenDesc(desc):

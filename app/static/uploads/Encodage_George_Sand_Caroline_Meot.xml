@@ -1,0 +1,956 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- Bon encodage XML-TEI, avec une vraie recherche autour du balisage des correspondances. 
+    Dommage qu'il reste quelques traces d'un balisage relevant de la mise en page plutôt que de la structuration ou de l'apport sémantique -->
+<!-- Attention à bien penser à associer vos règles schematron au moment de l'association du schéma-->
+<?xml-model href="out/ODD%20Georges%20Sand%20Caroline%20M%C3%A9ot.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="out/ODD%20Georges%20Sand%20Caroline%20M%C3%A9ot.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="fr">
+
+    <teiHeader>
+
+        <fileDesc>
+            <titleStmt>
+                <title type="main">Correspondance III de George Sand: lettres 264 à 270. </title>
+
+                <respStmt>
+                    <resp>Encodage réalisé dans le cadre d'une évaluation du Master 2 TNAH</resp>
+                    <persName>
+                        <forename>Caroline</forename>
+                        <surname>Méot</surname>
+                    </persName>
+                </respStmt>
+            </titleStmt>
+
+            <publicationStmt>
+                <publisher><orgName>Ecole Nationale des Chartes</orgName></publisher>
+                <publisher><date when-iso="2019">2019</date></publisher>
+            </publicationStmt>
+
+            <sourceDesc>
+                <biblFull>
+                    <titleStmt>
+                        <title type="main"> Correspondance : 1812-1876. III. 1848-1853</title>
+                        <author><forename>George</forename><surname>Sand</surname></author>
+                    </titleStmt>
+                    <editionStmt>
+                        <edition>Quatrième édition</edition>
+                    </editionStmt>
+                    <publicationStmt>
+                        <publisher>Calmann Lévy</publisher>
+                        <date when-iso="1883-1884">1883-1884</date>
+                        <pubPlace>3 rue Auber, Paris</pubPlace>
+                        <distributor facs="https://gallica.bnf.fr/ark:/12148/bpt6k206545v/f3.image"
+                            >BnF</distributor>
+                        <availability>
+                            <licence>Domaine public</licence>
+                        </availability>
+                    </publicationStmt>
+                    <seriesStmt>
+                        <title>Correspondance : 1812-1876. III. 1848-1853 / George Sand </title>
+                        <biblScope unit="volume" n="III">Tome 3</biblScope>
+                        <biblScope unit="letter" from="264" to="270">Lettres CCLXIV à CCLXX à
+                            270</biblScope>
+                        <biblScope unit="page" from="1" to="15">Pages 1 à 15</biblScope>
+                    </seriesStmt>
+                    <notesStmt>
+                        <note>Monographie imprimée</note>
+                    </notesStmt>
+                </biblFull>
+            </sourceDesc>
+        </fileDesc>
+        <!-- Bien -->
+        <profileDesc>
+            <correspDesc n="1" ref="#George_Maurice">
+                <correspAction type="sent">
+                    <persName>George Sand</persName>
+                    <settlement>Nohant</settlement>
+                    <date when="1848-02-18">18 février 1848</date>
+                </correspAction>
+                <correspAction type="received">
+                    <persName>Maurice Sand</persName>
+                    <settlement>Paris</settlement>
+                </correspAction>
+            </correspDesc>
+
+            <correspDesc n="2" ref="#George_Maurice">
+                <correspAction type="sent">
+                    <persName>George Sand</persName>
+                    <settlement>Nohant</settlement>
+                    <date when="1848-02-23">23 février 1848</date>
+                </correspAction>
+                <correspAction type="received">
+                    <persName>Maurice Sand</persName>
+                    <settlement>Paris</settlement>
+                </correspAction>
+
+            </correspDesc>
+            <correspDesc n="3" ref="#George_Maurice">
+                <correspAction type="sent">
+                    <persName>George Sand</persName>
+                    <settlement>Nohant</settlement>
+                    <date when="1848-02-24">24 février 1848</date>
+                </correspAction>
+                <correspAction type="received">
+                    <persName>Maurice Sand</persName>
+                    <settlement>Paris</settlement>
+                </correspAction>
+
+            </correspDesc>
+            <correspDesc n="4" ref="#Sand_Girerd">
+                <correspAction type="sent">
+                    <persName>George Sand</persName>
+                    <settlement>Paris</settlement>
+                    <date when="1848-03-06">lundi soir 6 mars 1848</date>
+                </correspAction>
+                <correspAction type="reveived">
+                    <persName>M. Girerd</persName>
+                    <settlement>Nevers</settlement>
+                </correspAction>
+
+            </correspDesc>
+            <correspDesc n="5" ref="#Sand_Poncy">
+                <correspAction type="sent">
+                    <persName>George Sand</persName>
+                    <settlement>Nohant</settlement>
+                    <date when="1848-03-09">9 mars 1848</date>
+                </correspAction>
+                <correspAction type="received">
+                    <persName>M. Charles Poncy</persName>
+                    <settlement>Toulon</settlement>
+                </correspAction>
+
+            </correspDesc>
+            <correspDesc n="6" ref="#Sand_Duvernet">
+                <correspAction type="sent">
+                    <persName>George Sand</persName>
+                    <settlement>Paris</settlement>
+                    <date when="1848-03-14">14 mars 1848</date>
+                </correspAction>
+                <correspAction type="received">
+                    <persName>Charles Duvernet</persName>
+                    <settlement>La Chatre</settlement>
+                </correspAction>
+
+            </correspDesc>
+            <correspDesc n="7" ref="#George_Maurice">
+                <correspAction type="sent">
+                    <persName>George Sand</persName>
+                    <settlement>Paris</settlement>
+                    <date when="1848-03-18">18 mars 1848</date>
+                </correspAction>
+                <correspAction type="received">
+                    <persName>Maurice Sand</persName>
+                    <settlement>Nohant</settlement>
+                </correspAction>
+            </correspDesc>
+            <!-- Mise en place des index maitrisée, vous auriez pu aussi ajouter des liens vers des notices, 
+                type data.bnf pour que chaque lieu ait un identifiant unique évitant ainsi toute confusion 
+                et permettant derécupérer d'autres informations comme les coordonnées pour les lieux  -->
+            <settingDesc>
+                <listPlace>
+
+                    <place>
+                        <placeName xml:id="Nohant"><location>
+                                <country key="FR"/>
+                                <settlement type="city">Nohant-Vic</settlement>
+                                <region>Centre Val-de-Loire</region>
+                            </location></placeName>
+                        <note>Nohant-Vic est la ville où se trouvait le domaine de George
+                            Sand.</note>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Paris"><location>
+                                <country key="FR"/>
+                                <settlement type="city">Paris</settlement>
+                                <region>Ile-de-France</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Bayonne"><location>
+                                <country key="FR"/>
+                                <settlement type="city">Bayonne</settlement>
+                                <region>Nouvelle-Aquitaine</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="La_Châtre"><location>
+                                <country key="FR"/>
+                                <settlement type="city">La Châtre</settlement>
+                                <region>Centre Val-de-Loire</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Toulon"><location>
+                                <country key="FR"/>
+                                <settlement type="city">Toulon</settlement>
+                                <region>Provence-Alples-Côte d'Azur</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Le_Berry"><location>
+                                <country key="FR"/>
+                                <settlement type="region">Centre-Val-de-Loire</settlement>
+                            </location></placeName>
+                        <note>Province historique de la France de l'ancien Régime, correspondant
+                            aujourd'hui au Cher et à l'Indre. </note>
+                    </place>
+
+
+                    <place>
+                        <placeName xml:id="Châteauroux"><location>
+                                <country key="FR"/>
+                                <settlement type="city">Châteauroux</settlement>
+                                <region>Centre Val-de-Loire</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Rue_de_Condé">
+                            <location>
+                                <country key="FR"/>
+                                <settlement type="city">Paris</settlement>
+                                <district type="arrondissement">6ème</district>
+                                <district type="quartier">Odéon</district>
+                                <district type="street"> Rue de Condé</district>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Nevers"><location>
+                                <country key="FR"/>
+                                <settlement type="city">Nevers</settlement>
+                                <region>Bourgogne</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="France"><settlement type="country"
+                            >France</settlement></placeName>
+                    </place>
+
+
+                    <place>
+                        <placeName xml:id="Italie"><settlement type="country"
+                            >Italie</settlement></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Sicile"><location>
+                                <country key="IT"/>
+                                <region>Sicile</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Naples"><location>
+                                <country key="IT"/>
+                                <settlement type="city">Naples</settlement>
+                                <region>Campagnie</region>
+                            </location></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Fleury"><country key="FR"/><settlement type="city"
+                                >Fleury-les-Aubrais</settlement><region>Centre
+                            Val-de-Loire</region></placeName>
+                    </place>
+
+                    <place>
+                        <placeName xml:id="Pinson">Pinson <location>
+                                <country key="FR"/>
+                                <settlement type="city">Paris</settlement>
+                                <district type="arrondissement">6ème</district>
+                                <district type="quartier">Saint Germain-des-près</district>
+                                <district type="street">rue des Fossés</district>
+                            </location></placeName>
+                        <note>Restaurateur à Paris au XIXème siècle</note>
+
+
+                    </place>
+                    <place>
+                        <placeName xml:id="Corrèze"><location>
+                                <country key="FR"/>
+                                <settlement type="region">La Corrèze</settlement>
+                            </location></placeName>
+                    </place>
+
+                </listPlace>
+            </settingDesc>
+
+            <particDesc>
+
+                <listPerson>
+                    <!-- Bien pour le tri proposé parmi les personnes -->
+                    <listPerson type="family">
+
+                        <person>
+                            <persName xml:id="George_Sand"
+                                ref="https://data.bnf.fr/fr/11923601/george_sand/"
+                                    ><forename>Amantine</forename>
+                                <forename>Aurore</forename>
+                                <forename>Lucile</forename>
+                                <surname>Dupin</surname>,<surname> Baronne
+                                    Dudevant</surname><addName type="pseudonym"
+                                        ><forename>George</forename>
+                                    <surname>Sand</surname></addName><addName type="pseudonym"
+                                        ><forename>Blaise</forename>
+                                    <surname>Bonnin</surname></addName></persName>
+                            <birth when="1804-07-01">1er juillet 1804</birth>
+                            <death when="1876-06-08">8 juin 1876</death>
+                            <occupation>Ecrivaine</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Maurice_Sand"
+                                ref="https://data.bnf.fr/fr/11923603/maurice_sand/"
+                                    ><forename>Jean-François-Maurice-Arnauld</forename>,
+                                    <surname>baron Dudevant</surname><addName type="pseudonym"
+                                        ><forename>Maurice</forename>
+                                    <surname>Sand</surname></addName><addName type="nickname"
+                                    >Bouli</addName></persName>
+                            <birth when="1823-06-30">30 juin 1823</birth>
+                            <death when="1889-09-04">4 septembre 1889</death>
+                            <occupation>Ecrivain, peintre</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Solange_Sand"
+                                ref="https://data.bnf.fr/fr/12437446/solange_clesinger-sand/"
+                                    ><forename>Solange</forename>
+                                <surname>Clésinger-Sand</surname></persName>
+                            <birth when="1828-11-13"> 13 septembre 1828</birth>
+                            <death when="1899-03-17">17 mars 1899</death>
+                            <occupation>Ecrivaine</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Jeanne-Gabrielle_Clésinger"
+                                    ><forename>Jeanne-Gabrielle</forename>
+                                <surname>Clésinger</surname></persName>
+                            <birth when="1848-02-18">18 février 1848</birth>
+                            <death when-iso="1848">1848</death>
+                            <note>Morte en bas-âge.</note>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Maurice_Dupin"
+                                ref="https://data.bnf.fr/fr/12345112/maurice_dupin/"
+                                    ><forename>Maurice</forename>
+                                <surname>Dupin de Francueil</surname>
+                            </persName>
+                            <birth when="1778-01-09">9 janvier 1778</birth>
+                            <death when="1808-09-17">17 septembre 1808</death>
+                        </person>
+
+
+                    </listPerson>
+
+                    <listPerson type="acquaintances ">
+
+                        <person>
+                            <persName xml:id="Victor_Borie"
+                                ref="https://data.bnf.fr/fr/13476119/victor_borie/"
+                                    ><forename>Victor</forename>
+                                <surname>Borie</surname></persName>
+                            <birth when="1818-09-11">11 septembre 1818</birth>
+                            <death when="1880-07-06">6 juillet 1880</death>
+                            <occupation>Journaliste</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Charles_Duvernet"
+                                ref="https://data.bnf.fr/fr/17018589/charles_duvernet/"
+                                    ><forename>Charles</forename>
+                                <surname>Duverenet</surname></persName>
+                            <birth when="1807">1807</birth>
+                            <death when-iso="1875">1875</death>
+                            <occupation>Ecrivain</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Elisa"><forename>Elisa</forename></persName>
+                            <occupation>Concierge de Maurice Sand.</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Pauline_Viardot"
+                                ref="https://data.bnf.fr/fr/12361617/pauline_viardot/"
+                                    ><forename>Pauline</forename>
+                                <surname>Viardot</surname></persName>
+                            <birth when="1821-07-18">18 juillet 1821</birth>
+                            <death when="1910-05-18">18 mai 1910</death>
+                            <occupation>Cantatrice.</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Charles_Poncy"
+                                ref="https://data.bnf.fr/fr/13480712/charles_poncy/"
+                                    ><forename>Louis-Charles</forename>
+                                <surname>Poncy</surname></persName>
+                            <birth when="1821-04-02">2 avril 1821</birth>
+                            <death when="1891">1891</death>
+                            <occupation>Maçon et homme de lettres français.</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Frédéric_Girerd"
+                                ref="https://data.bnf.fr/fr/15939025/frederic_girerd/"
+                                    ><forename>Frédéric</forename>
+                                <surname>Girerd</surname></persName>
+                            <birth when="1801-08-23">23 août 1801</birth>
+                            <death when="1859-08-28">28 août 1859</death>
+                            <occupation> Homme politique français.</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Désirée">Désirée</persName>
+                            <occupation>Servante de Solange Clésinger-Sand.</occupation>
+                        </person>
+
+
+                        <person>
+                            <persName xml:id="Louis_Eugène_Lambert"
+                                ref="https://data.bnf.fr/fr/12468267/eugene_lambert/"
+                                    ><forename>Louis-Eugène</forename>
+                                <surname>Lambert</surname></persName>
+                            <birth when="1825-09-24">24 septembre 1825</birth>
+                            <death when="1900-05-17">17 mai 1900</death>
+                            <occupation>Peintre </occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Général_Exelmans"
+                                ref="https://data.bnf.fr/fr/16511708/remy_joseph_isidore_exelmans/"
+                                    ><forename>Rémy </forename><forename>Isidore</forename>
+                                <forename>Joseph</forename>, <surname>comte
+                                Exelmans</surname></persName>
+                            <birth when="1775-11-13">13 novembre 1775</birth>
+                            <occupation>Maréchal de France</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Les_Villeneuve">Les <surname>Vallet de
+                                    Villeneuve</surname></persName>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Michel_Bakounine"
+                                ref="https://data.bnf.fr/fr/11889937/mihail_aleksandrovic_bakunin/"
+                                    ><forename>Michel</forename>
+                                <surname>Bakounine</surname></persName>
+                            <birth when="1814-05-18">18 mai 1814</birth>
+                            <death when="1876-07-01">1er juillet 1876</death>
+                            <occupation>Ecrivain</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Lambert"><forename>Jean-Louis</forename>
+                                <surname>Lambert</surname></persName>
+                            <occupation>Notaire de la famille Dudevant</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="François_Rollinat"
+                                ref="https://data.bnf.fr/fr/10483405/francois_rollinat/"
+                                    ><forename>François</forename>
+                                <surname>Rollinat</surname></persName>
+                            <birth when="1806-06-13">13 juin 1806</birth>
+                            <death when="1867-08-13">13 août 1867</death>
+                            <occupation>Homme politique français.</occupation>
+                        </person>
+
+                    </listPerson>
+
+                    <listPerson type="politic">
+
+                        <person>
+                            <persName xml:id="Adolphe_Thiers"
+                                ref="https://data.bnf.fr/fr/12125381/adolphe_thiers/"
+                                    ><forename>Adolphe
+                                </forename><surname>Thiers</surname></persName>
+                            <birth when="1797-04-15">15 avril 1797</birth>
+                            <death when="1877-09-03">3 septembre 1877</death>
+                            <occupation>Homme politique français</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="François_Guizot"
+                                ref="https://data.bnf.fr/fr/12305825/francois_guizot/"
+                                    ><forename>François</forename>
+                                <forename>Pierre</forename>
+                                <forename>Guillaume</forename>
+                                <surname>Guizot</surname></persName>
+                            <birth when="1787-10-04">4 octobre 1787</birth>
+                            <death when="1874-09-12">12 septembre 1874</death>
+                            <occupation>Homme politique français</occupation>
+                        </person>
+
+
+                        <person>
+                            <persName xml:id="Odilon_Barrot"
+                                ref="https://data.bnf.fr/fr/11890368/odilon_barrot/"
+                                    ><forename>Hyacinthe</forename>
+                                <forename>Camille</forename>
+                                <forename>Odilon</forename>
+                                <surname>Barrot</surname></persName>
+                            <birth when="1791-07-19"> 19 juillet 1791</birth>
+                            <death when="1873-08-06">6 août 1873</death>
+                            <occupation>Homme politique français.</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Michel_Goudchaux"><forename>Michel</forename>
+                                <surname>Goudchaux</surname></persName>
+                            <birth when="1797-03-18">18 mars 1797</birth>
+                            <death when="1862-12-27">27 décembre 1862</death>
+                            <occupation>Ministre de la seconde République.</occupation>
+                        </person>
+
+                        <person>
+                            <persName xml:id="Ferdinand_II_des_deux_Siciles"
+                                >Ferdinand_II_des_deux_Siciles</persName>
+                            <birth when="1810-01-12">12 janvier 1810</birth>
+                            <death when="1859-05-22">22 mai 1859</death>
+                            <occupation>Roi des Deux-Siciles de 1830 à 1859.</occupation>
+                        </person>
+
+                    </listPerson>
+
+                    <listRelation>
+                        <!-- très bien -->
+
+                        <relation type="personal" xml:id="George_Maurice"
+                            mutual="#George_Sand #Maurice_Sand" name="parent">
+                            <desc>George Sand est la mère de Maurice Sand</desc>
+                        </relation>
+
+                        <relation type="personal" xml:id="George_Solange"
+                            mutual="#George_Sand #Solange_Sand" name="parent">
+                            <desc>George Sand est la mère de Solange Clésinger-Sand</desc>
+                        </relation>
+
+                        <relation type="personal" xml:id="George_Dupin"
+                            mutual="#George_Sand #Maurice_Dupin" name="parent">
+                            <desc>George Sand est la fille de Maurice Dupin</desc>
+                        </relation>
+
+                        <relation type="personal" xml:id="Solange_J-G"
+                            mutual="#Solange_Sand #Jeanne-Gabrielle_Clésinger" name="parent">
+                            <desc>Jeanne-Gabrielle Clésinger est la fille de
+                                SolangeClésinger-Sand.</desc>
+                        </relation>
+
+                        <relation type="personal" xml:id="Sand_Borie"
+                            mutual="#George_Sand #Victor_Borie" name="lover"/>
+
+                        <relation type="personal" xml:id="Sand_Villeneuve"
+                            mutual="#George_Sand #Les_Villeneuve" name="cousins">
+                            <desc>La famille Vallet de Villeneuve compte notamment René Vallet
+                                deVilleneuve, cousin et tuteur de George Sand</desc>
+                        </relation>
+
+                        <relation type="personal" xml:id="Sand_Rollinat"
+                            mutual="#George_Sand #François_Rollinat" name="friend"/>
+
+                        <relation type="personal" xml:id="Sand_Poncy"
+                            mutual="#George_Sand #Charles_Poncy" name="friend"/>
+
+                        <relation type="personal" xml:id="Sand_Duvernet"
+                            mutual="#George_Sand #Charles_Duvernet" name="friend"/>
+
+                        <relation type="personal" xml:id="Sand_Bakounine"
+                            mutual="#George_Sand #Michel_Bakounine" name="friend"/>
+                        <!-- Je ne sais pas si on peut vraiment dire qu'ils sont amis -->
+
+                        <relation type="personal" xml:id="Sand_Viardot"
+                            mutual="#George_Sand #Pauline_Viardot" name="friend"/>
+
+                        <relation type="personal" xml:id="Maurice_Sand_Lambert"
+                            mutual="#Maurice_Sand #Louis_Eugène_Lambert" name="friend"/>
+
+                        <relation type="personal" xml:id="Dupin_Exelmans"
+                            mutual="#Maurice_Dupin #Général_Exelmans" name="acquaintance"/>
+
+                        <relation type="personal" xml:id="Sand_Girerd"
+                            mutual="#George_Sand #Frédéric_Girerd" name="friend"/>
+
+                    </listRelation>
+
+                </listPerson>
+
+            </particDesc>
+        </profileDesc>
+    </teiHeader>
+
+
+    <text>
+
+        <body>
+
+            <div type="letter" n="1">
+                <head>
+                    <lb/><!-- A quoi sert ce lb ? -->CCLXIV <lb/>A <persName ref="#Maurice_Sand"
+                        >MAURICE SAND</persName>, A <placeName ref="#Paris">PARIS</placeName>
+                </head>
+
+                <opener rend="right"
+                            ><!-- Pourquoi ajouter ces informations de mise en page ? Est-ce vraiment le but de votre encodage TEI, 
+                                si oui, il faut davantage développer la perspective--><dateline><placeName
+                            ref="#Nohant">Nohant</placeName>, <date when="1848-02-18">18 février
+                            1848</date>
+                    </dateline><salute>Mon cher garçon,</salute></opener>
+                <p> Je suis bien contente d'avoir de tes nouvelles. Je ne suis pas bien gaie loin de
+                    toi, quoique je me batte les flancs pour l'être. Mais, enfin, il faut bien que
+                    tu remues un peu et que tu prennes <emph rend="Italic">l’air du bureau</emph>,
+                    que tu respires l'air pur et embaumé de <placeName ref="#Paris"
+                        >Paris</placeName>, et que tu ailles adorer les décrets divins du jury de
+                    peinture. Apprête-toi à tout ce qu'il y a de pis, afin de n'avoir pas la
+                    souffrance et le dépit <emph rend="Italic">des autres années</emph>. </p>
+                <p>Il me faut <emph rend="Italic">tout de suite </emph>les états de service de
+                        <persName ref="#Maurice_Dupin">mon père</persName> : je t'avais dit que
+                    c'était une des choses les plus pressées, ainsi que de te renseigner auprès de
+                    ton oncle. Mais tu te plonges dans les délices du carnaval, et tu oublies tes
+                    commissions. Amuse-toi, c'est fort bien, « nous n'en doutons pas », comme on dit
+                    à <emph rend="Italic">Dun-le-Carrik</emph> ; mais il faut faire marcher de front
+                    les affaires et les plaisirs, ni plus ni moins qu'un petit <emph rend="Italic"
+                        >Buonaparte</emph>. Songe que, si je suis en retard, et que je paye mille
+                    francs d'amende par quinzaine, ça ne sera pas du tout drôle. Or j'arrive dans
+                    très peu de jours à l'époque de la vie de <persName ref="#Maurice_Dupin">mon
+                        père</persName> où je ne sais plus rien. <persName ref="#Les_Villeneuve">Les
+                        Villeneuve</persName> n'en savent rien non plus. J'ai écrit au <persName
+                        ref="#Général_Exelmans">général Exelmans</persName>; mais il est à
+                        <placeName ref="#Bayonne">Bayonne</placeName>, et Dieu sait quand il me
+                    répondra, Dieu sait de quoi il se souviendra. Mon oncle doit savoir les
+                    campagnes que <persName ref="#Maurice_Dupin">mon père</persName> a faites depuis
+                        <date when="1804">1804</date> jusqu'à <date when="1808">1808</date>. Demande
+                    surtout tes états de service ; avec cela, on est <emph rend="Italic">sûr</emph>
+                    des principaux faits. Vite, vite et vite!</p>
+                <p>Rien de changé ici, en dehors de ton absence, qui fait un grand
+                        changement.<persName ref="#Victor_Borie"> Borie</persName> est <emph
+                        rend="Italic">encloué</emph> comme un canon, c'est-à-dire qu'il a un <emph
+                        rend="Italic">clou</emph> je ne sais pas où, mais je présume que c'est dans
+                    un vilain endroit. Il est sens dessus dessous à l'idée qu'on va faire une <emph
+                        rend="Italic">révolution</emph> dans <placeName ref="#Paris"
+                        >Paris</placeName>. Mais je n'y vois pas de prétexte raisonnable dans
+                    l'affaire des banquets. C'est une intrigue entre ministres qui tombent et
+                    ministres qui veulent monter. Si l'on fait du bruit autour de leur table, il
+                    n'en résultera que des horions, des assassinats commis par les mouchards sur des
+                    badauds inoffensifs, et je ne crois pas que le peuple prenne parti pour la
+                    querelle de <persName ref="#Adolphe_Thiers">M. Thiers</persName> contre
+                        <persName ref="#François_Guizot">M. Guizot</persName>. <persName
+                        ref="#Adolphe_Thiers">Thiers</persName> vaut mieux à coup sûr; mais il ne
+                    donnera pas plus de pain aux pauvres que les autres. Ainsi je t'engage à ne pas
+                    aller flâner par là; car on peut y être écharpé sans profit pour la bonne cause.
+                    S'il fallait que tu te sacrifiasses <emph rend="Italic">pour la patrie</emph>,
+                    je ne t'arrêterais pas, tu le sais; mais se faire assommer pour <persName
+                        ref="#Odilon_Barrot">Odilon Barrot</persName> et, compagnie, ce serait trop
+                    bête. Ecris-moi ce que tu auras vu <emph rend="Italic">de loin</emph> et ne te
+                    fourre pas dans la bagarre, si bagarre il y a, ce que je ne crois pourtant
+                    pas.</p>
+                <p>Tu ne savais donc pas que <persName ref="#Michel_Bakounine">Bakounine</persName>
+                    avait été <emph rend="Italic">banni</emph> par notre honnête gouvernement. J'ai
+                    reçu une lettre de lui il y a un mois environ, et je crois te l'avoir lue; mais
+                    tu ne t'en souviens pas. Je lui ai répondu, avouant que nous étions gouvernés
+                    par de la canaille, et que nous avions grand tort de nous laisser faire. Au
+                    reste, l'<placeName ref="#Italie">Italie</placeName> est sens dessus dessous. La
+                        <placeName ref="#Italie">Sicile</placeName><!-- @ref='sicile' --> se déclare indépendante, ou peu
+                    s'en faut. <placeName ref="#Naples">Naples</placeName> est en révolution et le
+                        <persName ref="#Ferdinand_II_des_deux_Siciles">roi</persName> cède. Ces
+                    nouvelles sont certaines à présent. Seulement tout ce qu'ils y gagneront, c'est
+                    de passer du gouvernement despotique au gouvernement constitutionnel, de la
+                    brutalité à la corruption, de la terreur à l'infamie, et, quand ils en seront
+                    là, ils feront comme nous, ils y resteront longtemps. Non, je ne crois pas non
+                    plus à la chimère de <persName ref="#Victor_Borie">Borie</persName>.</p>
+                <p>Nous sommes une génération de fainéants et le Dieu nouveau s'appelle <emph
+                        rend="Italic">Circulus</emph>. Tachons, dans notre coin, de ne pas devenir
+                    ignobles, afin que, si, sur mes vieux jours, ou sur les tiens, il y a un
+                    changement à tout cela, nous puissions en jouir sans rougir de notre passé.</p>
+                <closer><salute>Bonsoir, mon <persName ref="#Maurice_Sand"
+                        >Bouli</persName>.</salute></closer>
+            </div>
+
+            <div type="letter" n="2">
+                <head>CCLXV <lb/>AU <persName ref="#Maurice_Sand">MÊME</persName></head>
+                <opener rend="right"><dateline><placeName ref="#Nohant">Nohant</placeName>,<date
+                            when="1848-02-23"> 23 février 1848</date></dateline>. <lb/><salute>Mon
+                        enfant,</salute></opener>
+                <p>Nous sommes bien inquiets ici, comme tu peux croire. Nous savons seulement ce
+                    soir que la journée de mardi a été agitée et que celle d'aujourd'hui a dû l'être
+                    encore davantage. Il faut que tu reviennes tout de suite; non pas que je me
+                    livre à de puériles frayeurs, ni que je veuille te les faire partager, quand
+                    même je les éprouverais. </p>
+                <p>Tu sais bien que je ne te donnerais pas un conseil de couardise. Mais ta place
+                    est ici, s'il y a des troubles sérieux. Une révolution à <placeName ref="#Paris"
+                        >Paris</placeName> aurait son contrecoup immédiat dans les provinces, et
+                    surtout ici, où les nouvelles arrivent en quelques heures. Tu as donc des
+                    devoirs à remplir dans ton domicile et ton absence ne serait pas excusable. Je
+                    ne te parle pas de moi : je ne crois à aucun danger personnel et ne suis
+                    d'ailleurs pas du tout disposée à m'en préoccuper. Mais, si j'avais à agir et à
+                    me prononcer pour quoi que ce soit, tu es mon représentant naturel. Viens donc
+                    tout de suite, à moins que tu ne voies la tranquillité absolument rétablie.
+                    Laisse à <persName ref="#Lambert">Lambert</persName> le soin de nos affaires à
+                        <placeName ref="#Paris">Paris</placeName>. Tu y retourneras d'ailleurs dans
+                    quelques jours, quand nous aurons vu l'état des choses.</p>
+
+                <closer><salute>Bonsoir, <persName ref="#Maurice_Sand">mon enfant</persName>; je
+                        t'attends. J'espère un mot de toi demain matin. Si la poste n’arrive pas,
+                        c'est que l'affaire aura été sérieuse. Mais tu n'as là, je le répète, aucun
+                        devoir à remplir, et, ici, tu peux en avoir auxquels il ne faut pas manquer.
+                        Je t’embrasse mille fois</salute>. <signed><persName ref="#George_Sand">Ta
+                            mère</persName>.</signed></closer>
+
+            </div>
+
+            <div type="letter" n="3">
+                <head><lb/>CCLXVI <lb/>AU <persName ref="#Maurice_Sand">MÊME</persName>
+                </head>
+                <opener rend="right">
+                    <dateline><placeName ref="#Nohant">Nohant</placeName>, <date when="1848-02-24"
+                            >24 février 1848</date>.</dateline>
+                    <salute>Mon enfant,</salute></opener>
+                <p> Ta lettre de mardi, reçue ce matin jeudi, m'a fait grand bien. Dieu veuille que
+                    j'en reçoive encore une demain matin; car on nous a annoncé la journée de
+                    mercredi comme devant être grave, et mes inquiétudes ne sont calmées que pour
+                    renaître. Je vois que tu cours et que tu flânes, je m'y attendais bien; mais, au
+                    moins, puisses-tu être prudent et adroit pour échapper aux chocs de ce grand
+                    ébranlement. Si tout est fini, reste à <placeName ref="#Paris">Paris</placeName>
+                    pour achever tes affaires. Mais, si l’agitation continue, conforme-toi à ma
+                    lettre d’hier.</p>
+                <p><persName ref="#François_Rollinat">Rollinat</persName> est ici, jusqu’à dimanche,
+                    et nous parlons sans cesse de <placeName ref="#Paris">Paris</placeName> et de
+                    toi. <persName ref="#Victor_Borie">Borie</persName> se lève à huit heures du
+                    matin et court à <placeName ref="#La_Châtre">la Châtre</placeName> pour me
+                    rapporter tes lettres.</p>
+                <closer> Bonjour au petit <persName ref="#Louis_Eugène_Lambert">Lambert</persName> ;
+                    qu’il soit prudent pour lui pour toi. Bonsoir, mon cher enfant. Je suis inquiète
+                    et je t’aime. Je voudrais être à demain.<signed><persName ref="#George_Sand"> Ta
+                            mère</persName>.</signed></closer>
+            </div>
+
+            <div type="letter" n="4">
+                <head> CCLXVII <lb/>A <persName ref="#Frédéric_Girerd">M. GIRERD</persName>, A
+                        <placeName ref="#Nevers">NEVERS</placeName></head>
+                <opener rend="right"><dateline><placeName ref="#Paris">Paris</placeName>, <date
+                            when="1848-03-06">lundi soir, 6 mars 1848</date>.</dateline>
+                    <salute>Mon ami,</salute></opener>
+                <p>Tout va bien. Les chagrins personnels disparaissent quand la vie publique nous
+                    appelle et nous absorbe. La République est la meilleure des familles, le peuple
+                    est le meilleur des amis. Il ne faut pas songer à autre chose.</p>
+                <p> La République est sauvée à <placeName ref="#Paris">Paris</placeName>; il s'agit
+                    de la sauver en province, où sa cause n'est pas gagnée. Ce n'est pas moi qui ai
+                    fait faire ta nomination ; mais c'est moi qui l'ai confirmée; car <persName
+                        ref="#Michel_Goudchaux">le ministre</persName> m'a rendue en quelque sorte
+                    responsable de la conduite de mes amis, et il m'a donné plein pouvoir pour tes
+                    encourager, les stimuler, et les rassurer contre toute intrigue de la part de
+                    leurs ennemis, contre toute faiblesse de la part du gouvernement. Agis donc avec
+                    vigueur, mon cher frère. Dans une situation comme celle où nous sommes, il ne
+                    faut pas seulement du dévouement et de la loyauté, il faut du fanatisme au
+                    besoin. Il faut s'élever au-dessus de soi-même, abjurer toute faiblesse, briser
+                    ses propres affections si elles contrarient la marche d'un pouvoir élu par le
+                    peuple et réellement, <emph rend="Italic">foncièrement</emph> révolutionnaire.
+                    Ne t'apitoie pas sur le sort de <persName ref="#Michel_Goudchaux"
+                        >Michel</persName>: <persName ref="#Michel_Goudchaux">Michel</persName> est
+                    riche, il est ce qu'il a souhaité, ce qu'il a choisi d'être. Il nous a trahis,
+                    abandonnés, dans les mauvais jours. A présent, son orgueil, son esprit de
+                    domination se réveillent. Il faudra qu'il donne à la République des gages
+                    certains de son dévouement s'il veut qu'elle lui donne sa confiance. La
+                    députation est un honneur qu'il peut briguer et que son talent lui assure
+                    peut-être. C'est là qu'il montrera ce qu'il est, ce qu'il pense aujourd'hui. Il
+                    le montrera à la nation entière. Les nations sont généreuses et pardonnent à
+                    ceux qui reviennent de leurs erreurs.</p>
+                <p>Quant au devoir d'un gouvernement provisoire, il consiste à choisir des hommes
+                        <emph rend="Italic">sûrs</emph> pour lancer l'élection dans une voie
+                    républicaine et sincère. Que l'amitié fasse donc silence, et n'influence pas
+                    imprudemment l'opinion en faveur d'un homme qui est assez fort pour se relever
+                    lui-même si son cœur est pur et sa volonté droite.</p>
+                <p>Je ne saurais trop te recommander de ne pas hésiter à balayer tout ce qui a
+                    l'esprit bourgeois. Plus tard, la nation, maîtresse de sa marche, usera
+                    d'indulgence si elle le juge à propos, et elle fera bien si elle prouve sa force
+                    par la douceur. Mais, aujourd'hui, si elle songe à ses amis plus qu'à son
+                    devoir, elle est perdue, et les hommes employés par elle à son début auront
+                    commis un parricide.</p>
+                <p>Tu vois, mon ami, que je ne saurais transiger avec la logique. Fais comme moi. Si
+                        <persName ref="#Michel_Goudchaux">Michel</persName> et bien d'autres
+                    déserteurs que je connais avaient besoin de ma vie, je la leur donnerais
+                    volontiers, mais ma conscience, point. <persName ref="#Michel_Goudchaux"
+                        >Michel</persName> a <emph rend="Italic">abandonné la démocratie, en haine
+                        de la démagogie</emph>. Or il n'y a plus de <emph rend="Italic"
+                        >démagogie</emph>. Le peuple a prouvé qu'il était plus beau, plus grand,
+                    plus pur que tous les riches et les savants de ce monde. Le calomnier la veille
+                    pour le flatter le lendemain m'inspire peu de confiance, et j'estimerais encore
+                    mieux <persName ref="#Michel_Goudchaux">Michel</persName> s'il protestait
+                    aujourd'hui contre la République. Je dirais qu'il s'est trompé, qu'il se trompe,
+                    mais qu'il est de bonne foi.</p>
+                <p>Peut-être croit-il désormais travailler pour une république aristocratique où le
+                    droit des pauvres sera refoulé et méconnu. S'il agit ainsi, il brisera
+                    l'alliance qui s'est cimentée d'une manière sublime, sur les barricades, entre
+                    le riche et le pauvre. Il perdra la République et la livrera aux intrigants ; et
+                    le peuple, qui sent sa force, ne les supportera plus. Le peuple tombera dans des
+                    excès condamnables si on le trahit; la société sera livrée à une épouvantable
+                    anarchie, et ces riches qui auront détruit le pacte sacré deviendront pauvres à
+                    leur tour dans des convulsions sociales où tout succombera.</p>
+                <p>Ils seront punis par où ils auront péché; mais il sera trop tard pour se
+                    repentir. <persName ref="#Michel_Goudchaux">Michel</persName> ne connaît pas et
+                    n'a jamais connu le peuple; que ne le voit-il aujourd'hui! Il jugerait sa force
+                    et respecterait sa vertu. </p>
+                <closer><salute>Courage, volonté, persévérance à toute épreuve. Je suis à toi pour
+                        la vie.</salute>
+                    <signed><persName ref="#George_Sand">GEORGE</persName>.</signed> Je serai demain
+                    soir <date when="1848-03-07">7 mars</date> à <placeName ref="#Nohant"
+                        >Nohant</placeName> pour une huitaine de jours; après quoi, je reviendrai
+                    probablement ici pour m'y consacrer entièrement aux nouveaux devoirs que la
+                    situation nous crée.</closer>
+            </div>
+
+            <div type="letter" n="5">
+                <head>CCLXVIII <lb/> A M. <persName ref="#Charles_Poncy">CHARLES PONCY</persName>, A
+                        <placeName ref="#Toulon">TOULON</placeName>
+                </head>
+                <opener rend="right"><dateline><placeName ref="#Nohant">Nohant</placeName>, <date
+                            when="1848-03-09">9 mars 1848</date>.</dateline></opener>
+                <p>Vive la République ! Quel rêve, quel enthousiasme, et, en même temps, quelle
+                    tenue, quel ordre à <placeName ref="#Paris">Paris</placeName>! J'en arrive, j'y
+                    ai couru, j'ai vu s'ouvrir les dernières barricades sous mes pieds. J'ai vu le
+                    peuple grand, sublime, naïf, généreux, le peuple français, réuni au cœur de la
+                        <placeName ref="#France">France</placeName>, au cœur du monde; le plus
+                    admirable peuple de l'univers! J’ai passé bien des nuits sans dormir, bien des
+                    jours sans m'asseoir. On est fou, on est ivre, on est heureux de s'être endormi
+                    dans la fange et de se réveiller dans les cieux. Que tout ce qui vous entoure
+                    ait courage et confiance! </p>
+                <p>La République est conquise, elle est assurée, nous y périrons tous plutôt que de
+                    la lâcher. Le gouvernement est composé d'hommes excellents pour la plupart, tous
+                    un peu incomplets et insuffisants à une tache qui demanderait le génie de
+                    Napoléon et le cœur de Jésus. Mais la réunion de tous ces hommes qui ont de
+                    l'âme ou du talent, ou de la volonté, suffit à la situation. Ils veulent le
+                    bien, ils le cherchent, ils l'essayent. Ils sont dominés sincèrement par un
+                    principe supérieur à la capacité individuelle de chacun, la volonté de tous, le
+                    droit du peuple. Le peuple de <placeName ref="#Paris">Paris</placeName> est si
+                    bon, si indulgent, si confiant dans sa cause et <emph rend="Italic">si
+                        fort</emph>, qu'il aide lui-même son gouvernement. </p>
+                <p>La durée d'une telle disposition serait l'idéal social. Il faut l'encourager.
+                    D'un bout de la <placeName ref="#France">France</placeName> à l'autre, il faut
+                    que chacun aide la République et la sauve de ses ennemis. Le désir, le principe,
+                    le vœu fervent des membres du gouvernement provisoire est qu'on envoie à
+                    l'Assemblée nationale des hommes qui représentent le peuple et dont plusieurs,
+                    le plus possible, sortent de son sein.</p>
+                <p> Ainsi, mon ami, vos amis doivent y songer et tourner tes yeux sur vous pour la
+                    députation. Je suis bien fâchée de ne pas connaître les gens influents de notre
+                    opinion dans <placeName ref="#Toulon">votre ville</placeName>. Je les
+                    supplierais de vous choisir et je vous commanderais, au nom de mon amitié
+                    maternelle, d'accepter sans hésiter. Voyez : <emph rend="Italic">faites
+                        agir</emph> ; il ne suffit pas de <emph rend="Italic">laisser agir</emph>.
+                    Il n'est plus question de vanité ni d'ambition comme on l'entendait naguère. II
+                    faut que chacun fasse la manœuvre du navire et donne tout son temps, tout son
+                    cœur, toute son intelligence, toute sa vertu à la République. Les poètes peuvent
+                    être, comme Lamartine, de grands citoyens. Les ouvriers ont à nous dire leurs
+                    besoins, leurs inspirations. Écrivez-moi vite qu’on y pense et que vous le
+                    voulez. Si j'avais là des amis, je le leur ferais bien comprendre.</p>
+                <p>Je repars pour <placeName ref="#Paris">Paris</placeName> dans quelques jours
+                    probablement, pour faire soit un journal, soit autre chose. Je choisirai le
+                    meilleur instrument possible pour accompagner ma chanson. J'ai le cœur plein et
+                    la tête en feu.</p>
+                <p>Tous mes maux physiques, toutes mes douleurs personnelles sont oubliées. Je vis,
+                    je suis forte, je suis active, je n'ai plus que vingt ans. Je suis revenue ici
+                    aider mes amis, dans la mesure de mes forces, à révolutionner <placeName
+                        ref="#Le_Berry">le Berry</placeName>, qui est bien engourdi. <persName
+                        ref="#Maurice_Sand">Maurice</persName> s'occupe de révolutionner la commune.
+                    Chacun fait ce qu'il peut. <persName ref="#Solange_Sand">Ma fille</persName>,
+                    pendant ce temps-là, est accouchée heureusement d'une <persName
+                        ref="#Jeanne-Gabrielle_Clésinger">fille</persName>. <persName
+                        ref="#Victor_Borie">Borie</persName> sera probablement député par <placeName
+                        ref="#Corrèze">la Corrèze</placeName>. En attendant, il m'aidera à organiser
+                    mon journal.</p>
+                <p>Allons, j'espère que nous nous retrouverons tous à <placeName ref="#Paris"
+                        >Paris</placeName>, pleins de vie et d'action, prêts à mourir sur les
+                    barricades si la République succombe. Mais non! la République vivra; son temps
+                    est venu. C'est à vous, hommes du peuple, à la défendre jusqu'au dernier
+                    soupir.</p>
+                <closer><salute>J'embrasse <persName ref="#Désirée">Désirée</persName>, j'embrasse
+                            <persName ref="#Solange_Sand">Solange</persName>, je vous bénis et je
+                        vous aime.</salute>
+                    <lb/>Ecrivez-moi ici. On me renverra votre lettre à <placeName ref="#Paris"
+                        >Paris</placeName>, si j'y suis. <lb/> Montrez ma lettre à vos amis. Cette
+                    fois, je vous y autorise et je vous le demande.</closer>
+            </div>
+
+            <div type="letter" n="6">
+                <head> CCLXIX <lb/> A M. <persName ref="#Charles_Duvernet">CHARLES
+                        DUVERNET</persName>, A <placeName ref="#La_Châtre">LA
+                    CHATRE</placeName></head>
+                <opener rend="right">
+                    <dateline>
+                        <placeName ref="#Paris">Paris</placeName>, <date when="1848-03-14">14 mars
+                            1848</date>.</dateline></opener>
+                <p>
+                    <persName ref="#Victor_Borie">Borie</persName> fait comme toi. On t'a annoncé un
+                    charivari et tu l'as bravé. Tu lui annonces une aubade d'un autre genre et cela
+                    lui donne d'autant plus d'envie d'aller la chercher. Mais je ne suis pas de son
+                    avis, je le retiendrai s'il m'est possible.</p>
+                <p>Braver des criailleries n'est rien du tout, pas plus pour un homme, je pense, que
+                    pour une femme. Mais je trouve que, pour le moment, il n'y a rien à faire, parce
+                    que le peuple est mis hors de cause à <placeName ref="#La_Châtre">la
+                        Châtre</placeName>, que le club devient une question de personnes, et qu'on
+                    ne pourrait prendre le parti du principe sans avoir l'air d'agir pour des noms
+                    propres.</p>
+                <closer><salute>Bonsoir, mon ami; courage quand même! la République n'est pas perdue
+                        parce que <placeName ref="#La_Châtre">la Châtre</placeName> n'en veut pas.
+                        <lb/>A toi.</salute>
+                    <signed><persName ref="#George_Sand">GEORGE</persName>.</signed>
+                </closer>
+            </div>
+
+            <div type="letter" n="7">
+                <head>CCLXX<lb/> A <persName ref="#Maurice_Sand">MAURICE SAND</persName>, A
+                        <placeName ref="#Nohant">NOHANT</placeName></head>
+                <opener rend="right"><dateline><placeName ref="#Paris">Paris</placeName>, <date
+                            when="1848-03-18">18 mars 1848</date>.</dateline>
+                    <lb/> Cher enfant,</opener>
+                <p>J'ai fait un très bon voyage; mais je n'ai trouvé chez toi ni <persName
+                        ref="#Elisa">Élisa</persName> ni clefs. On a couru chez trois serruriers
+                    pour faire ouvrir la porte: pas de serruriers! Ils étaient tous aux clubs. De
+                    guerre lasse, j'ai été coucher dans un hôtel garni. Ce matin, je suis chez
+                        <placeName ref="#Pinson">Pinson</placeName>, d'où je t'écris. <persName
+                        ref="#Elisa">Elisa</persName> et les clefs sont retrouvées. J'irai ce soir
+                    loger chez toi, en attendant que je m'installe un peu mieux s'il y a lieu. Mais
+                    je ne veux pas encore louer pour un mois, avant de savoir si je pourrai faire
+                    quelque chose ici. Je vais aller voir <persName ref="#Pauline_Viardot"
+                        >Pauline</persName>. Je viens-de faire, en déjeunant, le récit de la fête de
+                        <placeName ref="#Nohant">Nohant</placeName> pour la <emph rend="Italic"
+                        >Réforme</emph>. <persName ref="#Victor_Borie">Borie</persName> en a fait un
+                    en déjeunant à <placeName ref="#Châteauroux">Châteauroux</placeName>, pour le
+                    journal de <placeName ref="#Fleury">Fleury</placeName>. Tu les recevras l'un et
+                    l'autre et tu feras bien de les lire dimanche, à haute et intelligible voix, à
+                    tes gardes nationaux. Ça les flattera. Tu développeras ces articles par des
+                    conversations dans les groupes. Tu feras sentir la nécessité de l'impôt pour ce
+                    moment de crise. Tu diras que nous sommes très contents d'en payer ta plus
+                    grosse part et que ce n'est pas acheter trop cher les bienfaits de l'avenir.
+                    Voilà ton thème, que tu traduiras en berrichon.</p>
+                <p> Écris-moi, car je me trouve bien seule ici. Adresse-moi tes lettres<placeName
+                        ref="#Rue_de_Condé"> rue de Condé</placeName>. Je t'écrirai plus au long
+                    quand j'aurai vu un peu de monde et entamé quelque projet.</p>
+                <p> Tu as dû recevoir la nomination de ton adjoint. Nous allons nous occuper de
+                    l'affaire des noyers. Ne t'ennuie pas trop. Travaille à prêcher, à
+                    républicaniser nos bons paroissiens. Nous ne manquons pas de vin cette année, tu
+                    peux faire rafraîchir ta garde nationale armée, modérément, dans la cuisine, et,
+                    là, pendant une heure, tu peux causer avec eux et les éclairer beaucoup. Je
+                    t'enverrai du <persName ref="#George_Sand"><emph rend="Italic">Blaise
+                            Bonnin</emph></persName><note type="gloss" place="foot">
+                        <hi rend="Italic">Lettres d'un paysan de la vallée Noire, écrite sous la
+                            dictée de Blaise Bonnin</hi>.</note>, qui te servira de thème.
+                    Seulement, mets de l'ordre maintenant dans ces réunions, et, s'il le faut, forme
+                    une espèce de club, d'où seront exclus les flâneurs et les buveurs inutiles, les
+                    enfants et les femmes, qui ne songent qu'à crier et à danser. Pour le moment,
+                    c'est tout ce qu'on peut faire.</p>
+                <closer><salute>Je te <emph rend="Italic">rebige<note type="gloss" place="foot"
+                                >Verbe utilisé par George Sand dans sa correpondance qui signifie
+                                faire une bise de plus.</note></emph> et je
+                    t'aime.</salute></closer>
+            </div>
+        </body>
+    </text>
+</TEI>
