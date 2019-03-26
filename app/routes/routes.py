@@ -277,7 +277,6 @@ def document(docu_id):
 
     if cv:
         Person.add_cv(current_user, requested_docu)
-    print(current_user.person_cv)
 
     return render_template("pages/document.html",
                            docu = requested_docu,
