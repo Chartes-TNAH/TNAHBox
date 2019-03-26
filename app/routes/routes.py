@@ -276,9 +276,9 @@ def document(docu_id):
     cv = request.form.get("cv", None)
 
     if cv:
-        Document.add_cv(current_user,requested_docu)
+        Person.add_cv(current_user,requested_docu)
     if nocv:
-        pass
+        Person.remove_cv(current_user)
 
     return render_template("pages/document.html",
                            docu = requested_docu,
