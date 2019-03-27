@@ -1,6 +1,6 @@
 {% extends 'conteneur.html' %}
 
-{% block title %}{{titre}}{% endblock %}
+{% block title %} | Importer un document {% endblock %}
 
 <!-- Cette page est destinée à offrir une interface à l'utilisateur-trice qui voudra ajouter des documents à la BDD
 A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e et reconnué-e -->
@@ -86,6 +86,7 @@ A prévoir : accès uniquement si l'utilisateur-trice est connecté-e, logué-e 
                 <option value="Texte">Texte</option>
                 <option value="Code">Code</option>
                 <option value="Image">Image</option>
+                <option value="CV">CV</option>
                 <option value="Autre">Autre</option>
             </select>
         </div>

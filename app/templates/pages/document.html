@@ -37,6 +37,8 @@
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
                     {% elif docu.document_format == "Code" %}
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                    {% elif docu.document_format == "CV" %}
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/pict_cv.png')}}" alt="curriculum vitae">
                     {% elif docu.document_format == "Autre" %}
                         <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
                     {% else %}
@@ -46,51 +48,59 @@
                 <div class="col-md-9">
                     <div class="row">
                         <h2 class="col-md-8" style="padding: 10px">{{docu.document_title}}</h2>
-                        <div class="col-md-2" style="text-align: center; margin-right: -50px">
+                        <div class="col-md-2" style="text-align: center; margin-right: -3em">
                             {% if current_user in docu.loving_users %}
-                                <form method="post" id="unfav" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                <form method="post"
+                                      id="unfav"
+                                      action="{{url_for('document', docu_id = docu.document_id)}}">
                                     <button type="submit" form="unfav" class="btn btn-light" style="background-color: white" name="unfav" value="1">
                                         <img class="img-fluid"
                                              style="height: 45px;"
                                              src="{{url_for("static", filename="img/favorite.png")}}"
                                              alt="Document déjà ajouté aux favoris">
                                     </button>
-                                    <span class="text-muted" style="font-size: 16px">Retirer des favoris</span>
+                                    <span class="text-muted row" style="font-size: 16px">Retirer des favoris</span>
                                 </form>
                             {% else %}
-                                <form method="post" id="fav" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                <form method="post"
+                                      id="fav"
+                                      action="{{url_for('document', docu_id = docu.document_id)}}">
                                     <button type="submit" form="fav" class="btn btn-light" style="background-color: white" name="fav" value="1">
                                         <img class="img-fluid"
                                              style="height: 45px;"
                                              src="{{url_for("static", filename="img/unfaved.png")}}"
                                              alt="Appuyer pour ajouter aux favoris">
                                     </button>
-                                    <span class="text-muted" style="font-size: 16px">Ajouter aux favoris</span>
+                                    <span class="text-muted row" style="font-size: 16px">Ajouter aux favoris</span>
                                 </form>
                             {% endif %}
                         </div>
                         {% if docu.document_downloadLink %}
                         {# Si le document n'est pas présent sur le serveur, ce bouton n'est pas disponible#}
-                            <div class="col-md-2" style="text-align: center">
+                            <div class="col-md-2" style="text-align: center; margin-left: -1em">
                                 {% if current_user.person_cv == docu.document_downloadLink %}
-                                    <form method="post" id="no_cv" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                    <form method="post"
+                                          id="no_cv"
+                                          action="{{url_for('document', docu_id = docu.document_id)}}">
                                         <button type="submit" form="no_cv" class="btn btn-light" style="background-color: white" name="no_cv" value="1">
                                             <img class="img-fluid"
                                                  style="height: 45px;"
                                                  src="{{url_for("static", filename="img/cv.png")}}"
                                                  alt="Document déjà ajouté en tant que cv">
                                         </button>
-                                        <span class="text-muted" style="font-size: 16px">Enlever en tant que CV</span>
+                                        <span class="text-muted row" style="font-size: 16px">Enlever en tant que CV</span>
                                     </form>
                                 {% else %}
-                                    <form method="post" id="cv" action="{{url_for('document', docu_id = docu.document_id)}}">
+                                    <form method="post"
+                                          id="cv"
+                                          action="{{url_for('document', docu_id = docu.document_id)}}">
                                         <button type="submit" form="cv" class="btn btn-light" style="background-color: white" name="cv" value="1">
                                             <img class="img-fluid"
                                                  style="height: 45px;"
                                                  src="{{url_for("static", filename="img/noCV.png")}}"
                                                  alt="Appuyer pour ajouter ce document en tant que CV">
                                         </button>
-                                        <span class="text-muted" style="font-size: 16px">Ajouter en tant que CV</span>
+                                        <span class="text-muted row" style="font-size: 16px">Ajouter en tant que CV</span>
                                     </form>
                                 {% endif %}
                             </div>

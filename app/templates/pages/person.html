@@ -25,37 +25,34 @@
             <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 10%">
                 <h2 class="display-5 font-italic" style="margin-top: 0.5em">{{person.person_firstName}} {{person.person_name}}</h2>
                 <!-- affichage Prénom Nom -->
-                {% if person.person_promotion %}
-                <dt>Promotion : </dt>
-                    <dd>{{person.person_promotion}}</dd>
-                <!-- si la personne a renseigné sa promotion, afficher sinon rien-->
-                {% endif %}
+                <ol class="list-unstyled">
+                    {% if person.person_promotion %}
+                        <li><b>Promotion</b> : {{person.person_promotion}}</li>
+                        <!-- si la personne a renseigné sa promotion, afficher sinon rien-->
+                    {% endif %}
 
-                {% if person_description %}
-                <dt>Description : </dt>
-                    <span>{{person_description}}</span>
-                {% else %}
-                    <span style="color: grey;">Aucune description n'a été renseignée.</span>
-                {% endif %}
-                <!-- Le decription est remplie sur la page d'édition du profil ; si la personne en a rempli une, elle sera affichée, sinon en grisé "aucune etc." -->
+                    {% if person.person_description %}
+                        <dt>Description : </dt>
+                        <span>{{person.person_description}}</span>
+                    {% else %}
+                        <span class="text-muted">Aucune description n'a été renseignée.</span>
+                    {% endif %}
+                    <!-- Le decription est remplie sur la page d'édition du profil ; si la personne en a rempli une, elle sera affichée, sinon en grisé "aucune etc." -->
 
-                {% if person.person_login %}
-                    <!-- si la personne a un login, est forcément un utilisateur, donc afficher son profil avec un lien vers sa page profil. -->
-                <dt>Profil : </dt>
-                <dd><a href="{{url_for('user', person_login=person.person_login)}}">{{person.person_login}}</a></dd>
-                    <!-- Afficher son profil avec redirection vers page -->
-                {% endif %}
+                    {% if person.person_login %}
+                        <!-- si la personne a un login, est forcément un utilisateur, donc afficher son profil avec un lien vers sa page profil. -->
+                        <li><b>Profil</b> :
+                            <a href="{{url_for('user', person_login=person.person_login)}}">{{person.person_login}}</a></li>
+                        <!-- Afficher son profil avec redirection vers page -->
+                    {% endif %}</ol>
 
-                <div class="row">
-                    <div style="margin-left: 1em"></div>
-                </div>
             </div>
             <div class="col-md-5 bg-light rounded" style="margin-left: 2%">
                 <h4 class="font-italic" style="margin-top: 1em">Contact</h4>
                 <ol class="list-unstyled">
                     <li>GitHub :
                         {% if person.person_git %}
-                            <span><a href="{{person.person_git}}">{{(person.person_git).replace("https://github.com/","")|safe}}</a></span>
+                            <a href="{{person.person_git}}">{{(person.person_git).replace("https://github.com/","")|safe}}</a>
                             <!-- le nom du GitHub de la personne est utilisé comme lien, mais tant lui-même un lien, la fonction replace a permis d'enlever. |safe permet de dire à html : c'est une string-->
                         {% else %}
                             <span style="color: grey;">Aucun compte GitHub n'a été renseigné.</span>
@@ -79,12 +76,12 @@
                 </ol>
             </div>
         </div>
-        <div class="row" style="padding: 2em">
+        <div class="row" style="padding: 2em; margin-top: -2em">
             <div class="col-md-5 rounded" style="margin-left: 10%">
-                 <dt>CV : </dt>
+                <dt>CV : </dt>
                 {% if person.person_cv %}
-                    <dd><a href="{{url_for('person.person_cv')}}">CV de {{person.person_firstName}} {{person.person_name}}</a></dd>
-                <!-- Si la personne a importé un CV, il sera disponible grâce au lien, sinon affichera ligne suivante -->
+                    <dd><a href="{{person.person_cv}}">CV de {{person.person_firstName}} {{person.person_name}}</a></dd>
+                    <!-- Si la personne a importé un CV, il sera disponible grâce au lien, sinon affichera ligne suivante -->
                 {% else %}
                     <dd>Le CV de {{person.person_firstName}} {{person.person_name}} n'est pas disponible.</dd>
                 {% endif %}
@@ -105,6 +102,7 @@
             </div>
 
         </div>
+
 
     {% endif %}
 
