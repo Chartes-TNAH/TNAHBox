@@ -453,7 +453,8 @@ def person(person_id):
     # variable requested_person appelée pour classe person car requête query
     return render_template(
         "pages/person.html",
-        person=requested_person)
+        person=requested_person,
+        current_user=current_user)
 
 
 @app.route("/annuaire")
