@@ -4,6 +4,7 @@ from flask_login import LoginManager
 import os
 # le module os permet de communiquer avec le système d'exploitation sous-jacent (Mac, Ubuntu, etc.)
 from .constantes import CONFIG
+from flask_migrate import Migrate
 
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 # on stocke le chemin du fichier courant
@@ -28,6 +29,7 @@ app = Flask(
 # on initie l'app où le nom __name__ sera précisé dans la configuration (config_app())
 # et on définit les dossiers contenants les templates et les statics
 
+migrate = Migrate(app, db)
 
 from .routes import routes
 
