@@ -13,7 +13,6 @@ Jinja2==2.10
 keyring==10.6.0
 keyrings.alt==3.0
 MarkupSafe==1.1.1
-mysql-connector-python==2.1.6
 mysql-utilities==1.6.4
 paramiko==2.0.0
 pexpect==4.2.1
