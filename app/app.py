@@ -33,7 +33,7 @@ migrate = Migrate(app, db)
 
 from .routes import routes
 
-def config_app(config_name="test"):
+def config_app(config_name="production"):
     """ Create the application """
     app.config.from_object(CONFIG[config_name])
     # on configure l'app en appelant la constante CONFIG
