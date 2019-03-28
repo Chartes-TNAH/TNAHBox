@@ -23,6 +23,7 @@ MarkupSafe==1.1.1
 paramiko==2.0.0
 pexpect==4.2.1
 psycopg2==2.7.7
+psycopg2-binary==2.7.7
 pyasn1==0.4.2
 pycrypto==2.6.1
 Pygments==2.2.0
