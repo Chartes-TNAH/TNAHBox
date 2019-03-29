@@ -19,34 +19,34 @@ if SECRET_KEY == "JE SUIS UN SECRET !":
 
 # Les paramètres de configuration de l'application en mode test
 # sont définis en tant que variables de classe au sein de la classe _TEST
-# if os.environ.get('DATABASE_URL') is None:
-#     class _TEST:
-#         SECRET_KEY = SECRET_KEY
-#         # On configure la base de données de test
-#         SQLALCHEMY_DATABASE_URI = 'sqlite:///test_db.sqlite'
-#     # sqlite:// représente le moteur utilisé, ici SQLite
-#     # puis / signifie ici qu'il s'agit d'un chemin relatif (un chemin absolu avec //)
-#     # puis le chemin du fichier à aller chercher, en l'occurence db.sqlite
-#         SQLALCHEMY_TRACK_MODIFICATIONS = False
-#     class _PRODUCTION:
-#         SECRET_KEY = SECRET_KEY
-#         # On configure la base de données de production
-#         SQLALCHEMY_DATABASE_URI = 'sqlite:///../db.sqlite'
-#         SQLALCHEMY_TRACK_MODIFICATIONS = False
-# else:
-class _TEST:
-    SECRET_KEY = SECRET_KEY
-    # On configure la base de données de test
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///test_db.sqlite'
+if os.environ.get('DATABASE_URL') is None:
+    class _TEST:
+        SECRET_KEY = SECRET_KEY
+        # On configure la base de données de test
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///test_db.sqlite'
     # sqlite:// représente le moteur utilisé, ici SQLite
     # puis / signifie ici qu'il s'agit d'un chemin relatif (un chemin absolu avec //)
     # puis le chemin du fichier à aller chercher, en l'occurence db.sqlite
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-class _PRODUCTION:
-    SECRET_KEY = SECRET_KEY
-    # On configure la base de données de production
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
+    class _PRODUCTION:
+        SECRET_KEY = SECRET_KEY
+        # On configure la base de données de production
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///../db.sqlite'
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
+else:
+    class _TEST:
+        SECRET_KEY = SECRET_KEY
+        # On configure la base de données de test
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///test_db.sqlite'
+        # sqlite:// représente le moteur utilisé, ici SQLite
+        # puis / signifie ici qu'il s'agit d'un chemin relatif (un chemin absolu avec //)
+        # puis le chemin du fichier à aller chercher, en l'occurence db.sqlite
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
+    class _PRODUCTION:
+        SECRET_KEY = SECRET_KEY
+        # On configure la base de données de production
+        SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 CONFIG = {
     "production": _PRODUCTION
