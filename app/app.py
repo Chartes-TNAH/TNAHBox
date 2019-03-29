@@ -48,6 +48,3 @@ def config_app(config_name="production"):
 
     return app
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-if __name__ == "__main__":
-    app.run(debug=True)

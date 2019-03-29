@@ -1,6 +1,7 @@
-from app.app import config_app
+from app.app import app
+import os
 # du fichier app.py dans le dossier app j'importe la fonction config_app
 
 if __name__ == "__main__":
-    app = config_app("production")
+    app = app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     app.run(debug=True)
