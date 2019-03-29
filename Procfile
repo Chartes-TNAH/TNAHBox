@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn TNAHBox:app
+web: flask db upgrade; gunicorn run:config_app
