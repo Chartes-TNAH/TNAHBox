@@ -31,9 +31,6 @@ app = Flask(
 
 migrate = Migrate(app, db)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 from .routes import routes
 
 def config_app(config_name="production"):
@@ -51,4 +48,4 @@ def config_app(config_name="production"):
 
     return app
 
-
+app = config_app("production")
