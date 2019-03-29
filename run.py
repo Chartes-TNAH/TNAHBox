@@ -32,6 +32,6 @@ app = Flask(
 
 migrate = Migrate(app, db)
 
-app = app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app = app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.run(debug=True)
