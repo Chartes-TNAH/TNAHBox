@@ -1,2 +1,2 @@
-web: gunicorn run:config_app
+web: gunicorn run:run
 init: flask db upgrade
