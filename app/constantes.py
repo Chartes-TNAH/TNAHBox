@@ -49,6 +49,10 @@ class _PRODUCTION:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 CONFIG = {
-    "test": _TEST,
     "production": _PRODUCTION
 }
+
+# CONFIG = {
+#     "test": _TEST,
+#     "production": _PRODUCTION
+# }
