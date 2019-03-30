@@ -19,7 +19,9 @@
         </div>
         <!-- même si la page d'une personne n'est accessible en théorie que si on est passé par l'annuaire qui exige connexion, la page d'une personne n'est accessible que si l'utilisateur est connecté, sécurité -->
     {% else %}
-
+<div class="container">
+    <a href="{{url_for('annuaire')}}" class="btn btn-dark btn-lg active" role="button" aria-pressed="true">Annuaire</a>
+</div>
         <div class="row" style="padding: 2em">
             <!-- Si on décidait d'ajouter image pour personne inscrite dans l'annuaire, pourrait se faire ici -->
             <div class="col-md-5 text-white rounded bg-dark" style="margin-left: 10%">

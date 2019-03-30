@@ -4,6 +4,28 @@
 
 {% block corps %}
 
+    {% if current_user.is_anonymous %}
+        <div class="container">
+            <div class="row" style="text-align: center">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h2 style="padding-bottom: 1em">Merci de vous connecter pour accéder aux documents.</h2>
+                    <a href="{{url_for('register')}}" class="btn btn-info btn-lg active" role="button" aria-pressed="true">Inscription</a>
+                    <a href="{{url_for('login')}}" class="btn btn-info btn-lg active" role="button" aria-pressed="true">Connexion</a>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <div class="row" style="text-align: center">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <img style="padding: 2em" class="rounded" src="{{url_for('static', filename='img/awe.gif')}}">
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    {% else %}
+
 <div class="row">
     <div class="col-4" style="background-color: #ddecee; top: -32px; padding: 40px">
         <div class="container">
@@ -199,5 +221,5 @@
         {% endif %}
     </div>
 </div>
-
+{% endif %}
 {% endblock %}
