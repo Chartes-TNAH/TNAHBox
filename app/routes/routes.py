@@ -673,3 +673,11 @@ def before_request():
         today = date.today()
         current_user.person_last_seen = date.today()
         db.session.commit()
+
+
+@app.route("/a_propos")
+def a_propos():
+    """
+    Route pour afficher une page à propos pour les collaboratrices du projet
+    """
+    return render_template(pages/a_propos.html)
