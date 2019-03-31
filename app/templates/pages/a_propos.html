@@ -1,0 +1,51 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}| À propos{%endblock%}
+
+{% block corps %}
+    <body>
+    <div class="container" style="padding-left: 5em; padding-right: 5em;">
+        <div class="container" style="padding-bottom: 1em">
+            <h1>À propos de la TNAHBox : </h1>
+            <p>Projet de classe réalisé en Master 2 TNAH à l'Ecole des chartes,
+                la TNAHBox a été un outil d'expérimentation et d'application du langage de programmation python.
+                Il a été réalisé par cinq étudiantes de ce master.
+                Il faudra vous inscrire pour accéder aux différents éléments proposés, vous devrez renseigner plusieurs informations vous concernant.</p>
+        </div>
+        <h3>Que trouverez-vous sur la TNAHBox ?</h3>
+        <ul>
+            <li>Des documents utiles à la scolarité du Master, importés par les étudiant·e·s. Les documents peuvent être de différents formats.</li>
+            <li>Il est possible de rechercher parmi les documents présents, grâce à des fonctionnalités de filtre spécifiquement développées.</li>
+            <li>Un annuaire de tou·te·s les inscrit·e·s sur la TNAHBox qui se veut communautaire.</li>
+            <li>L'annuaire donne accès à des pages "personne" récapitulant les informations de contact disponibles.</li>
+        </ul>
+    </div>
+    <div class="row" style="padding: 1em">
+        <div class="col-1"></div>
+        <div class="col-2 container">
+            <h2>Ségolène Albouy</h2>
+            <p>Ségolène a réalisé la fonction recherche parmi les documents avec toutes les subtilités que cela supposait : édition de picto pour les documents, travail sur les tags, le modèle de données. Elle s'intéresse autant au code qu'à la forme, on lui doit le footer, la bannière, le choix des couleurs (couleur de l'école et sa complémentaire). Elle a participé à l'amélioration de l'import de documents. Elle a beaucoup contribué aux finitions du projet : pages de refus animées de gif et surtout déploiement sur heroku.</p>
+        </div>
+        <div class="col-2">
+            <h2>Victoria Le Fourner</h2>
+            <p>Victoria s'est occupée de la base de données : sa modélisation, son script. Elle l'a également largement peuplé avec des données pour la version application.</p>
+        </div>
+        <div class="col-2">
+            <h2>Lauryne Le Mosquet</h2>
+            <p>Lauryne, en charge de l'établissement des profils utilisateurs lors de leur inscription, a pleinement réussi sa mission. Elle a créé la page mon profil. Elle a également proposé un profil administrateur, capable de modifier les données des autres profils. Cette fonctionnalité n'est pas disponible dans la version déployée sur serveur en ligne. Douée pour le web design, elle n'a pas toujours utilisé Bootstrap !</p>
+        </div>
+        <div class="col-2">
+            <h2>Caroline Méot</h2>
+            <p>Caroline a réalisé le README et la fonctionnalité d'import de documents par l'utilisateur. Elle a également rempli la base de données.</p>
+        </div>
+        <div class="col-2">
+            <h2>Marie Morillon</h2>
+            <p>Marie s'est occupée des pages annuaire, personne, accueil et à propos. Elle était également en charge de prendre en note des éléments propres à rédiger des points d'étapes tout au long du développement.</p>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    </div>
+    </body>
+
+    {% include "partials/retour_accueil.html" %}
+{% endblock %}

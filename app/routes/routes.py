@@ -543,6 +543,15 @@ def oups():
 
     return render_template("pages/oups.html")
 
+@app.route("/a-propos")
+def propos():
+    """
+    Route pour la page à propos
+
+    """
+
+    return render_template("pages/a_propos.html")
+
 
 @app.route('/user/<person_login>')
 @login_required
