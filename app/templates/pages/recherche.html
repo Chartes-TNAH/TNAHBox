@@ -3,201 +3,221 @@
 {% block titre %}| {{titre}}{%endblock%}
 
 {% block corps %}
-
-<div class="row">
-    <div class="col-4" style="background-color: #ddecee; top: -32px; padding: 40px">
+    {% if current_user.is_anonymous %}
         <div class="container">
-            <div class="sidebar-header">
-                <h3>Recherche avancée</h3>
+            <div class="row" style="text-align: center">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h2 style="padding-bottom: 1em">Merci de vous connecter pour effectuer une recherche parmi les documents.</h2>
+                    <a href="{{url_for('register')}}" class="btn btn-info btn-lg active" role="button" aria-pressed="true">Inscription</a>
+                    <a href="{{url_for('login')}}" class="btn btn-info btn-lg active" role="button" aria-pressed="true">Connexion</a>
+                </div>
+                <div class="col-md-2"></div>
             </div>
-            <form class="form" id="recherche-form" action="{{url_for("recherche")}}" method="GET">
-            {# Création d'un formulaire de recherche de class="form"
+
+            <div class="row" style="text-align: center">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <img style="padding: 2em" class="rounded" src="{{url_for('static', filename='img/awe.gif')}}">
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-4" style="background-color: #ddecee; top: -32px; padding: 40px">
+                <div class="container">
+                    <div class="sidebar-header">
+                        <h3>Recherche avancée</h3>
+                    </div>
+                    <form class="form" id="recherche-form" action="{{url_for("recherche")}}" method="GET">
+                        {# Création d'un formulaire de recherche de class="form"
             avec un identifiant à reprendre dans la balise <select>
             pour que la valeur de l'attribut value de la balise <option>
             apparaisse dans les arguments de l'URL spécifiée dans l'attribut action
             action donne l'URI dans laquelle mettre les données du formulaire lorsque celui-ci est soumis
             method GET permet d'encoder les données du formulaire en argument de l'URL #}
 
-                <div class="input-group">
-                    <input type="search" name="keyword" class="form-control form-control-lg" type="text" placeholder="Rechercher …">
-                    {# Création d'une balise input de type text pour que l'utilisateur rentre ses mots-clef
+                        <div class="input-group">
+                            <input type="search" name="keyword" class="form-control form-control-lg" type="text" placeholder="Rechercher …">
+                            {# Création d'une balise input de type text pour que l'utilisateur rentre ses mots-clef
                     l'attribut name permet de spécifier le nom du champ dans les arguments
                     où seront stockés les mots-clefs rentrés par l'utilisateur #}
-                    <span class="input-group-btn">
+                            <span class="input-group-btn">
                         <button class="btn btn-lg" style="background-color: #70b7c2" href="#" role="button">Rechercher</button>
                     </span>
-                </div>
+                        </div>
 
-                <div style="margin-top: 1em" class="form-group" id="form-matiere">
-                    <div class="row">
-                        <label for="form-matiere" style="padding-left: 15px;"><b>Matière</b></label>
-                    </div>
-                    <select form="recherche-form" name="matiere" class="form-control" id="exampleFormControlSelect1">
-                        {# Création d'un menu déroulant où afficher les matières existantes dans la BDD
+                        <div style="margin-top: 1em" class="form-group" id="form-matiere">
+                            <div class="row">
+                                <label for="form-matiere" style="padding-left: 15px;"><b>Matière</b></label>
+                            </div>
+                            <select form="recherche-form" name="matiere" class="form-control" id="exampleFormControlSelect1">
+                                {# Création d'un menu déroulant où afficher les matières existantes dans la BDD
                         l'attribut form référence l'identifiant de la balise form qui contient ce menu
                         l'attribut name permet de spécifier le nom du champ dans les arguments
                         où sera stockée l'option selectionnée par l'utilisateur #}
-                        <option value="">Toutes les matières</option>
-                        {# la premiere option du menu affichant la valeur "all" dans les arguments #}
-                        {%- for matiere in matieres %}
-                            {# pour chaque matière de la liste de matières
+                                <option value="">Toutes les matières</option>
+                                {# la premiere option du menu affichant la valeur "all" dans les arguments #}
+                                {%- for matiere in matieres %}
+                                    {# pour chaque matière de la liste de matières
                             obtenue en requêtant la classe Document dans routes.py #}
-                            <option value="{{matiere}}">{{matiere}}</option>
-                            {# création d'une nouvelle option de valeur dans le menu et dans les arguments
+                                    <option value="{{matiere}}">{{matiere}}</option>
+                                    {# création d'une nouvelle option de valeur dans le menu et dans les arguments
                             équivalente à l'enregistrement de l'attribut matiere dans la table Document#}
-                        {%- endfor %}
-                    </select>
-                </div>
-
-                <div id="date-form">
-                    <div class="row">
-                        <label for="date-form" style="padding-left: 15px;"><b>Date du cours</b></label>
-                    </div>
-                    <div class="row">
-                        <p style="font-size: 14px" class="text-muted">Il est possible de n'indiquer que l'année (<i>AAAA</i>) ou le mois (<i>AAAA-MM</i>).</p>
-                    </div>
-                    <div style="margin-bottom: 1em; padding-left: 15px; padding-right: 15px" class="row">
-                        <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
-                        <script type="text/javascript">
-                            $(function () {
-                                $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
-                            });
-                        </script>
-                    </div>
-                </div>
-
-                <div class="form-check" id="checkbox-form">
-                    <div class="row">
-                        <label for="checkbox-form"><b>Type de document</b></label>
-                    </div>
-                    <div style="margin-left: 15px" form="recherche-form">
-                        <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="img" value="Image" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">Image</label>
+                                {%- endfor %}
+                            </select>
                         </div>
-                        <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="txt" value="Texte" id="defaultCheck2">
-                            <label class="form-check-label" for="defaultCheck2">Texte</label>
+
+                        <div id="date-form">
+                            <div class="row">
+                                <label for="date-form" style="padding-left: 15px;"><b>Date du cours</b></label>
+                            </div>
+                            <div class="row">
+                                <p style="font-size: 14px" class="text-muted">Il est possible de n'indiquer que l'année (<i>AAAA</i>) ou le mois (<i>AAAA-MM</i>).</p>
+                            </div>
+                            <div style="margin-bottom: 1em; padding-left: 15px; padding-right: 15px" class="row">
+                                <input type="search" type='text' name="date" class="form-control" id='datepicker' placeholder="AAAA-MM-JJ" data-date-format="yy-mm-dd"/>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+                                    });
+                                </script>
+                            </div>
                         </div>
-                        <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="code" value="Code" id="defaultCheck3">
-                            <label class="form-check-label" for="defaultCheck3">Code</label>
-                        </div>
-                        <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="cv" value="CV" id="defaultCheck4">
-                            <label class="form-check-label" for="defaultCheck4">Curriculum vitæ</label>
-                        </div>
-                        <div class="row">
-                            <input class="form-check-input" type="checkbox" type="search" name="autre" value="Autre" id="defaultCheck5">
-                            <label class="form-check-label" for="defaultCheck5">Autre</label>
-                        </div>
-                    </div>
-                </div>
 
-            </form>
-        </div>
-    </div>
-
-    <div class="col-8" style="padding: 3em; margin-top: -3em">
-        <h1>{{titre}}</h1>
-
-        {% if resultats %}
-            {# si on obtient des résultats #}
-            <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
-
-            <div class="row">
-                {% for found_document in resultats.items %}
-                    {# pour chaque document trouvé dans la liste de resultats
-                    .items rend itérable la variable resultats, originellement objet de pagination #}
-
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">
-                                    {% if found_document.document_format == "Image" %}
-                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
-                                    {% elif found_document.document_format == "Texte" %}
-                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
-                                    {% elif found_document.document_format == "Code" %}
-                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
-                                    {% elif found_document.document_format == "Autre" %}
-                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
-                                    {% elif found_document.document_format == "CV" %}
-                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/pict_cv.png')}}" alt="curriculum vitae">
-                                    {% else %}
-                                        <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
-                                    {% endif %}
-                                </a>
-
-                                <div class="card-body">
-                                    <div class="row">
-                                        <h4 class="card-title col-md-8">
-                                            {% if lenTitle(found_document.document_title) %}
-                                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title[0:17] + " …"}}</a>
-                                                {# création d'un lien donnant accès à page dudit document
-                                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
-                                                cet id est récupéré du document trouvé dans la liste de résultats #}
-                                            {% else %}
-                                                <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
-                                            {% endif %}
-                                        </h4>
-                                        <div class="col-md-4">
-                                            {% if found_document.document_downloadLink %}
-                                                <a style="text-align: right" href="{{ found_document.document_downloadLink }}" download>
-                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
-                                                </a>
-                                            {% else %}
-                                                <a style="text-align: right" href="">
-                                                    <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/no_download_picto.png")}}" alt="Icone de téléchargement">
-                                                </a>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <span class="badge badge-light">{{found_document.document_teaching}}</span>
-                                    {% if found_document.document_description %}
-                                        {% if lenDesc(found_document.document_description) %}
-                                        {# Si la description fait plus de 60 caractères #}
-                                            <p class="card-text" style="padding: 5px">{{found_document.document_description[0:55] + " …"}}</p>
-                                        {% else %}
-                                            <p class="card-text" style="padding: 5px">{{found_document.document_description}}</p>
-                                        {% endif %}
-                                    {% else %}
-                                        <p class="card-text" style="padding: 5px">Aucune description</p>
-                                    {% endif %}
+                        <div class="form-check" id="checkbox-form">
+                            <div class="row">
+                                <label for="checkbox-form"><b>Type de document</b></label>
+                            </div>
+                            <div style="margin-left: 15px" form="recherche-form">
+                                <div class="row">
+                                    <input class="form-check-input" type="checkbox" type="search" name="img" value="Image" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">Image</label>
+                                </div>
+                                <div class="row">
+                                    <input class="form-check-input" type="checkbox" type="search" name="txt" value="Texte" id="defaultCheck2">
+                                    <label class="form-check-label" for="defaultCheck2">Texte</label>
+                                </div>
+                                <div class="row">
+                                    <input class="form-check-input" type="checkbox" type="search" name="code" value="Code" id="defaultCheck3">
+                                    <label class="form-check-label" for="defaultCheck3">Code</label>
+                                </div>
+                                <div class="row">
+                                    <input class="form-check-input" type="checkbox" type="search" name="cv" value="CV" id="defaultCheck4">
+                                    <label class="form-check-label" for="defaultCheck4">Curriculum vitæ</label>
+                                </div>
+                                <div class="row">
+                                    <input class="form-check-input" type="checkbox" type="search" name="autre" value="Autre" id="defaultCheck5">
+                                    <label class="form-check-label" for="defaultCheck5">Autre</label>
                                 </div>
                             </div>
                         </div>
-                {% endfor %}
+                    </form>
+                </div>
             </div>
 
-            <nav aria-label="research-pagination">
-                <ul class="pagination">
-                    {%- for page in resultats.iter_pages() %}
+            <div class="col-8" style="padding: 3em; margin-top: -3em">
+                <h1>{{titre}}</h1>
 
-                        {% if page %}
-                            {% if page != resultats.page %}
-                                <li class="page-item">
-                                    <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, date=date, img=img, txt=txt, code=code, autre=autre, page=page) }}">{{page}}</a>
-                                    {# pour que la pagination fonctionne selon les mêmes critères de recherche
+                {% if resultats %}
+                    {# si on obtient des résultats #}
+                    <p>Il y a {{resultats.total}} documents qui répondent à votre requête :</p>
+
+                    <div class="row">
+                        {% for found_document in resultats.items %}
+                            {# pour chaque document trouvé dans la liste de resultats
+                    .items rend itérable la variable resultats, originellement objet de pagination #}
+
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">
+                                        {% if found_document.document_format == "Image" %}
+                                            <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/img.png')}}" alt="fichier en format image">
+                                        {% elif found_document.document_format == "Texte" %}
+                                            <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/txt.png')}}" alt="fichier en format texte">
+                                        {% elif found_document.document_format == "Code" %}
+                                            <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/code.png')}}" alt="fichier de code">
+                                        {% elif found_document.document_format == "Autre" %}
+                                            <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                                        {% elif found_document.document_format == "CV" %}
+                                            <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/pict_cv.png')}}" alt="curriculum vitae">
+                                        {% else %}
+                                            <img class="img-fluid rounded mb-3 mb-md-0" src="{{url_for('static', filename='img/autre.png')}}" alt="fichier dans un format divers">
+                                        {% endif %}
+                                    </a>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <h4 class="card-title col-md-8">
+                                                {% if lenTitle(found_document.document_title) %}
+                                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title[0:17] + " …"}}</a>
+                                                    {# création d'un lien donnant accès à page dudit document
+                                                docu_id donne le paramètre nécéssaire à l'exécution de la fonction document() dans route("/document/<int:docu_id>")
+                                                cet id est récupéré du document trouvé dans la liste de résultats #}
+                                                {% else %}
+                                                    <a href="{{url_for('document', docu_id = found_document.document_id)}}">{{found_document.document_title}}</a>
+                                                {% endif %}
+                                            </h4>
+                                            <div class="col-md-4">
+                                                {% if found_document.document_downloadLink %}
+                                                    <a style="text-align: right" href="{{ found_document.document_downloadLink }}" download>
+                                                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/download_picto.png")}}" alt="Icone de téléchargement">
+                                                    </a>
+                                                {% else %}
+                                                    <a style="text-align: right" href="">
+                                                        <img class="img-fluid rounded mb-3 mb-md-0" style="height: 45px; margin-top: -5px" src="{{url_for("static", filename="img/no_download_picto.png")}}" alt="Icone de téléchargement">
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <span class="badge badge-light">{{found_document.document_teaching}}</span>
+                                        {% if found_document.document_description %}
+                                            {% if lenDesc(found_document.document_description) %}
+                                                {# Si la description fait plus de 60 caractères #}
+                                                <p class="card-text" style="padding: 5px">{{found_document.document_description[0:55] + " …"}}</p>
+                                            {% else %}
+                                                <p class="card-text" style="padding: 5px">{{found_document.document_description}}</p>
+                                            {% endif %}
+                                        {% else %}
+                                            <p class="card-text" style="padding: 5px">Aucune description</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <nav aria-label="research-pagination">
+                        <ul class="pagination">
+                            {%- for page in resultats.iter_pages() %}
+
+                                {% if page %}
+                                    {% if page != resultats.page %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ url_for("recherche", keyword=keyword, matiere=matiere, date=date, img=img, txt=txt, code=code, autre=autre, page=page) }}">{{page}}</a>
+                                            {# pour que la pagination fonctionne selon les mêmes critères de recherche
                                 pour toutes les pages de résultats, il faut re-spécifier en paramètre de url_for()
                                 toutes les variables contenant les facettes de la recherche #}
-                                </li>
-                            {% else %}
-                                <li class="page-item active disabled">
-                                    <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
-                                </li>
-                            {% endif %}
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item active disabled">
+                                            <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                                        </li>
+                                    {% endif %}
 
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link">...</a>
-                            </li>
-                        {% endif %}
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">...</a>
+                                    </li>
+                                {% endif %}
 
-                    {%- endfor %}
-                </ul>
-            </nav>
-        {% endif %}
-    </div>
-</div>
+                            {%- endfor %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

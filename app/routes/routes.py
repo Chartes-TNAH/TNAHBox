@@ -329,7 +329,8 @@ def recherche():
         autre=autre,
         date=date,
         lenDesc=lenDesc,
-        lenTitle=lenTitle
+        lenTitle=lenTitle,
+        current_user=current_user
     )
 
 
