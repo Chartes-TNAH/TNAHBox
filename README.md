@@ -27,17 +27,14 @@ _TNAH BOX propose :_
 Ce projet a été développé grâce au langage de programmation python3 et s’appuie sur une base de données. Le graphisme de l’application a été réalisé grâce à Bootstrap. 
 
 
-
-
-
 **Comment lancer TNAH Box ?**
 
 En local : 
   - Installer python3
   - Cloner ce repository.
   - Installer puis activer un environnement virtuel.
-  - Installer les librairies nécessaires au fonctionnement de l’application.
+  - Installer les librairies nécessaires au fonctionnement de l’application (cf les [requirements](https://github.com/Chartes-TNAH/TNAHBox/blob/master/requirements.txt).
   - Lancer le fichier run.py
   
-Lien :   
+Lien :   [TNAH Box](http://tnah-box.herokuapp.com/)
   
