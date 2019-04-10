@@ -137,6 +137,8 @@ class Tag(db.Model):
         all_tag_labels = [tlbl[0] for tlbl in all_tag_labels.all()]
         # je récupère tous les enregistrements de tag_label dans la table Tag
 
+        tag = False, ["Aucun tag de trouvé"]
+
         if label:
             if label not in all_tag_labels:
                 tag = Tag(tag_label=label)
@@ -150,10 +152,7 @@ class Tag(db.Model):
                 # j'assigne à tag, la valeur de l'enregistrement dont le label
                 # correspond bien à celui renseigné en paramètre
 
-        try:
-            return tag
-        except Exception as erreur:
-            return False, [str(erreur)]
+        return tag
 
     @staticmethod
     def associate_tag_and_docu(tag_id, docu_id):
