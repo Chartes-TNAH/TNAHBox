@@ -237,27 +237,27 @@ class Person(UserMixin, db.Model):
 
         return erreurs
 
-    def remove_docu_to_favorites(user, docu):
+    def remove_docu_to_favorites(self, docu):
         '''
         Fonction qui permet d'enlever aux favoris de l'utilisateur
         le document courant
-        :param user: auteur du document (entrée de la BDD)
+        :param self: auteur du document (entrée de la BDD)
         :param docu: document importé par l'utilisateur (entrée de la BDD)
         :return: liste d'erreurs d'il y en a
         '''
         erreurs = []
-        if not user:
+        if not self:
             erreurs.append("Il n'y a pas d'utilisateur à dissocier")
         if not docu:
             erreurs.append("Il n'y a pas de document à dissocier")
 
-        if user is None or docu is None:
+        if self is None or docu is None:
             # si les paramètres renseignés ne correspondent à rien, je ne fais rien
             return
 
-        if user in docu.loving_users:
+        if self in docu.loving_users:
             # si le document est déjà dans la liste des documents favoris de l'utilisateur
-            docu.loving_users.remove(user)
+            docu.loving_users.remove(self)
             # je le supprime de cette liste
 
         db.session.add(docu)
