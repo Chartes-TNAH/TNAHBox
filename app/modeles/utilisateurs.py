@@ -30,10 +30,21 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('S\'enregistrer')
 
     def validate_username(self, person_login):
+        """
+
+        :param person_login:
+        :return:
+        """
         user = Person.query.filter_by(person_login=Person.person_login.data).first()
         if user is not None:
             raise ValidationError('Nom d\'utilisateur déjà enregistré')
+
     def validate_email(self, person_email):
+        """
+
+        :param person_email:
+        :return:
+        """
         user = Person.query.filter_by(person_email=Person.person_email.data).first()
         if user is not None:
             raise ValidationError('Adresse mail déjà enregistrée')
