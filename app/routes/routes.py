@@ -523,35 +523,38 @@ def user(person_login):
                            docu_cv = docu_cv)
 
 
-# Permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
-# la base de données n'a pas de profil enregistré
 @app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
 @login_required
 def admin(person_login):
-    user = Person.query.filter_by(person_login=person_login).first()
+    """ Permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde
+    dans la base de données n'a pas de profil enregistré
+
+    :param person_login: Login de la personne concernée
+    """
+    personne = Person.query.filter_by(person_login=person_login).first()
     form = EditProfileForm()
     if form.validate_on_submit():
-        user.person_login = form.person_login.data
-        user.person_email = form.person_email.data
-        user.person_name = form.person_name.data
-        user.person_firstName = form.person_firstName.data
-        user.person_promotion = form.person_promotion.data
-        user.person_git = form.person_git.data
-        user.person_linkedIn = form.person_linkedIn.data
-        user.person_description = form.person_description.data
-        user.person_is_admin = form.person_is_admin.data
+        personne.person_login = form.person_login.data
+        personne.person_email = form.person_email.data
+        personne.person_name = form.person_name.data
+        personne.person_firstName = form.person_firstName.data
+        personne.person_promotion = form.person_promotion.data
+        personne.person_git = form.person_git.data
+        personne.person_linkedIn = form.person_linkedIn.data
+        personne.person_description = form.person_description.data
+        personne.person_is_admin = form.person_is_admin.data
         db.session.commit()
         return redirect(url_for('user', person_login=person_login))
     elif request.method == 'GET':
-        form.person_login.data = user.person_login
-        form.person_email.data = user.person_email
-        form.person_name.data = user.person_name
-        form.person_firstName.data = user.person_firstName
-        form.person_promotion.data = user.person_promotion
-        form.person_git.data = user.person_git
-        form.person_linkedIn.data = user.person_linkedIn
-        form.person_description.data = user.person_description
-        form.person_is_admin.data = user.person_is_admin
+        form.person_login.data = personne.person_login
+        form.person_email.data = personne.person_email
+        form.person_name.data = personne.person_name
+        form.person_firstName.data = personne.person_firstName
+        form.person_promotion.data = personne.person_promotion
+        form.person_git.data = personne.person_git
+        form.person_linkedIn.data = personne.person_linkedIn
+        form.person_description.data = personne.person_description
+        form.person_is_admin.data = personne.person_is_admin
     return render_template('pages/admin.html', form=form)
 
 
