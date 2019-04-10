@@ -1,32 +1,25 @@
-from flask import render_template, request, flash, redirect, url_for, send_file
-from sqlalchemy import and_, or_, update
+from flask import render_template, request, flash, redirect, url_for
+from sqlalchemy import or_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug import secure_filename
-from app.modeles.donnees import Person, Document
 from app.modeles.utilisateurs import LoginForm, RegistrationForm, EditProfileForm
 from datetime import date
 
+from app.utils import lenTitle, lenDesc, extension_ok
 from ..app import app, db
 # on importe l'application provenant du fichier app.py un niveau au dessus dans l'arborescence des dossiers
 
 
 from ..constantes import RESULTS_PER_PAGE, DOSSIER_UPLOAD
 # on importe des constantes du fichier constantes.py un niveau au dessus dans l'arborescence des dossiers
-from ..modeles.donnees import Document, Authorship, Person, Tag, HasTag
+from ..modeles.donnees import Document, Person, Tag
 
 
 # on importe la classe Document du fichier donnees.py contenu dans le dossier modeles
 
 @app.route('/')
 def accueil():
-    page = request.args.get("page", 1)
-    if isinstance(page, str) and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-
-    resultats = []
     query = Document.query
     resultats = query.order_by(Document.document_id.desc()).limit(3)
     # resultats donne dans l'ordre descendant des id des documents, limités à 3, DONC les trois derniers
@@ -92,8 +85,6 @@ def recherche():
             Document.document_tag.any(Tag.tag_label.like("%{}%".format(motclef)))
         ))
         titre = "Résultats de la recherche « " + motclef + " »"
-    else:
-        titre = "Résultat de la recherche"
 
     if matiere:
         query = query.filter(Document.document_teaching == matiere)
@@ -289,32 +280,6 @@ def recherche():
 
     resultats = query.order_by(Document.document_title.asc()).paginate(page=page, per_page=RESULTS_PER_PAGE)
 
-    def lenDesc(desc):
-        '''
-        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
-        :param desc: chaine de caractère à mesurer (str)
-        :return: 1 (si desc > 60) ou 0 (si desc < 60)
-        '''
-        if len(desc) > 60:
-            lendesc = 1
-        else:
-            lendesc = 0
-
-        return lendesc
-
-    def lenTitle(title):
-        '''
-        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 20 caractères
-        :param title: chaine de caractère à mesurer (str)
-        :return: 1 (si desc > 20) ou 0 (si desc < 20)
-        '''
-        if len(title) > 20:
-            lentitle = 1
-        else:
-            lentitle = 0
-
-        return lentitle
-
     return render_template(
         "pages/recherche.html",
         resultats=resultats,
@@ -459,14 +424,7 @@ def person(person_id):
 
 @app.route("/annuaire")
 def annuaire():
-    page = request.args.get("page", 1)
-    if isinstance(page, str) and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-        # fonction paginate permet de paginer car l'annuaire comptera plusieurs entrées
 
-    resultats = []
     resultats = Person.query.order_by(Person.person_name.asc()).all()
     # création d'une liste vide, resultats dans laquelle se trouvent toutes les entrées person, requêtées par query
     # les résultats seront affichés par ordre alphabtique, grâce à order by et asc
@@ -474,13 +432,6 @@ def annuaire():
     return render_template(
         "pages/annuaire.html",
         resultats=resultats)
-
-
-def extension_ok(nom_fichier=""):
-    """ Renvoie True si le fichier possède une extension valide. """
-    return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('txt', 'pdf', 'csv', 'doc', 'jpg', 'json',
-                                                                    'jpeg', 'gif', 'bmp', 'png', 'word', 'xml', 'py',
-                                                                    'odt')
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -564,42 +515,16 @@ def user(person_login):
     # # # RÉCUPÉRATION DU CV SÉLECTIONNÉ PAR L'UTILISATEUR
     docu_cv = Document.query.filter(Document.document_downloadLink == user.person_cv).first()
 
-    def lenDesc(desc):
-        '''
-        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 60 caractères
-        :param desc: chaine de caractère à mesurer (str)
-        :return: 1 (si desc > 60) ou 0 (si desc < 60)
-        '''
-        if len(desc) > 60:
-            lendesc = 1
-        else:
-            lendesc = 0
-
-        return lendesc
-
-    def lenTitle(title):
-        '''
-        Fonction qui mesure la longueur d'une chaine de caractère et renvoie 1 si elle est supérieure à 20 caractères
-        :param title: chaine de caractère à mesurer (str)
-        :return: 1 (si desc > 20) ou 0 (si desc < 20)
-        '''
-        if len(title) > 20:
-            lentitle = 1
-        else:
-            lentitle = 0
-
-        return lentitle
-
     return render_template('pages/profile.html',
                            user=user,
                            docus = docus,
                            lenTitle = lenTitle,
                            lenDesc = lenDesc,
                            docu_cv = docu_cv)
-#permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 
+
+# Permet de générer une page profil pour chaque login enregistré (différent des entrées BDD : car tout le monde dans
 # la base de données n'a pas de profil enregistré
-
 @app.route('/admin/<person_login>/edit_profile', methods=['GET', 'POST'])
 @login_required
 def admin(person_login):
@@ -670,6 +595,5 @@ def before_request():
     :return: valeur date et heure UTC
     """
     if current_user.is_authenticated:
-        today = date.today()
         current_user.person_last_seen = date.today()
         db.session.commit()
