@@ -24,7 +24,7 @@ paramiko>=.0.9
 pexpect==4.2.1
 psycopg2==2.7.7
 pyasn1==0.4.2
-pycrypto>=.6.1
+pycrypto
 Pygments==2.2.0
 python-dotenv==0.10.1
 pyxdg==0.25
